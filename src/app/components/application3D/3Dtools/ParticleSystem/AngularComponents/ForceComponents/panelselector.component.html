@@ -1,0 +1,15 @@
+<div>
+
+  <div [ngSwitch]="component">
+    <app-vectorforce *ngSwitchCase="'Vector Force'" [forceinstance]="forceinstance"></app-vectorforce>
+
+    <app-bounceforce *ngSwitchCase="'Bounce Force'" [forceinstance]="forceinstance"></app-bounceforce>
+
+    <app-dragforce *ngSwitchCase="'Drag Force'" [forceinstance]="forceinstance"></app-dragforce>
+
+    <app-scaleinout *ngSwitchCase="'Scale In Out Force'" [forceinstance]="forceinstance"></app-scaleinout>
+    <app-turbulenceforce *ngSwitchCase="'Turbulence Force'" [forceinstance]="forceinstance"></app-turbulenceforce>
+
+  </div>
+
+</div>

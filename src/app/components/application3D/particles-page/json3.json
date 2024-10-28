@@ -1,0 +1,35 @@
+[
+  {
+    "name": "",
+    "maxParticles": 200,
+    "forceparam": [
+      {
+        "name": "Vector Force",
+        "value1": 0,
+        "value2": -0.1,
+        "value3": 0,
+        "value4": 0.15
+      },
+      {
+        "name": "Turbulence Force",
+        "value1": 0.5,
+        "value2": 0.5,
+        "value3": 0.5,
+        "value4": 0.1,
+        "value5": 1
+      },
+      {
+        "name": "Bounce Force",
+        "value1": -2,
+        "value2": 0,
+        "value3": 0,
+        "value4": 0.54
+      },
+      {
+        "name": "Drag Force",
+        "value1": 0.08,
+        "value2": 0.2
+      }
+    ]
+  }
+]

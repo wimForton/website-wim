@@ -1,0 +1,54 @@
+<p>scale in out page</p>
+
+
+<mat-form-field class="example-margin example-width" style="width: 100px; padding: 0px" (input)="onInputChange1($event)">
+  <mat-label>{{sl1.label}}</mat-label>
+  <input matInput type="number" [(ngModel)]="value1">
+</mat-form-field>
+<mat-slider class="example-margin"
+            [disabled]="sl1.disabled"
+            [max]="sl1.max"
+            [min]="sl1.min"
+            [step]="sl1.step"
+            [discrete]="sl1.thumbLabel">
+  <input matSliderThumb [(ngModel)]="value1" #slider (input)="onInputChange1($event)">
+</mat-slider>
+
+<mat-form-field class="example-margin example-width" style="width: 100px; padding: 0px" (input)="onInputChange2($event)">
+  <mat-label>{{sl2.label}}</mat-label>
+  <input matInput type="number" [(ngModel)]="value2">
+</mat-form-field>
+<mat-slider class="example-margin"
+            [disabled]="sl2.disabled"
+            [max]="sl2.max"
+            [min]="sl2.min"
+            [step]="sl2.step"
+            [discrete]="sl2.thumbLabel">
+  <input matSliderThumb [(ngModel)]="value2" #slider (input)="onInputChange2($event)">
+</mat-slider>
+
+<mat-form-field class="example-margin example-width" style="width: 100px; padding: 0px" (input)="onInputChange3($event)">
+  <mat-label>{{sl3.label}}</mat-label>
+  <input matInput type="number" [(ngModel)]="value3">
+</mat-form-field>
+<mat-slider class="example-margin"
+            [disabled]="sl3.disabled"
+            [max]="sl3.max"
+            [min]="sl3.min"
+            [step]="sl3.step"
+            [discrete]="sl3.thumbLabel">
+  <input matSliderThumb [(ngModel)]="value3" #slider (input)="onInputChange3($event)">
+</mat-slider>
+
+<mat-form-field class="example-margin example-width" style="width: 100px; padding: 0px" (input)="onInputChange4($event)">
+  <mat-label>{{sl4.label}}</mat-label>
+  <input matInput type="number" [(ngModel)]="value4">
+</mat-form-field>
+<mat-slider class="example-margin"
+            [disabled]="sl4.disabled"
+            [max]="sl4.max"
+            [min]="sl4.min"
+            [step]="sl4.step"
+            [discrete]="sl4.thumbLabel">
+  <input matSliderThumb [(ngModel)]="value4" #slider (input)="onInputChange4($event)">
+</mat-slider>

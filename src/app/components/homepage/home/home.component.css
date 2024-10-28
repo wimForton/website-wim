@@ -1,0 +1,108 @@
+body {
+}
+
+.divtextwithtitle {
+  position: relative;
+  margin: 10px;
+}
+
+.titletext {
+  font-size: 2.5em;
+  color: rgb(255, 255, 255);
+  margin: 0px;
+  padding: 0px;
+}
+
+.divtitle {
+  width: fit-content;
+  height: 100%;
+  position: relative;
+  left: -5px;
+  z-index: 9;
+  box-shadow: rgba(0,0,0,0.2) 5px 5px;
+  background-color: rgb(46, 63, 75);
+  padding-left: 10px;
+  padding-right: 20px;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 8px;
+  color: rgb(255, 255, 255);
+}
+
+.divtextblok {
+  margin: auto;
+  width: 70%;
+  height: 100%;
+  position: relative;
+  left: 0;
+  top: -10px;
+  box-shadow: rgba(0,0,0,0.2) 5px 5px;
+  background-color: rgb(46, 63, 75);
+  padding: 10px;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 8px;
+  color: rgb(255, 255, 255);
+}
+  .divtextblok p {
+    font-size: 1.4em;
+    line-height: 120%;
+    text-align:left;
+    padding: 30px;
+  }
+  .divtextblok a {
+    color:aqua;
+  }
+
+.divparentleft {
+  position: relative;
+  width: auto;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 8px;
+  color: rgb(255, 255, 255);
+}
+
+.divparentright {
+  position: relative;
+  width: auto;
+  background-color: rgb(255, 255, 255);
+  padding: 0px;
+  margin-left: 5px;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 8px;
+  color: rgb(255, 255, 255);
+}
+
+.common-container-page {
+  background-color: rgb(224, 224, 224);
+  padding: 10px;
+}
+
+.image-container {
+  background-color: rgb(14, 14, 14);
+  padding: 10px;
+}
+
+image, img {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.grid-container-page {
+  display: grid;
+  grid-template-columns: 30% auto;
+  background-color: rgb(224, 224, 224);
+  padding: 10px;
+}
+
+td, th {
+  text-align: left;
+  padding: 8px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: rgba(255, 255, 255, 0.3);
+}
