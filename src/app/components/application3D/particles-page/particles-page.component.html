@@ -69,7 +69,7 @@
                   <button mat-button [matMenuTriggerFor]="menu">Add Operator</button>
                   <mat-menu #menu="matMenu">
                     <div *ngFor="let forcetoadd of ForceClassNames | keyvalue">
-                      <button mat-menu-item (click)="particlesystem.AddForceClassesByKey(forcetoadd.value)">key {{forcetoadd.value}}</button>
+                      <button mat-menu-item (click)="particlesystem.AddForceClassesByKey(forcetoadd.value)">{{forcetoadd.value}}</button>
                     </div>
                   </mat-menu>
                 </p>

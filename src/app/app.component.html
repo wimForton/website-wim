@@ -1,7 +1,12 @@
 <div class="pagecontainer">
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms" id="tabgroup">
-    <mat-tab class="menuitem" label="Home"><app-home></app-home></mat-tab>
-    <mat-tab class="menuitem" label="Particle System" id="secondtablabel"><div id="secondtabcontent"><app-particles-page></app-particles-page></div></mat-tab>
-    <mat-tab class="menuitem" label="Early Work"><app-earlywork></app-earlywork></mat-tab>
-  </mat-tab-group>
+  <div><img style="width:50px; height:50px" src="textures/logo_blank.png" alt="3Dapp.png"></div>
+  
+  <div>
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms" id="tabgroup">
+      <mat-tab class="menuitem" label="Home"><app-home></app-home></mat-tab>
+      <mat-tab class="menuitem" label="Particle System" id="secondtablabel"><div id="secondtabcontent"><app-particles-page></app-particles-page></div></mat-tab>
+      <mat-tab class="menuitem" label="Projects on github"><app-gitprojects></app-gitprojects></mat-tab>
+      <mat-tab class="menuitem" label="Early Work"><app-earlywork></app-earlywork></mat-tab>
+    </mat-tab-group>
+  </div>
  </div>

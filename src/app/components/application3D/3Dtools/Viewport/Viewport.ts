@@ -102,6 +102,9 @@ export class Viewport {
     } else {
       this.testcounter++;
     }
-    //console.log("render:", this.container.offsetWidth);
+    this.testcounter++;
+    // console.log("render:", this.container.offsetWidth);
+    // if(this.testcounter%60 == 1){
+    // }
   }
 }

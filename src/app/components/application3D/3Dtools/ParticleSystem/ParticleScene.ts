@@ -40,7 +40,7 @@ export class ParticleScene {
     const textureLoader = new THREE.TextureLoader();
 
     //spriteMaterial.color.setHSL(color[0], color[1], color[2], THREE.SRGBColorSpace);
-
+    console.log("document", document);
 
     for (var p = 0; p < this.particleSystem.Particles.length; p++) {
       const spritetexture = textureLoader.load('textures/star.png');
