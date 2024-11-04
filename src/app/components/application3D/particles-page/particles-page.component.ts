@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, model } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, model, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MatSliderModule } from '@angular/material/slider';
@@ -9,15 +9,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Viewport } from '../3Dtools/Viewport/Viewport';
-import { ParticleScene } from '../3Dtools/ParticleSystem/ParticleScene';
-import { ControlParameters, ParticleSystem, FunctionWithTrigger, ParticleParameterGroup } from '../3Dtools/ParticleSystem/ParticleSystem';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { ControlParameters, ParticleSystem, FunctionWithTrigger, ParticleParameterGroup } from '../3Dtools/ParticleSystem/ParticleSystem';
+import { ParticleScene } from '../3Dtools/ParticleSystem/ParticleScene';
 import { PanelSelectorComponent } from '../3Dtools/ParticleSystem/AngularComponents/ForceComponents/panelselector.component';
 import { Load, Save } from '../3Dtools/ParticleSystem/LoadSave/LoadSave';
-import { EmitFromPoint } from '../3Dtools/ParticleSystem/emitters/EmitFromParticles';
 import { ForceClassNames } from '../3Dtools/ParticleSystem/forces/AddForceClasses';
+import { HelpDialog } from './helpdialog/helpdialog.component';
 declare var require: any;
 
 
@@ -40,13 +41,14 @@ declare var require: any;
     MatMenuModule,
     MatButtonModule,
     MatTabsModule,
+    MatDialogModule,
     CommonModule,
-    PanelSelectorComponent
+    PanelSelectorComponent,
   ],
   templateUrl: './particles-page.component.html',
-  styleUrl: './particles-page.component.css'
+  styleUrl: './particles-page.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 
 export class ParticlesPageComponent implements AfterViewInit {
 
@@ -57,45 +59,33 @@ export class ParticlesPageComponent implements AfterViewInit {
   public panelOpenIndex = 0;
   readonly checked = model(false);
   public ForceClassNames = ForceClassNames;
-
-
   //private loadsave = LoadSave.instance;
   public particleSystems: Array<ParticleSystem> = new Array<ParticleSystem>();
 
+  readonly dialog = inject(MatDialog);
   @ViewChild('viewportcontainer', { read: ElementRef, static:false })//@ViewChild('viewportcontainer', { read: ElementRef })
   viewportcontainer!: ElementRef;
 
-  //ngOnInit(): void{
-  //  if (this.viewPort != undefined) {
-  //    this.viewPort?.render();
-  //  }
-  //}
 
   ngAfterViewInit(): void {
     var container: HTMLElement = this.viewportcontainer.nativeElement;
+    const particleSystem = new ParticleSystem(200);
+    this.particleSystems.push(particleSystem);
 
+    for (let i = 0; i < this.particleSystems.length; i++) {
+      this.particleScenes.push(new ParticleScene(this.particleSystems[i]));
+    }
 
-      //console.log("container:", container);
-      
+    this.viewPort = new Viewport(this.particleScenes, "container", container);
+  }
 
-      const particleSystem = new ParticleSystem(200);
-      //const particleSystem2 = new ParticleSystem(3);
-      //const particleSystem3 = new ParticleSystem(200);
+  
+  openDialog() {
+    const dialogRef = this.dialog.open(HelpDialog);
 
-      this.particleSystems.push(particleSystem);
-      //this.particleSystems.push(particleSystem2);
-      //this.particleSystems.push(particleSystem3);
-
-
-
-      for (let i = 0; i < this.particleSystems.length; i++) {
-        this.particleScenes.push(new ParticleScene(this.particleSystems[i]));
-      }
-
-      this.viewPort = new Viewport(this.particleScenes, "container", container);
-
-    //console.log("containeraftertimeout:", container);
-
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   public LoadParticles1() {

@@ -7,6 +7,7 @@ import { EarlyworkComponent } from './components/earlywork/earlywork.component';
 import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { GitprojectsComponent } from './components/gitprojects/gitprojects.component';
+import { TestbenchComponent } from './components/testbench/testbench.component';
 //import { CurvesComponent } from './components/application3D/UI/curves/curves.component';
 
 @Component({
@@ -14,7 +15,7 @@ import { GitprojectsComponent } from './components/gitprojects/gitprojects.compo
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   standalone: true,
-imports: [ParticlesPageComponent, HomeComponent, EarlyworkComponent, GitprojectsComponent, FormsModule, MatTabsModule]
+imports: [ParticlesPageComponent, HomeComponent, EarlyworkComponent, GitprojectsComponent, TestbenchComponent, FormsModule, MatTabsModule]
 })
 export class AppComponent implements OnInit {
 //public forecasts: WeatherForecast[] = [];

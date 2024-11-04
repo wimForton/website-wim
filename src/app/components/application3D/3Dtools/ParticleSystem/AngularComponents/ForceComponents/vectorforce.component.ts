@@ -12,9 +12,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { IForceClass } from '../../forces/IForceClass';
-import { DragForce } from '../../forces/DragForce';
-import { Slider } from '../../../../UiComponentData/Slider';
-import { BounceForce } from '../../forces/BounceForce';
 import { VectorForce } from '../../forces/VectorForce';
 
 @Component({
