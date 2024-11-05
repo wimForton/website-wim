@@ -1,0 +1,36 @@
+<!-- <div class="items-container">
+    <div appDraggable>
+        <svg height="100" width="100">
+            <circle id="circle-red" cx="50" cy="50" r="40" stroke="black" fill="red" />
+        </svg>
+    </div>
+    <div appDraggable>
+        <svg height="100" width="100">
+            <circle id="circle-blue" cx="50" cy="50" r="40" stroke="black" fill="blue" />
+        </svg>
+    </div>
+    <div appDraggable>
+        <svg height="100" width="100">
+            <circle id="circle-green" cx="50" cy="50" r="40" stroke="black" fill="green" />
+        </svg>
+    </div>
+</div>
+<div class="svg-container" appDroppable>
+    <svg id="dropzone" height="100%" width="100%">
+    </svg>
+</div> -->
+<div appFreeDragging>
+    <svg height="30" width="30">
+        <circle id="circle-blue" cx="15" cy="15" r="13" stroke="black" fill="blue" />
+    </svg>
+</div>
+<p appHighlight>Highlight me!</p>
+<div class="editorcontainer" id="container">
+    <svg id="svg" height="600" width="800" #keyframeeditorcontainer></svg>
+    <div appFreeDragging>
+        <svg height="30" width="30">
+            <circle id="circle-blue" cx="15" cy="15" r="13" stroke="black" fill="blue" />
+        </svg>
+    </div>
+</div>
+<div *ngFor="let item of keyframelist.keyframes"><p>pos: {{item.position}} val: {{item.value}}</p></div>

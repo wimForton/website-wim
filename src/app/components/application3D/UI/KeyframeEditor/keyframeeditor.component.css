@@ -1,0 +1,8 @@
+.editorcontainer{
+    top: 600px;
+    background-color: rgb(91, 86, 138);
+}
+.lil-gui { 
+	width: 1900px;
+	--name-width: 90%;
+}
