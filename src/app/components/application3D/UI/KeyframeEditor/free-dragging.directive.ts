@@ -1,5 +1,6 @@
 import { DOCUMENT } from "@angular/common";
 import {
+  OnInit,
   AfterViewInit,
   ContentChild,
   Directive,
@@ -10,109 +11,88 @@ import {
 } from "@angular/core";
 import { fromEvent, Subscription } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { FreeDraggingHandleDirective } from "./free-dragging-handle.directive";
+import { KeyFrame } from "../../3Dtools/ParticleSystem/propertytypes/keyframelist";
 
 @Directive({
     standalone: true,
   selector: "[appFreeDragging]",
 })
-export class FreeDraggingDirective implements AfterViewInit, OnDestroy {
+export class FreeDraggingDirective implements OnInit, OnDestroy {
   private element!: HTMLElement;
 
+
+  @Input() keyframe!: KeyFrame;
+ 
+
   private subscriptions: Subscription[] = [];
-
-  @ContentChild(FreeDraggingHandleDirective)
-  handle!: FreeDraggingHandleDirective;
-
-  handleElement!: HTMLElement;
-
-  private readonly DEFAULT_DRAGGING_BOUNDARY_QUERY = "body";
-  @Input() boundaryQuery = this.DEFAULT_DRAGGING_BOUNDARY_QUERY;
-  draggingBoundaryElement!: HTMLElement | HTMLBodyElement;
-
+ 
   constructor(
     private elementRef: ElementRef,
     @Inject(DOCUMENT) private document: any
-  ) {}
+  ) {
 
-  ngAfterViewInit(): void {
-    this.draggingBoundaryElement = (this.document as Document).querySelector(
-      this.boundaryQuery
-    )!;
-    if (!this.draggingBoundaryElement) {
-      throw new Error(
-        "Couldn't find any element with query: " + this.boundaryQuery
-      );
-    } else {
-      this.element = this.elementRef.nativeElement as HTMLElement;
-      this.handleElement =
-        this.handle?.elementRef?.nativeElement || this.element;
-      this.initDrag();
-    }
   }
-
+ 
+  ngOnInit(): void {
+    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.initDrag();
+  }
+ 
   initDrag(): void {
-    const dragStart$ = fromEvent<MouseEvent>(this.handleElement, "mousedown");
+    // 1
+    const dragStart$ = fromEvent<MouseEvent>(this.element, "mousedown");
     const dragEnd$ = fromEvent<MouseEvent>(this.document, "mouseup");
     const drag$ = fromEvent<MouseEvent>(this.document, "mousemove").pipe(
       takeUntil(dragEnd$)
     );
-
+ 
+    // 2
     let initialX: number,
       initialY: number,
-      currentX = 0,
-      currentY = 0;
-
+      currentX = this.keyframe.position*100,
+      currentY = this.keyframe.value*100;
+ 
+      this.element.style.transform =
+      "translate3d(" + (this.keyframe.position*100) + "px, " + (this.keyframe.value*100) + "px, 0)";
     let dragSub: Subscription = new Subscription;
-
-    const minBoundX = this.draggingBoundaryElement.offsetLeft;
-    const minBoundY = this.draggingBoundaryElement.offsetTop;
-
-    const maxBoundX =
-      minBoundX +
-      this.draggingBoundaryElement.offsetWidth -
-      this.element.offsetWidth;
-    const maxBoundY =
-      minBoundY +
-      this.draggingBoundaryElement.offsetHeight -
-      this.element.offsetHeight;
-
+ 
+    // 3
     const dragStartSub = dragStart$.subscribe((event: MouseEvent) => {
       initialX = event.clientX - currentX;
       initialY = event.clientY - currentY;
-      this.element.classList.add("free-dragging");
-
+      this.element.classList.add('free-dragging');
+ 
+      // 4
       dragSub = drag$.subscribe((event: MouseEvent) => {
         event.preventDefault();
-
-        const x = event.clientX - initialX;
-        const y = event.clientY - initialY;
-
-        currentX = Math.max(minBoundX, Math.min(x, maxBoundX));
-        currentY = Math.max(minBoundY, Math.min(y, maxBoundY));
-
+ 
+        currentX = event.clientX - initialX;
+        currentY = event.clientY - initialY;
+        this.keyframe.position = currentX * 0.01;
+        this.keyframe.value = currentY * 0.01;
         this.element.style.transform =
-          //"translate3d(" + currentX + "px, " + currentY + "px, 0)";
-          "translate3d(" + x + "px, " + y + "px, 0)";
+          "translate3d(" + currentX + "px, " + currentY + "px, 0)";
       });
     });
-
+ 
+    // 5
     const dragEndSub = dragEnd$.subscribe(() => {
       initialX = currentX;
       initialY = currentY;
-      this.element.classList.remove("free-dragging");
+      this.element.classList.remove('free-dragging');
       if (dragSub) {
         dragSub.unsubscribe();
       }
     });
-
+ 
+    // 6
     this.subscriptions.push.apply(this.subscriptions, [
       dragStartSub,
       dragSub,
       dragEndSub,
     ]);
   }
-
+ 
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s?.unsubscribe());
   }
