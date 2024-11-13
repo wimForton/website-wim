@@ -62,6 +62,7 @@ export class KeyframeEditorComponent implements AfterViewInit {
       gui.add( params, 'number' );
       gui.addColor( params, 'color' );
       gui.add( params, 'function' ).name( 'Custom Name' );
+      //gui.addBezier( obj, 'curve' )
 
     }
 

@@ -1,6 +1,7 @@
 import CustomController from 'lil-gui/extras/CustomController.js';
+import {GUI, Controller} from 'lil-gui';
 
-export default class BezierController extends CustomController {
+export default class BezierController extends Controller {//extends CustomController not working?
 
 	$constructor() {
 
