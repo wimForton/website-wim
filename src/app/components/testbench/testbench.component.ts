@@ -8,7 +8,7 @@ import { CurveeditorComponent } from '../application3D/UI/curveeditor/curveedito
 @Component({
   selector: 'app-testbench',
   standalone: true,
-  imports: [CommonModule, KeyframeEditorComponent, CurveeditorComponent],
+  imports: [CommonModule, KeyframeEditorComponent],//CurveeditorComponent
   templateUrl: './testbench.component.html',
   styleUrl: './testbench.component.css'
 })

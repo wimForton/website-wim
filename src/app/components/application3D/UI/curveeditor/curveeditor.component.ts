@@ -15,20 +15,30 @@ import { CurveViewport } from './CurveViewport';
   templateUrl: './curveeditor.component.html',
   styleUrl: './curveeditor.component.css'
 })
-export class CurveeditorComponent implements AfterViewInit  {
+export class CurveeditorComponent implements AfterViewInit, AfterViewChecked  {
 
   @ViewChild('curvecontainer', { read: ElementRef, static:false })//@ViewChild('viewportcontainer', { read: ElementRef })
-  curvecontainer!: ElementRef;
-  private container!: HTMLElement;
+  curvecontainer: ElementRef < HTMLDivElement > = {} as ElementRef;
+  private container?: HTMLElement;
   private viewport!: CurveViewport;
 
 
 
   ngAfterViewInit(): void {
-    this.container = this.curvecontainer.nativeElement;
-    this.viewport = new CurveViewport(this.container);
+    //setTimeout(this.startGraphic, 500);
+    this.startGraphic();
+    // this.container = this.curvecontainer.nativeElement;
+    // this.viewport = new CurveViewport(this.container);
 
   }
 
+  ngAfterViewChecked(): void{
+    // this.container = this.curvecontainer.nativeElement;
+    // this.viewport = new CurveViewport(this.container);
+  }
+  startGraphic(){
+    this.container = this.curvecontainer.nativeElement;
+    this.viewport = new CurveViewport(this.container);
+  }
 
 }

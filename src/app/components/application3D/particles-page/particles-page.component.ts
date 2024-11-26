@@ -79,6 +79,9 @@ export class ParticlesPageComponent implements AfterViewInit {
     this.viewPort = new Viewport(this.particleScenes, "container", container);
   }
 
+  // ngAfterViewChecked(){
+  //   console.log("ngAfterViewChecked");
+  // }
   
   openDialog() {
     const dialogRef = this.dialog.open(HelpDialog);

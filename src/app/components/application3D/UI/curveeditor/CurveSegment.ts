@@ -1,15 +1,20 @@
 import * as THREE from 'three';
 import CubicBezier from './cubic-bezier-easing';
 
+export class MyMesh extends THREE.Mesh{
+    public parentobject?: CurveSegment;
+
+}
+
 export class CurveSegment{
     private calculateVal: CubicBezier = new CubicBezier();
     public curve: THREE.CubicBezierCurve3 = new THREE.CubicBezierCurve3;
     private controlpoints: THREE.Vector3[] = [];
     //private splineHelperObjects: THREE.Mesh[] = [];
-    private mesh1: THREE.Mesh; 
-    private mesh2: THREE.Mesh; 
-    private mesh3: THREE.Mesh; 
-    private mesh4: THREE.Mesh;
+    public mesh1: THREE.Mesh; 
+    public mesh2: THREE.Mesh; 
+    public mesh3: THREE.Mesh; 
+    public mesh4: MyMesh;
     private curveobject: THREE.Line = new THREE.Line;
     private handleleftline: THREE.Line = new THREE.Line; 
     private handlerightline: THREE.Line = new THREE.Line; 
@@ -34,6 +39,7 @@ export class CurveSegment{
         this.mesh4 = new THREE.Mesh( geometry, material2 );
         this.mesh4.position.set(v3.x, v3.y, v3.z);
         this.mesh4.scale.set(0.5,0.5,0.5);
+        this.mesh4.parentobject = this;
         scene.add( this.mesh1 );
         scene.add( this.mesh2 );
         scene.add( this.mesh3 );

@@ -28,7 +28,7 @@ export class CurveViewport {
   private curvesegments: CurveSegment[] = [];
   private time: number = 5;
   private curveCursor: THREE.Mesh;
-  private ContainerBBox:DOMRect;
+  private ContainerBBox?:DOMRect;
   private containerProps = {
     x: 1,
     y: 1,
@@ -48,12 +48,16 @@ export class CurveViewport {
     //this.camera = camera;
     //this.container = document.getElementById(containerid)!;
     this.container = container;
-    this.ContainerBBox = this.container.getBoundingClientRect();
-    this.containerProps.x = this.ContainerBBox.left;
-    this.containerProps.y = this.ContainerBBox.top;
-    this.containerProps.width = this.ContainerBBox.width;//this.container.offsetWidth;
-    console.log("CurveViewport", this.ContainerBBox.width);
-    this.containerProps.height = this.ContainerBBox.height;
+    ////set css from here is better? 
+    //this.container.setAttribute("style","height: 100px");
+    //this.ContainerBBox = this.container.getBoundingClientRect();
+    this.containerProps.x = this.container.getBoundingClientRect().left;
+    this.containerProps.y = this.container.getBoundingClientRect().top;
+    this.containerProps.width = this.container.getBoundingClientRect().width;//this.container.offsetWidth;
+    console.log("CurveViewport", this.container.getBoundingClientRect().width);
+    this.containerProps.height = this.container.getBoundingClientRect().height;
+
+    console.log("this.containerProps", this.containerProps);
 
     const aspect = window.innerWidth / window.innerHeight;
     this.frustumSize = 30;
@@ -78,7 +82,7 @@ export class CurveViewport {
     /////////Orbit
     // Controls
     const orbitcontrols: OrbitControls = new OrbitControls( this.camera, this.renderer.domElement );
-    //orbitcontrols.enableRotate = false;
+    orbitcontrols.enableRotate = false;
     orbitcontrols.zoomToCursor = true;
     //controls.damping = 0.2;
     orbitcontrols.addEventListener( 'change', this.render );
@@ -101,42 +105,10 @@ export class CurveViewport {
     const geometry = new THREE.BoxGeometry();
     const colorhelper = new THREE.Color().setRGB( 1, 0.5, 0 );
     const material = new THREE.MeshBasicMaterial( { color: colorhelper } );
-    const mesh = new THREE.Mesh( geometry, material );
-    mesh.position.x = 5;
-    mesh.position.y = 2;
-    const mesh2 = new THREE.Mesh( geometry, material );
-    mesh2.position.x = 9;
-    mesh2.position.y = 3;
-    const mesh3 = new THREE.Mesh( geometry, material );
-    mesh3.position.x = 7;
-    mesh3.position.y = 10;
-    const mesh4 = new THREE.Mesh( geometry, material );
-    mesh4.position.x = 10;
-    mesh4.position.y = 10;
-    this.scene.add( mesh );
-    this.scene.add( mesh2 );
-    this.scene.add( mesh3 );
-    this.scene.add( mesh4 );
-    this.transformControl.attach( mesh );
-
-    // this.splineHelperObjects.push(mesh);
-    // this.splineHelperObjects.push(mesh2);
-    // this.splineHelperObjects.push(mesh3);
-    // this.splineHelperObjects.push(mesh4);
-
     this.curveCursor = new THREE.Mesh( geometry, material );
-    const timevaltest: number[] = this.SegmentGetValueAtTime(mesh.position, mesh2.position, mesh3.position, mesh4.position, 0.6);
-    this.curveCursor.position.x = timevaltest[0];
-    this.curveCursor.position.y = timevaltest[1];
     this.scene.add( this.curveCursor );
 
-    this.curve = new THREE.CubicBezierCurve3( mesh.position, mesh2.position, mesh3.position, mesh4.position );
-    let points = this.curve.getPoints( 50 ); 
-    let curvegeometry = new THREE.BufferGeometry().setFromPoints( points ); 
-    const color = new THREE.Color().setRGB( 0.5, 0.5, 1 );
-    let curvematerial = new THREE.LineBasicMaterial( { color: color } ); 
-    this.curveobject = new THREE.Line( curvegeometry, curvematerial );
-    this.scene.add(this.curveobject);
+
 
     document.addEventListener( 'pointerdown', this.onPointerDown.bind(this) );
     document.addEventListener( 'pointerup', this.onPointerUp.bind(this) );
@@ -149,7 +121,7 @@ export class CurveViewport {
       this.containerProps.width = this.ContainerBBox.width;
       this.containerProps.height = Math.max(window.innerHeight * 0.7, 200);
 
-      const aspect = window.innerWidth / window.innerHeight;
+      const aspect = this.containerProps.width / this.containerProps.height;//window.devicePixelRatio;//window.innerWidth / window.innerHeight;
       this.camera.left = - this.frustumSize * aspect / 2;
       this.camera.right = this.frustumSize * aspect / 2;
       this.camera.top = this.frustumSize / 2;
@@ -157,7 +129,8 @@ export class CurveViewport {
       this.camera.updateProjectionMatrix();
       
       this.renderer.setSize(this.containerProps.width, this.containerProps.height);
-      this.renderer.setPixelRatio(window.devicePixelRatio)
+      //this.renderer.setPixelRatio(window.devicePixelRatio);
+      this.renderer.setPixelRatio(window.devicePixelRatio);
       this.renderer.render(this.scene, this.camera);
     });
 
@@ -196,15 +169,15 @@ export class CurveViewport {
     console.log("keyframes:", this.keframelist.keyframes);
   }
 
-  createCurveSegment(v0: THREE.Vector3, v1: THREE.Vector3, v2: THREE.Vector3, v3: THREE.Vector3): THREE.BufferGeometry{
-    this.curve.v0 = v0;
-    this.curve.v1 = v1;
-    this.curve.v2 = v2;
-    this.curve.v3 = v3;
-    const points = this.curve.getPoints( 50 ); 
-    const curvegeometry = new THREE.BufferGeometry().setFromPoints( points ); 
-    return curvegeometry;
-  }
+  // createCurveSegment(v0: THREE.Vector3, v1: THREE.Vector3, v2: THREE.Vector3, v3: THREE.Vector3): THREE.BufferGeometry{
+  //   this.curve.v0 = v0;
+  //   this.curve.v1 = v1;
+  //   this.curve.v2 = v2;
+  //   this.curve.v3 = v3;
+  //   const points = this.curve.getPoints( 50 ); 
+  //   const curvegeometry = new THREE.BufferGeometry().setFromPoints( points ); 
+  //   return curvegeometry;
+  // }
 
   keframeListToCurve(){
     this.curvesegments = [];
@@ -222,6 +195,7 @@ export class CurveViewport {
         let v3: THREE.Vector3 = new THREE.Vector3(nextkey.position, nextkey.value, 0);
         let curveseg: CurveSegment = new CurveSegment(this.scene, this.splineHelperObjects, v0, v1, v2, v3 );
         this.curvesegments.push(curveseg);
+
       }
       
     }
@@ -232,7 +206,21 @@ export class CurveViewport {
     for (let index = 0; index < keyframes.length; index++) {
       
       if(keyframes.length > 1 && index < keyframes.length - 1){
-        this.curvesegments[index].UpdateCurve();
+        let currentseg = this.curvesegments[index];
+        if(this.transformControl!.object === currentseg.mesh1 ||
+          this.transformControl!.object === currentseg.mesh2 ||
+          this.transformControl!.object === currentseg.mesh3 ||
+          this.transformControl!.object === currentseg.mesh4
+        ){
+          this.curvesegments[index].UpdateCurve();
+        }
+        if(this.transformControl!.object === this.curvesegments[index].mesh4 && 
+          this.curvesegments.length > index + 1
+        ){///if the last controller is moved and there is a segment after this
+            let v4 = currentseg.mesh4.position;
+            this.curvesegments[index + 1].mesh1.position.set(v4.x, v4.y, v4.z);///connect handle 4 to handle 1 of next seg
+            this.curvesegments[index + 1].UpdateCurve();
+        }
         let thiskey = keyframes[index];
         let nextkey = keyframes[index + 1];
         let v0: THREE.Vector3 = new THREE.Vector3(thiskey.position, thiskey.value, 0);
@@ -269,19 +257,6 @@ export class CurveViewport {
     }
   }
 
-  updateCurve(){
-
-    this.curve.v0 = this.splineHelperObjects[0].position;
-    this.curve.v1 = this.splineHelperObjects[1].position;
-    this.curve.v2 = this.splineHelperObjects[2].position;
-    this.curve.v3 = this.splineHelperObjects[3].position;
-    const points = this.curve.getPoints( 50 ); 
-    const curvegeometry = new THREE.BufferGeometry().setFromPoints( points ); 
-    this.curveobject.geometry = curvegeometry;
-
-    let cursorpos = this.SegmentGetValueAtTime(this.curve.v0, this.curve.v1, this.curve.v2, this.curve.v3, 1.5);
-    this.curveCursor.position.set(cursorpos[0], cursorpos[1], 0);
-  }
 
   onPointerDown( event: any ) {
     console.log("onPointerDown event: ", event.clientX, "---", event.clientY);
