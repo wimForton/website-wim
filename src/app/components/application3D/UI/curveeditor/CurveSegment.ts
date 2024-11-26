@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import CubicBezier from './cubic-bezier-easing';
+import { findIndex } from 'rxjs';
 
 export class MyMesh extends THREE.Mesh{
     public parentobject?: CurveSegment;
@@ -18,25 +19,27 @@ export class CurveSegment{
     private curveobject: THREE.Line = new THREE.Line;
     private handleleftline: THREE.Line = new THREE.Line; 
     private handlerightline: THREE.Line = new THREE.Line; 
+    private scene!: THREE.Scene;
     /**
      *
      */
     constructor(scene: THREE.Scene, splineHelperObjects: THREE.Mesh[], v0: THREE.Vector3, v1: THREE.Vector3, v2: THREE.Vector3, v3: THREE.Vector3) {
+        this.scene = scene;
         const geometry = new THREE.BoxGeometry();
-        const colorhelper = new THREE.Color().setRGB( 0, 0.5, 1 );
+        const colorhelper = new THREE.Color().setRGB( 1, 1, 0 );
         const material = new THREE.MeshBasicMaterial( { color: colorhelper } );
+        const colorhelperright = new THREE.Color().setRGB( 0, 1, 1 );
+        const material2 = new THREE.MeshBasicMaterial( { color: colorhelperright } );
         this.mesh1 = new THREE.Mesh( geometry, material );
         this.mesh1.position.set(v0.x, v0.y, v0.z);
         this.mesh1.scale.set(0.5,0.5,0.5);
-        this.mesh2 = new THREE.Mesh( geometry, material );
+        this.mesh2 = new THREE.Mesh( geometry, material2 );
         this.mesh2.position.set(v1.x, v1.y, v1.z);
         this.mesh2.scale.set(0.5,0.5,0.5);
-        const colorhelperright = new THREE.Color().setRGB( 0, 1, 1 );
-        const material2 = new THREE.MeshBasicMaterial( { color: colorhelperright } );
         this.mesh3 = new THREE.Mesh( geometry, material2 );
         this.mesh3.position.set(v2.x, v2.y, v2.z);
         this.mesh3.scale.set(0.5,0.5,0.5);
-        this.mesh4 = new THREE.Mesh( geometry, material2 );
+        this.mesh4 = new THREE.Mesh( geometry, material );
         this.mesh4.position.set(v3.x, v3.y, v3.z);
         this.mesh4.scale.set(0.5,0.5,0.5);
         this.mesh4.parentobject = this;
@@ -129,5 +132,19 @@ export class CurveSegment{
         let rval = nval * scaley + a.y;
     
         return rval;
+    }
+    public removecurve(scene: THREE.Scene, splineHelperObjects: THREE.Mesh[]){
+
+        scene.remove(this.mesh1);
+        scene.remove(this.mesh2);
+        scene.remove(this.mesh3);
+        scene.remove(this.mesh4);
+        scene.remove(this.curveobject);
+        scene.remove(this.handleleftline);
+        scene.remove(this.handlerightline);
+        splineHelperObjects.splice(splineHelperObjects.indexOf(this.mesh1),1);
+        splineHelperObjects.splice(splineHelperObjects.indexOf(this.mesh2),1);
+        splineHelperObjects.splice(splineHelperObjects.indexOf(this.mesh3),1);
+        splineHelperObjects.splice(splineHelperObjects.indexOf(this.mesh4),1);
     }
   }

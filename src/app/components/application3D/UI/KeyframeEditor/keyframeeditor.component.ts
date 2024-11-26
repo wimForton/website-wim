@@ -5,6 +5,7 @@ import {GUI, Controller} from 'lil-gui';
 //import './temp/BezierController.js';
 import $ from "jquery";
 import { FreeDraggingDirective } from './free-dragging.directive';
+import { Vector3D } from '../../3Dtools/Utils/Vector3D';
 
 
 
@@ -16,53 +17,18 @@ import { FreeDraggingDirective } from './free-dragging.directive';
   styleUrl: './keyframeeditor.component.css'
 })
 export class KeyframeEditorComponent implements AfterViewInit {
-    @ViewChild('keyframeeditorcontainer', { read: ElementRef, static:false })//@ViewChild('viewportcontainer', { read: ElementRef })
-    viewportcontainer!: ElementRef;
+    @ViewChild('keyframeeditorcontainer', { read: ElementRef, static:false })viewportcontainer!: ElementRef;
     container!: HTMLElement;
 
-    public keyframelist: KeyframeList = new KeyframeList();
+    //public keyframelist: KeyframeList = new KeyframeList();
+    public vectors: Vector3D[] = [];
 
     constructor(){
     }
     ngAfterViewInit(): void {
       this.container = this.viewportcontainer.nativeElement;
-      this.gridLines(this.container);
-      
-      const obj = {
-        curve: [ .85, .05, .10, .95 ]
-      };
-      const gui = new GUI();
-      
-      const folder = gui.addFolder( 'Folder' );
-
-      const folderParams = {
-        number: 0.5,
-        boolean: false,
-        color: '#0cf',
-        function() { console.log( 'hi' ) }
-      };
-
-      folder.add( folderParams, 'number', 0, 1 );
-      folder.add( folderParams, 'boolean' );
-      folder.addColor( folderParams, 'color' );
-      folder.add( folderParams, 'function' );
-
-      const params = {
-        options: 10,
-        boolean: true,
-        string: 'lil-gui',
-        number: 0,
-        color: '#aa00ff',
-        function() { console.log( 'hi' ) }
-      };
-
-      gui.add( params, 'options', { Small: 1, Medium: 10, Large: 100 } );
-      gui.add( params, 'boolean' );
-      gui.add( params, 'string' );
-      gui.add( params, 'number' );
-      gui.addColor( params, 'color' );
-      gui.add( params, 'function' ).name( 'Custom Name' );
-      //gui.addBezier( obj, 'curve' )
+      //this.gridLines(this.container);
+      this.vectors.push(new Vector3D(200,0,0));
 
     }
 

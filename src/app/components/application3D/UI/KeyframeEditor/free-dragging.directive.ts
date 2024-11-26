@@ -8,10 +8,13 @@ import {
   Inject,
   Input,
   OnDestroy,
+  Renderer2,
 } from "@angular/core";
 import { fromEvent, Subscription } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { KeyFrame } from "../../3Dtools/ParticleSystem/propertytypes/keyframelist";
+import { Vector3D } from "../../3Dtools/Utils/Vector3D";
+
 
 @Directive({
     standalone: true,
@@ -21,13 +24,15 @@ export class FreeDraggingDirective implements OnInit, OnDestroy {
   private element!: HTMLElement;
 
 
-  @Input() keyframe!: KeyFrame;
+  @Input() keyframe!: Vector3D;
+  @Input() twodimensional: boolean = true;
  
 
   private subscriptions: Subscription[] = [];
  
   constructor(
     private elementRef: ElementRef,
+    private render: Renderer2,
     @Inject(DOCUMENT) private document: any
   ) {
 
@@ -35,7 +40,19 @@ export class FreeDraggingDirective implements OnInit, OnDestroy {
  
   ngOnInit(): void {
     this.element = this.elementRef.nativeElement as HTMLElement;
+
+    this.createHandle(this.element);
     this.initDrag();
+  }
+
+  createHandle(element: HTMLElement){
+    // var circle = this.render.createElement("http://www.w3.org/2000/svg", 'circle');
+    // this.render.setAttribute(circle, 'cx', "10");
+    // this.render.setAttribute(circle, 'cy', "10");
+    // this.render.setAttribute(circle, 'r', "12");
+    // this.render.setAttribute(circle, 'style', 'fill: blue; stroke: black; stroke-width: 1px;' );
+    // this.render.appendChild(element, circle);
+
   }
  
   initDrag(): void {
@@ -49,11 +66,10 @@ export class FreeDraggingDirective implements OnInit, OnDestroy {
     // 2
     let initialX: number,
       initialY: number,
-      currentX = this.keyframe.position*100,
-      currentY = this.keyframe.value*100;
+      currentX = this.keyframe.x,
+      currentY = this.keyframe.y;
  
-      this.element.style.transform =
-      "translate3d(" + (this.keyframe.position*100) + "px, " + (this.keyframe.value*100) + "px, 0)";
+      this.element.style.transform = "translate3d(" + (this.keyframe.x) + "px, " + (this.keyframe.y) + "px, 0)";
     let dragSub: Subscription = new Subscription;
  
     // 3
@@ -67,9 +83,9 @@ export class FreeDraggingDirective implements OnInit, OnDestroy {
         event.preventDefault();
  
         currentX = event.clientX - initialX;
-        currentY = event.clientY - initialY;
-        this.keyframe.position = currentX * 0.01;
-        this.keyframe.value = currentY * 0.01;
+        if(this.twodimensional)currentY = event.clientY - initialY;
+        this.keyframe.x = currentX;
+        this.keyframe.y = currentY;
         this.element.style.transform =
           "translate3d(" + currentX + "px, " + currentY + "px, 0)";
       });

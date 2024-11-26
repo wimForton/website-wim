@@ -1,20 +1,22 @@
-<!-- <div class="editorcontainer" id="container">
-    <svg id="svg" height="600" width="800" #keyframeeditorcontainer></svg>
 
-</div> -->
-<div class="curvebox">
-    <div #keyframeeditorcontainer *ngFor="let item of keyframelist.keyframes">
-        <div class="dragbox" appFreeDragging height="20" width="20" [keyframe]="item">
-            <svg class="linesvg">
-                <line x1="9" y1="9" x2="100" y2="80" stroke="black" />
-            </svg>
-            <svg height="20" width="20">
-                <circle id="circle-blue" cx="10" cy="10" r="9" stroke="black" fill="blue" />
-            </svg>
-        </div>
-    </div>
+
+<div class="editorcontainer" id="container">
+    <p>.</p>
+    <svg id="svg" height="1px" width="100%" #keyframeeditorcontainer></svg>
+
 </div>
 <div class="parameters">
-
-    <div *ngFor="let item of keyframelist.keyframes"><p>pos: {{item.position}} val: {{item.value}}</p></div>
+    <p>param</p>
+    <div *ngFor="let item of vectors"><p>pos: {{item.x}} val: {{item.y}}</p></div>
 </div>
+<div #keyframeeditorcontainer *ngFor="let item of vectors">
+    <div class="dragbox" appFreeDragging height="20" width="20" [keyframe]="item">
+        <svg height="20" width="20">
+            <circle id="circle-blue" cx="10" cy="10" r="9" stroke="black" fill="blue" />
+        </svg>
+    </div>
+    <p>pos: {{item.x}} val: {{item.y}}</p>
+</div>
+<div class="curvebox">
+</div>
+

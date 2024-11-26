@@ -1,3 +1,6 @@
+import CubicBezier from "../../../UI/curveeditor/cubic-bezier-easing";
+import { Vector3D } from "../../Utils/Vector3D";
+
 export class KeyFrame{
     public position: number = 0;
     public value: number = 0;
@@ -28,6 +31,7 @@ export class KeyframeList{
 
     public keyframes: KeyFrame[] = [];
     public connections: Connection[] = [];
+    private calculateVal: CubicBezier = new CubicBezier();
 
     constructor() {
 
@@ -104,6 +108,37 @@ export class KeyframeList{
             connection.end = [this.keyframes[index + 1].position, this.keyframes[index + 1].value];
             this.connections.push(connection);
         }
+    }
+    public getValueAtTime(t: number): number{
+        let rval = 0;
+        for (let index = 0; index < this.keyframes.length - 1; index++) {
+            const thiskeyframe = this.keyframes[index];
+            const nextkeyframe = this.keyframes[index + 1];
+            if(t > thiskeyframe.position && t < nextkeyframe.position){
+                let a: Vector3D = new Vector3D(thiskeyframe.position, thiskeyframe.value);
+                let b: Vector3D = new Vector3D(thiskeyframe.handlerightX, thiskeyframe.handlerightY);
+                let c: Vector3D = new Vector3D(nextkeyframe.handleleftX, nextkeyframe.handleleftY);
+                let d: Vector3D = new Vector3D(nextkeyframe.position, nextkeyframe.value);
+                let time = t;
+                /////////////////////normalize
+                let offsetx = a.x;
+                let offsety = a.y;
+                let scalex = d.x - a.x;
+                let scaley = d.y - a.y;
+                if(scalex == 0)scalex = 0.000000000001;
+                if(scaley == 0)scaley = 0.000000000001;
+                //(move to origin), normalize scale
+                let timeNormalized = (t - a.x) / scalex;
+                let cpax = (b.x - a.x) / scalex;
+                let cpay = (b.y - a.y) / scaley;
+                let cpbx = (c.x - a.x) / scalex;
+                let cpby = (c.y - a.y) / scaley;
+                let nval = this.calculateVal.getValueAtTime(cpax, cpay, cpbx, cpby, timeNormalized);
+                ////////////////////////unnormalize
+                rval = nval * scaley + a.y;
+            }
+        }
+        return rval;
     }
 
 }
