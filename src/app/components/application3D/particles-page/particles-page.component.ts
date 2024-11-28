@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, model, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, model, inject, OnChanges, DoCheck, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MatSliderModule } from '@angular/material/slider';
@@ -50,10 +50,10 @@ declare var require: any;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class ParticlesPageComponent implements AfterViewInit {
+export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck, AfterViewChecked {
 
   public value = 0;
-  private viewPort?: Viewport;
+  private viewPort!: Viewport;
   private particleScenes: Array<ParticleScene> = [];
   public addForces: Array<FunctionWithTrigger> = [];
   public panelOpenIndex = 0;
@@ -65,7 +65,8 @@ export class ParticlesPageComponent implements AfterViewInit {
   readonly dialog = inject(MatDialog);
   @ViewChild('viewportcontainer', { read: ElementRef, static:false })//@ViewChild('viewportcontainer', { read: ElementRef })
   viewportcontainer!: ElementRef;
-
+  @Input() changedetector: number = 0;
+  private lastchange = 0;
 
   ngAfterViewInit(): void {
     var container: HTMLElement = this.viewportcontainer.nativeElement;
@@ -79,9 +80,24 @@ export class ParticlesPageComponent implements AfterViewInit {
     this.viewPort = new Viewport(this.particleScenes, "container", container);
   }
 
-  // ngAfterViewChecked(){
-  //   console.log("ngAfterViewChecked");
-  // }
+  ngAfterViewChecked(): void{
+    if(this.lastchange != this.changedetector){
+      this.lastchange! = this.changedetector!;
+      console.log("particles-page.component:  ngAfterViewChecked()", this.lastchange);
+    }
+    // this.container = this.curvecontainer.nativeElement;
+    // this.viewport = new CurveViewport(this.container);
+    //console.log("particles-page.component:  ngAfterViewChecked()");
+  }
+
+  ngDoCheck(){
+    //console.log("curveeditor.component:  ngDoCheck()");
+  }
+
+  ngOnChanges(){
+    this.viewPort.reset();
+    console.log("particle window visible");
+  }
   
   openDialog() {
     const dialogRef = this.dialog.open(HelpDialog);

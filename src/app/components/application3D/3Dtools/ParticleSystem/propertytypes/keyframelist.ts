@@ -98,16 +98,17 @@ export class KeyframeList{
         var index = this.keyframes.findIndex((obj) => obj.position === pos);
         this.keyframes.splice(index, 1);
         this.ClampHandles();
-        this.CreateConnections();
+        //this.CreateConnections();
     }
-    private CreateConnections(){
-        this.connections = [];
-        for (let index = 0; index < this.keyframes.length - 1; index++) {
-            const connection = new Connection();
-            connection.start = [this.keyframes[index].position, this.keyframes[index].value];
-            connection.end = [this.keyframes[index + 1].position, this.keyframes[index + 1].value];
-            this.connections.push(connection);
+    public Sort(){
+        function compareFunction(a:KeyFrame,b:KeyFrame){
+            if(a.position > b.position)
+            return 1;
+            else
+            return -1;
         }
+        this.keyframes.sort(compareFunction);
+        
     }
     public getValueAtTime(t: number): number{
         let rval = 0;
@@ -129,10 +130,14 @@ export class KeyframeList{
                 if(scaley == 0)scaley = 0.000000000001;
                 //(move to origin), normalize scale
                 let timeNormalized = (t - a.x) / scalex;
-                let cpax = (b.x - a.x) / scalex;
-                let cpay = (b.y - a.y) / scaley;
-                let cpbx = (c.x - a.x) / scalex;
-                let cpby = (c.y - a.y) / scaley;
+                // let cpax = (b.x - a.x) / scalex;
+                // let cpay = (b.y - a.y) / scaley;
+                // let cpbx = (c.x - a.x) / scalex;
+                // let cpby = (c.y - a.y) / scaley;
+                let cpax = (b.x) / scalex;
+                let cpay = (b.y) / scaley;
+                let cpbx = (c.x+d.x - a.x) / scalex;
+                let cpby = (c.y+d.y - a.y) / scaley;
                 let nval = this.calculateVal.getValueAtTime(cpax, cpay, cpbx, cpby, timeNormalized);
                 ////////////////////////unnormalize
                 rval = nval * scaley + a.y;

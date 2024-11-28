@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KeyframeList } from '../application3D/3Dtools/ParticleSystem/propertytypes/keyframelist';
 import { KeyframeEditorComponent } from '../application3D/UI/KeyframeEditor/keyframeeditor.component';
@@ -14,5 +14,7 @@ import { CurveeditorComponent } from '../application3D/UI/curveeditor/curveedito
 })
 export class TestbenchComponent {
   public keyframelist: KeyframeList = new KeyframeList();
+  @Input() changedetector: number = 0;
+
 
 }

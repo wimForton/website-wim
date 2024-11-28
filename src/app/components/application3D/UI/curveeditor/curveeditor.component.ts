@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, model, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, model, inject, OnChanges, AfterContentInit, DoCheck, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as THREE from 'three';
 
@@ -15,10 +15,12 @@ import { CurveViewport } from './CurveViewport';
   templateUrl: './curveeditor.component.html',
   styleUrl: './curveeditor.component.css'
 })
-export class CurveeditorComponent implements AfterViewInit, AfterViewChecked  {
+export class CurveeditorComponent implements AfterViewInit, AfterViewChecked, OnChanges, AfterContentInit, DoCheck  {
 
   @ViewChild('curvecontainer', { read: ElementRef, static:false })//@ViewChild('viewportcontainer', { read: ElementRef })
   curvecontainer: ElementRef < HTMLDivElement > = {} as ElementRef;
+  @Input() changedetector: number = 0;
+  private lastchange = 0;
   private container?: HTMLElement;
   private viewport!: CurveViewport;
 
@@ -27,14 +29,33 @@ export class CurveeditorComponent implements AfterViewInit, AfterViewChecked  {
   ngAfterViewInit(): void {
     //setTimeout(this.startGraphic, 500);
     this.startGraphic();
+
     // this.container = this.curvecontainer.nativeElement;
     // this.viewport = new CurveViewport(this.container);
 
   }
 
+  ngDoCheck(){
+    //console.log("curveeditor.component:  ngDoCheck()");
+  }
+
+  ngOnChanges(){
+    console.log("curveeditor.component:  ngOnChanges()");
+    this.viewport.reset();
+  }
+
+  ngAfterContentInit(){
+    console.log("curveeditor.component:  ngAfterContentInit()");
+  }
+
   ngAfterViewChecked(): void{
+    if(this.lastchange != this.changedetector){
+      this.lastchange! = this.changedetector!;
+      console.log("curveeditor.component:  ngAfterViewChecked()", this.lastchange);
+    }
     // this.container = this.curvecontainer.nativeElement;
     // this.viewport = new CurveViewport(this.container);
+    //console.log("curveeditor.component:  ngAfterViewChecked()");
   }
   startGraphic(){
     this.container = this.curvecontainer.nativeElement;

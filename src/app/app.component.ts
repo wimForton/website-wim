@@ -19,12 +19,22 @@ imports: [ParticlesPageComponent, HomeComponent, EarlyworkComponent, Gitprojects
 })
 export class AppComponent implements OnInit {
 //public forecasts: WeatherForecast[] = [];
-
+public currenttab = 0;
+public changedetector = 0;
 constructor() {}
 
 ngOnInit() {
   //this.getForecasts();
   //this.testDocumentElements();
+}
+
+public TabChange($event: any){
+  console.log("TabChange", $event.index);
+  if($event.index == 4 || $event.index == 1){
+    this.changedetector++;
+  console.log("changedetector", this.changedetector);
+  }
+  this.currenttab = $event.index;
 }
 
 //testDocumentElements() {

@@ -5,12 +5,13 @@ import { DragControls } from 'three/addons/controls/DragControls.js';
 import { KeyframeList } from '../../3Dtools/ParticleSystem/propertytypes/keyframelist';
 import CubicBezier from './cubic-bezier-easing';
 import { CurveSegment } from './CurveSegment';
-
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 
 
 export class CurveViewport {
   private keyframelist: KeyframeList = new KeyframeList();
   private renderer: THREE.WebGLRenderer;
+  private labelRenderer = new CSS2DRenderer();
   private scene: THREE.Scene = new THREE.Scene();
   private camera: THREE.OrthographicCamera;
   private container: HTMLElement;
@@ -24,6 +25,7 @@ export class CurveViewport {
   private splineHelperObjects: THREE.Mesh[] = [];
   private curve: THREE.CubicBezierCurve3 = new THREE.CubicBezierCurve3;
   private bgbox!: THREE.Mesh;
+  private text = document.createElement( 'div' );
 
 
   private curvesegments: CurveSegment[] = [];
@@ -82,7 +84,8 @@ export class CurveViewport {
     ////////Transform
     this.transformControl = new TransformControls( this.camera, this.renderer.domElement );
     this.transformControl.showZ = false;
-    this.transformControl.setSize(0.5);
+    //this.transformControl.setTranslationSnap(1);
+    this.transformControl.setSize(0.75);
     this.transformControl.addEventListener( 'change', this.render );
     this.transformControl.addEventListener( 'dragging-changed', function ( event ) {
       orbitcontrols.enabled = ! event.value;
@@ -90,6 +93,7 @@ export class CurveViewport {
     this.transformControl.addEventListener( 'objectChange', function (this: any) {
       this.UpdateCurves();
     }.bind(this) );
+
     this.scene.add( this.transformControl.getHelper() );
 
     this.keyframeListToCurve();
@@ -107,7 +111,21 @@ export class CurveViewport {
 
     this.scene.add( this.curveCursor );
 
+    const labelRenderer = new CSS2DRenderer();
+    this.labelRenderer.setSize(this.containerProps.width, this.containerProps.height);
+    this.labelRenderer.domElement.style.position = 'absolute';
+    this.labelRenderer.domElement.style.top = this.containerProps.y + 'px';
+    this.labelRenderer.domElement.style.pointerEvents = 'none';
+    this.container.appendChild( this.labelRenderer.domElement );
 
+    //const text = document.createElement( 'div' );
+    this.text.className = 'label';
+    this.text.style.color = 'white';
+    this.text.textContent = "text";
+
+    const label = new CSS2DObject( this.text );
+    //label.position.z = 1;
+    this.curveCursor.add( label );
 
     document.addEventListener( 'pointerdown', this.onPointerDown.bind(this) );
     document.addEventListener( 'pointerup', this.onPointerUp.bind(this) );
@@ -127,7 +145,8 @@ export class CurveViewport {
       this.camera.top = this.frustumSize / 2;
       this.camera.bottom = - this.frustumSize / 2;
       this.camera.updateProjectionMatrix();
-      
+      this.labelRenderer.domElement.style.top = this.containerProps.y + 'px';
+      this.labelRenderer.setSize(this.containerProps.width, this.containerProps.height);
       this.renderer.setSize(this.containerProps.width, this.containerProps.height);
       //this.renderer.setPixelRatio(window.devicePixelRatio);
       this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -137,46 +156,56 @@ export class CurveViewport {
 
   }
 
-  SegmentGetValueAtTime(a: THREE.Vector3, b: THREE.Vector3, c: THREE.Vector3, d: THREE.Vector3, t: number): number[]{
-    let time = 0.5;
-    /////////////////////normalize
-    let offsetx = a.x;
-    let offsety = a.y;
-    let scalex = d.x - a.x;
-    let scaley = d.y - a.y;
-    if(scalex == 0)scalex = 0.000000000001;
-    if(scaley == 0)scaley = 0.000000000001;
-    //(move to origin) normalize scale
-    let cpax = (b.x - a.x) / scalex;
-    let cpay = (b.y - a.y) / scaley;
-    let cpbx = (c.x - a.x) / scalex;
-    let cpby = (c.y - a.y) / scaley;
-    let nval = this.calculateVal.getValueAtTime(cpax, cpay, cpbx, cpby, time);
-    ////////////////////////unnormalize
-    let rtime = time * scalex + a.x;
-    let rval = nval * scaley + a.y;
-    //let rval = this.calculateVal.getValueAtTime(0.9, 0, 0.5, 1, time);
+  // SegmentGetValueAtTime(a: THREE.Vector3, b: THREE.Vector3, c: THREE.Vector3, d: THREE.Vector3, t: number): number[]{
+  //   let time = 0.5;
+  //   /////////////////////normalize
+  //   let offsetx = a.x;
+  //   let offsety = a.y;
+  //   let scalex = d.x - a.x;
+  //   let scaley = d.y - a.y;
+  //   if(scalex == 0)scalex = 0.000000000001;
+  //   if(scaley == 0)scaley = 0.000000000001;
+  //   //(move to origin) normalize scale
+  //   let cpax = (b.x - a.x) / scalex;
+  //   let cpay = (b.y - a.y) / scaley;
+  //   let cpbx = (c.x - a.x) / scalex;
+  //   let cpby = (c.y - a.y) / scaley;
+  //   let nval = this.calculateVal.getValueAtTime(cpax, cpay, cpbx, cpby, time);
+  //   ////////////////////////unnormalize
+  //   let rtime = time * scalex + a.x;
+  //   let rval = nval * scaley + a.y;
+  //   //let rval = this.calculateVal.getValueAtTime(0.9, 0, 0.5, 1, time);
 
-    return [rtime,rval];
-  }
+  //   return [rtime,rval];
+  // }
 
   CreateTestCurve(){
-    this.keyframelist.AddKeyframe(0,0,-5,15,10,20);
-    this.keyframelist.AddKeyframe(40,10,35,20,42,20);
-    this.keyframelist.AddKeyframe(50,10,45,20,55,20);
-    this.keyframelist.AddKeyframe(70,10,68,20,72,20);
-    this.keyframelist.AddKeyframe(60,10,58,20,62,20);
+    this.keyframelist.AddKeyframe(0,0,-1,2,1,6);
+    this.keyframelist.AddKeyframe(20,10,-2,6,1,2);
+    this.keyframelist.AddKeyframe(30,5,-2,2,1,2);
+    this.keyframelist.AddKeyframe(40,10,-2,2,1,2);
+    this.keyframelist.AddKeyframe(50,10,-2,3,1,2);
+    this.keyframelist.AddKeyframe(60,10,-1,3,1,-3);
+    this.keyframelist.AddKeyframe(70,10,-2,0,1,2);
     console.log("keyframes:", this.keyframelist.keyframes);
   }
 
 
   keyframeListToCurve(){
+    let ctrlobject: THREE.Mesh = this.transformControl!.object as THREE.Mesh;
+    let transformcontrolindex = -1;
+    if(ctrlobject != undefined || null){
+      transformcontrolindex = this.splineHelperObjects.indexOf(ctrlobject);
+    }
+    this.transformControl?.detach();
+    this.keyframelist.Sort();
     for (let index = 0; index < this.curvesegments.length; index++) {
       const segment = this.curvesegments[index];
       segment.removecurve(this.scene, this.splineHelperObjects);
 
     }
-    console.log("this.splineHelperObjects", this.splineHelperObjects);
+    this.splineHelperObjects = [];
+    console.log("keyframeListToCurve this.splineHelperObjects", this.splineHelperObjects);
     this.curvesegments = [];
     //this.scene.clear();
     let keyframes = this.keyframelist.keyframes
@@ -194,6 +223,9 @@ export class CurveViewport {
 
       }
       
+    }
+    if(transformcontrolindex >= -1 && transformcontrolindex < this.splineHelperObjects.length){
+      this.transformControl?.attach(this.splineHelperObjects[transformcontrolindex])
     }
   }
 
@@ -233,18 +265,16 @@ export class CurveViewport {
         nextkey.handleleftY = currentseg.mesh3.position.y;
         nextkey.position = currentseg.mesh4.position.x;
         nextkey.value = currentseg.mesh4.position.y;
-        if(this.time > v0.x && this.time < v3.x){
-          let value = this.curvesegments[index].GetValueAtTime(this.time);
-          this.curveCursor.position.set(this.time, value, 0);
-        }
       }
       
     }
+    // this.keyframeListToCurve();
   }
 
   UpdateCursor(){
     let value = this.keyframelist.getValueAtTime(this.time);
     this.curveCursor.position.set(this.time, value, 0);
+    this.text.textContent = Number(value).toFixed(2);
   }
 
 
@@ -266,11 +296,12 @@ export class CurveViewport {
     console.log("this.camera.zoom: ", this.camera.zoom);
     let mouseScenePosX = x * this.camera.right / zoom + pos.x;
     let mouseScenePosY = y * this.camera.top / zoom + pos.y;
-    this.keyframelist.AddKeyframe(mouseScenePosX,mouseScenePosY,mouseScenePosX-1,mouseScenePosY,mouseScenePosX+1,mouseScenePosY);
+    this.keyframelist.AddKeyframe(mouseScenePosX,mouseScenePosY,-1,0,+1,0);
     this.keyframeListToCurve();
   }
 
   onPointerUp( event: any ) {
+
     this.onUpPosition.x = event.clientX;
     this.onUpPosition.y = event.clientY;
     if ( this.onDownPosition.distanceTo( this.onUpPosition ) === 0 ) {
@@ -279,6 +310,8 @@ export class CurveViewport {
       this.render();
 
     }
+    console.log("onPointerUp");
+    this.keyframeListToCurve();
   }
 
   onPointerMove( event: any ) {
@@ -299,15 +332,25 @@ export class CurveViewport {
     }
   }
 
-  reset(){
+  public reset(){
+
     this.ContainerBBox = this.container.getBoundingClientRect();
     this.containerProps.x = this.ContainerBBox.left;
     this.containerProps.y = this.ContainerBBox.top;
     this.containerProps.width = this.ContainerBBox.width;
-    this.containerProps.height = Math.max(window.innerHeight * 0.7, 500);
+    this.containerProps.height = Math.max(window.innerHeight * 0.7, 200);
+
+    const aspect = this.containerProps.width / this.containerProps.height;//window.devicePixelRatio;//window.innerWidth / window.innerHeight;
+    this.camera.left = - this.frustumSize * aspect / 2;
+    this.camera.right = this.frustumSize * aspect / 2;
+    this.camera.top = this.frustumSize / 2;
+    this.camera.bottom = - this.frustumSize / 2;
     this.camera.updateProjectionMatrix();
+    this.labelRenderer.setSize(this.containerProps.width, this.containerProps.height);
+    this.labelRenderer.domElement.style.top = this.containerProps.y + 'px';
     this.renderer.setSize(this.containerProps.width, this.containerProps.height);
-    this.renderer.setPixelRatio(window.devicePixelRatio)
+    //this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -319,9 +362,11 @@ export class CurveViewport {
     }
     if(this.renderer != undefined){
       this.renderer.render(this.scene, this.camera);
+      this.labelRenderer.render(this.scene, this.camera);
       this.time += 0.3;
       if(this.time > 69.8)this.time = 0.1;
       this.UpdateCursor();
+
     }
   }
 }
