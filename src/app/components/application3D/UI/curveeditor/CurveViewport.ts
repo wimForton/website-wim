@@ -45,9 +45,6 @@ export class CurveViewport {
   constructor(container: HTMLElement) {
     this.CreateTestCurve();
     this.container = container;
-    ////set css from here is better? 
-    //this.container.setAttribute("style","height: 100px");
-    //this.ContainerBBox = this.container.getBoundingClientRect();
     this.containerProps.x = this.container.getBoundingClientRect().left;
     this.containerProps.y = this.container.getBoundingClientRect().top;
     this.containerProps.width = this.container.getBoundingClientRect().width;//this.container.offsetWidth;
@@ -93,7 +90,7 @@ export class CurveViewport {
     this.transformControl.addEventListener( 'objectChange', function (this: any) {
       this.UpdateCurves();
     }.bind(this) );
-
+    if(this.splineHelperObjects.length > 0){this.transformControl.attach(this.splineHelperObjects[0])}
     this.scene.add( this.transformControl.getHelper() );
 
     this.keyframeListToCurve();
@@ -111,7 +108,7 @@ export class CurveViewport {
 
     this.scene.add( this.curveCursor );
 
-    const labelRenderer = new CSS2DRenderer();
+
     this.labelRenderer.setSize(this.containerProps.width, this.containerProps.height);
     this.labelRenderer.domElement.style.position = 'absolute';
     this.labelRenderer.domElement.style.top = this.containerProps.y + 'px';
@@ -122,6 +119,13 @@ export class CurveViewport {
     this.text.className = 'label';
     this.text.style.color = 'white';
     this.text.textContent = "text";
+
+    // const button = document.createElement( 'button' );
+    // button.className = 'label';
+    // button.style.color = 'white';
+    // button.textContent = "button";
+    // const btn = new CSS2DObject( button );
+    // this.scene.add(btn);
 
     const label = new CSS2DObject( this.text );
     //label.position.z = 1;
@@ -137,7 +141,8 @@ export class CurveViewport {
       this.containerProps.x = this.ContainerBBox.left;
       this.containerProps.y = this.ContainerBBox.top;
       this.containerProps.width = this.ContainerBBox.width;
-      this.containerProps.height = Math.max(window.innerHeight * 0.7, 200);
+      //this.containerProps.height = Math.max(window.innerHeight * 0.7, 200);
+      this.containerProps.height = this.ContainerBBox.height;
 
       const aspect = this.containerProps.width / this.containerProps.height;//window.devicePixelRatio;//window.innerWidth / window.innerHeight;
       this.camera.left = - this.frustumSize * aspect / 2;
@@ -155,29 +160,6 @@ export class CurveViewport {
 
 
   }
-
-  // SegmentGetValueAtTime(a: THREE.Vector3, b: THREE.Vector3, c: THREE.Vector3, d: THREE.Vector3, t: number): number[]{
-  //   let time = 0.5;
-  //   /////////////////////normalize
-  //   let offsetx = a.x;
-  //   let offsety = a.y;
-  //   let scalex = d.x - a.x;
-  //   let scaley = d.y - a.y;
-  //   if(scalex == 0)scalex = 0.000000000001;
-  //   if(scaley == 0)scaley = 0.000000000001;
-  //   //(move to origin) normalize scale
-  //   let cpax = (b.x - a.x) / scalex;
-  //   let cpay = (b.y - a.y) / scaley;
-  //   let cpbx = (c.x - a.x) / scalex;
-  //   let cpby = (c.y - a.y) / scaley;
-  //   let nval = this.calculateVal.getValueAtTime(cpax, cpay, cpbx, cpby, time);
-  //   ////////////////////////unnormalize
-  //   let rtime = time * scalex + a.x;
-  //   let rval = nval * scaley + a.y;
-  //   //let rval = this.calculateVal.getValueAtTime(0.9, 0, 0.5, 1, time);
-
-  //   return [rtime,rval];
-  // }
 
   CreateTestCurve(){
     this.keyframelist.AddKeyframe(0,0,-1,2,1,6);
@@ -317,8 +299,6 @@ export class CurveViewport {
   onPointerMove( event: any ) {
     let container = this.container!;
     let ContainerBBox:DOMRect = container.getBoundingClientRect();
-    // this.pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    // this.pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     this.pointer.x = ( (event.clientX - ContainerBBox.left) / ContainerBBox.width ) * 2 - 1;
     this.pointer.y = - ( (event.clientY - container.getBoundingClientRect().top) / this.containerProps.height ) * 2 + 1;
 
@@ -326,7 +306,8 @@ export class CurveViewport {
     const intersects = this.raycaster.intersectObjects( this.splineHelperObjects, false );
     if ( intersects.length > 0 ) {
       const object = intersects[ 0 ].object;
-      if ( object !== this.transformControl!.object ) {
+      
+      if ( object !== this.transformControl!.object && !this.transformControl?.dragging) {// && !this.transformControl?.dragging
         this.transformControl!.attach( object );
       }
     }
@@ -338,7 +319,8 @@ export class CurveViewport {
     this.containerProps.x = this.ContainerBBox.left;
     this.containerProps.y = this.ContainerBBox.top;
     this.containerProps.width = this.ContainerBBox.width;
-    this.containerProps.height = Math.max(window.innerHeight * 0.7, 200);
+    //this.containerProps.height = Math.max(window.innerHeight * 0.7, 200);
+    this.containerProps.height = this.ContainerBBox.height;
 
     const aspect = this.containerProps.width / this.containerProps.height;//window.devicePixelRatio;//window.innerWidth / window.innerHeight;
     this.camera.left = - this.frustumSize * aspect / 2;
@@ -349,7 +331,6 @@ export class CurveViewport {
     this.labelRenderer.setSize(this.containerProps.width, this.containerProps.height);
     this.labelRenderer.domElement.style.top = this.containerProps.y + 'px';
     this.renderer.setSize(this.containerProps.width, this.containerProps.height);
-    //this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.render(this.scene, this.camera);
   }

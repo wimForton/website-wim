@@ -76,7 +76,7 @@
               <div *ngFor="let item of particlesystem.forceClasses">
                 <mat-expansion-panel [expanded]="panelOpenIndex">
                   <mat-expansion-panel-header>
-                    <mat-panel-title>{{item.name}}  </mat-panel-title>
+                    <mat-panel-title style="overflow:hidden; border-radius: 6px;">{{item.name}}  <div class="smallbutton" (click)="RemoveForce(item, particlesystem)">remove</div></mat-panel-title>
                   </mat-expansion-panel-header>
                   <app-panelselector [component]="item.name" [forceinstance]="item"></app-panelselector>
                 </mat-expansion-panel>

@@ -19,6 +19,7 @@ import { PanelSelectorComponent } from '../3Dtools/ParticleSystem/AngularCompone
 import { Load, Save } from '../3Dtools/ParticleSystem/LoadSave/LoadSave';
 import { ForceClassNames } from '../3Dtools/ParticleSystem/forces/AddForceClasses';
 import { HelpDialog } from './helpdialog/helpdialog.component';
+import { IForceClass } from '../3Dtools/ParticleSystem/forces/IForceClass';
 declare var require: any;
 
 
@@ -153,9 +154,9 @@ export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck
     return index;
   }
 
-  public RemoveForce(item: ControlParameters, particlesystem: ParticleSystem) {
-    let index = particlesystem.forcesParameters.indexOf(item);
-    particlesystem.forcesParameters.splice(index, 1);
+  public RemoveForce(item: IForceClass, particlesystem: ParticleSystem) {
+    let index = particlesystem.forceClasses.indexOf(item);
+    //particlesystem.forceClasses.splice(index, 1);
     particlesystem.GetForceClasses().splice(index, 1)
   }
 }
