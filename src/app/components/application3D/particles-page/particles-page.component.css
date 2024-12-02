@@ -68,7 +68,6 @@ header h2 {
 
 .right {
   padding: 8px;
-  float: left;
   width: 25%;
   max-width: 390px;
   max-height: 800px;
@@ -99,7 +98,7 @@ footer {
 }
 
 /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
   .left {
     width: 100%;
     height: 300px;
