@@ -29,7 +29,7 @@ export class CurveViewport {
 
 
   private curvesegments: CurveSegment[] = [];
-  private time: number = 5;
+  private time: number = 0;
   private curveCursor: THREE.Mesh;
   private ContainerBBox?:DOMRect;
   private containerProps = {
@@ -172,6 +172,19 @@ export class CurveViewport {
     console.log("keyframes:", this.keyframelist.keyframes);
   }
 
+  public setTime(time: number){
+    this.time = time;
+    this.UpdateCursor();
+  }
+
+  public getValueAtTime(): number{
+    return this.keyframelist.getValueAtTime(this.time);
+  }
+
+  public SetValueAutoKey( value: any ) {
+    this.keyframelist.AddKeyframe(this.time,value,-1,0,+1,0);
+    this.keyframeListToCurve();
+  }
 
   keyframeListToCurve(){
     let ctrlobject: THREE.Mesh = this.transformControl!.object as THREE.Mesh;
@@ -344,8 +357,8 @@ export class CurveViewport {
     if(this.renderer != undefined){
       this.renderer.render(this.scene, this.camera);
       this.labelRenderer.render(this.scene, this.camera);
-      this.time += 0.3;
-      if(this.time > 69.8)this.time = 0.1;
+      // this.time += 0.3;
+      // if(this.time > 69.8)this.time = 0.1;
       this.UpdateCursor();
 
     }

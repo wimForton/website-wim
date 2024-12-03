@@ -20,6 +20,7 @@ export class Viewport {
   };
   constructor(particleScenes: Array<ParticleScene>, containerid: string, container: HTMLElement) {
     this.particleScenes = particleScenes;
+    this.CreateViewObjects();
     //this.renderer = renderer;
     for (let i = 0; i < this.particleScenes.length; i++) {
       this.scene.add(this.particleScenes[i].scene);
@@ -60,6 +61,38 @@ export class Viewport {
       this.renderer.setPixelRatio(window.devicePixelRatio)
       this.renderer.render(this.scene, this.camera);
     });
+  }
+
+  private CreateViewObjects(){
+    const helper = new THREE.GridHelper( 100, 100 );
+    helper.position.z = -1;
+    helper.material.opacity = 0.25;
+    helper.material.transparent = true;
+    //helper.rotateX(Math.PI / 2);
+    this.scene.add( helper );
+  }
+
+  private CreateSceneLights() {
+    this.scene.fog = new THREE.Fog(new THREE.Color("rgb(50, 50, 50)"), 10, 15);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+    //this.scene.add(ambientLight);
+    const pointLight = new THREE.PointLight(0xffffff, 15);
+    pointLight.position.x = 6;
+    pointLight.position.y = 2;
+    pointLight.position.z = 6;
+    //this.scene.add(pointLight);
+    const distantLight = new THREE.DirectionalLight(new THREE.Color("rgb(250, 250, 250)"), 4);
+
+    distantLight.position.x = -6;
+    distantLight.position.y = 6;
+    distantLight.position.z = 4;
+    //this.scene.add(distantLight);
+    const backLight = new THREE.DirectionalLight(new THREE.Color("rgb(100, 200, 250)"), 2);
+
+    backLight.position.x = 6;
+    backLight.position.y = -6;
+    backLight.position.z = -4;
+    //this.scene.add(backLight);
   }
 
   public clear() {
