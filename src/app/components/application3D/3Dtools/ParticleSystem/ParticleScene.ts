@@ -6,6 +6,7 @@ export class ParticleScene {
   public scene: THREE.Scene = new THREE.Scene();
   private particleSystem: ParticleSystem;
   private threeSprites: Array<THREE.Sprite> = [];
+  private textures: THREE.Texture[] = [];
 
   constructor(particleSystem: ParticleSystem) {
     this.particleSystem = particleSystem;
@@ -14,6 +15,11 @@ export class ParticleScene {
 
   private CreateThreeObjects() {
     const textureLoader = new THREE.TextureLoader();
+    for (let index = 0; index < 10; index++) {
+      let path = "textures/star" + index + ".png"
+      const spritetexture = textureLoader.load(path);
+      this.textures.push(spritetexture);
+    }
 
     //spriteMaterial.color.setHSL(color[0], color[1], color[2], THREE.SRGBColorSpace);
     console.log("document", document);
@@ -37,8 +43,8 @@ export class ParticleScene {
       let particle = this.particleSystem.Particles[p];
       this.threeSprites[p]
       //this.threeSprites[p].material.color.setRGB(particle.color.x, particle.color.y, particle.color.z);
-      //this.threeSprites[p].material.
-      this.threeSprites[p].material.color.setHSL(particle.color.x,1,0.9);
+
+      this.threeSprites[p].material.map = this.textures[particle.textureindex];
       this.threeSprites[p].position.set(particle.position.x, particle.position.y, particle.position.z);
       this.threeSprites[p].scale.set(particle.scale.x, particle.scale.y, particle.scale.z);
     }

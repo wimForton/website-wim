@@ -13,6 +13,7 @@ export class Particle {
   public age: number = 0;
   public maxAge: number = 100;
   public color: Vector3D = new Vector3D(1, 1, 1);
+  public textureindex = 0;
 
   constructor() {
     this.direction.y = 1;

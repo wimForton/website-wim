@@ -92,6 +92,7 @@ export class EmitFromPoint implements IEmitClass{
       let randomvelocity: number[] = MinMaxRandomizeArray([min, min, min], [max, max, max])
       p.velocity.set(randomvelocity[0] + this.sliders[3].value, randomvelocity[1] + this.sliders[4].value, randomvelocity[2]);
       p.age = 0;
+      p.textureindex = Math.floor(MinMaxRandomize(0,10));
     }
       p.maxAge = this.sliders[2].value;
    }
