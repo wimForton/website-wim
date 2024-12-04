@@ -68,7 +68,8 @@ export class Viewport {
     const helper = new THREE.GridHelper( 100, 100 );
     helper.position.z = -1;
     helper.material.opacity = 0.1;
-    helper.material.transparent = true;
+    helper.material.transparent = false;
+    helper.material.color = new THREE.Color("rgb(50, 50, 50)");
     //helper.rotateX(Math.PI / 2);
     this.scene.add( helper );
   }

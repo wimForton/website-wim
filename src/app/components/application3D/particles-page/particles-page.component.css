@@ -12,7 +12,7 @@ header {
   background-color: rgb(70, 68, 57);
   color: rgb(164, 189, 229);
   padding: 30px;
-  text-align: center;
+  text-align: left;
   font-size: 35px;
 
 }
@@ -41,7 +41,23 @@ mat-panel-title {
   background-color: white;
   color: gray;
   margin-top: 0px;
+  font-size: 0.8em;
 }
+
+.smallbuttonmenu {
+  border: 1px solid white;
+  padding-top: 5px;
+  padding-bottom: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 15px;
+  background-color: white;
+  color: rgb(75, 75, 75);
+  margin-top: 0px;
+  font-size: 0.45em;
+  box-shadow: rgba(0,0,0,0.2) 5px 5px;
+}
+
 button {
   margin-left: 10px;
   background-color: white;

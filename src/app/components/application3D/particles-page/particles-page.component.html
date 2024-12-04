@@ -7,8 +7,8 @@
   <header>
 
     Particles
-    <button mat-raised-button (click)="InitParticles()">New</button>
-    <button mat-button [matMenuTriggerFor]="menu">presets</button>
+    <button class="smallbuttonmenu" (click)="InitParticles()">new</button>
+    <button class="smallbuttonmenu" [matMenuTriggerFor]="menu">presets</button>
     <mat-menu #menu="matMenu">
       <button mat-raised-button (click)="LoadParticles1()">preset 1</button>
       <button mat-raised-button (click)="LoadParticles2()">preset 2</button>
@@ -16,14 +16,14 @@
       <button mat-raised-button (click)="LoadParticles4()">preset 4</button>
       <button mat-raised-button (click)="LoadParticles5()">preset 5</button>
     </mat-menu>
-    <button mat-raised-button (click)="SaveParticles()">Save preset (console log)</button>
-    <button mat-button (click)="openDialog()"><b>?</b></button>
+    <button class="smallbuttonmenu" (click)="SaveParticles()">log preset</button>
+    <button class="smallbuttonmenu" style="right: 20px; position: absolute;" (click)="openDialog()">?</button>
   </header>
   <div class="midsection">
     <section>
       <div>
-        <div style="padding-top: 5px;">
-          <mat-form-field class="example-margin example-width" style="width: 100px; padding: 0px" (input)="onTimeChange($event)">
+        <div style="padding-top: 5px; background-color: rgb(48, 38, 38);">
+          <mat-form-field class="example-margin example-width" style="width: 100px; padding: 0px; padding-right: 5px;" (input)="onTimeChange($event)">
               <mat-label>{{sl1.label}}</mat-label>
               <input matInput type="number" [(ngModel)]="time">
             </mat-form-field>
@@ -32,6 +32,7 @@
               [max]="sl1.max"
               [min]="sl1.min"
               [step]="sl1.step"
+              [showTickMarks]="sl1.showTicks"
               [discrete]="sl1.thumbLabel">
           <input matSliderThumb [(ngModel)]="time" #slider (input)="onTimeChange($event)">
           </mat-slider>

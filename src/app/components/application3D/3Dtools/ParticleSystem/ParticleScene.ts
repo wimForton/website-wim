@@ -26,7 +26,7 @@ export class ParticleScene {
 
     for (var p = 0; p < this.particleSystem.Particles.length; p++) {
       const spritetexture = textureLoader.load('textures/star2.png');
-      spritetexture.colorSpace = THREE.SRGBColorSpace;
+      //spritetexture.colorSpace = THREE.SRGBColorSpace;
 
       const color = [0.8, 0.8, 1];
       const spriteMaterial = new THREE.SpriteMaterial({ map: spritetexture, fog: false });//blending: THREE.AdditiveBlending, transparent: true, 
