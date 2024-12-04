@@ -22,7 +22,7 @@ export class ParticleScene {
       const spritetexture = textureLoader.load('textures/star2.png');
       spritetexture.colorSpace = THREE.SRGBColorSpace;
 
-      const color = [0.3, 0.8, 0.5];
+      const color = [0.8, 0.8, 1];
       const spriteMaterial = new THREE.SpriteMaterial({ map: spritetexture, fog: false });//blending: THREE.AdditiveBlending, transparent: true, 
       const sprite = new THREE.Sprite(spriteMaterial);
       this.scene.add(sprite);
@@ -33,12 +33,12 @@ export class ParticleScene {
   public Update() {
     this.particleSystem.SimulateFrame();
     for (var p = 0; p < this.particleSystem.Particles.length; p++) {
-
+ 
       let particle = this.particleSystem.Particles[p];
       this.threeSprites[p]
       //this.threeSprites[p].material.color.setRGB(particle.color.x, particle.color.y, particle.color.z);
-      //this.threeSprites[p].material.color.setHSL(particle.color.x,1,(0.7 + particle.color.z * 0.3));
-      //this.threeSprites[p].material.color.setRGB(1, 1, 0);
+      //this.threeSprites[p].material.
+      this.threeSprites[p].material.color.setHSL(particle.color.x,1,0.9);
       this.threeSprites[p].position.set(particle.position.x, particle.position.y, particle.position.z);
       this.threeSprites[p].scale.set(particle.scale.x, particle.scale.y, particle.scale.z);
     }
