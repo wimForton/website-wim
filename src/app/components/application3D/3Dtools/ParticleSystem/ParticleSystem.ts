@@ -56,6 +56,7 @@ export class ParticleSystem {
   public addForces: Array<FunctionWithTrigger> = [];
   public name = "";
   public forceclassnames!: ForceClassNames;
+  private time = 0;
 
 
   constructor(maxParticles: number) {
@@ -87,10 +88,13 @@ export class ParticleSystem {
     }
   }
 
-  //public GetForceEnumKeys(): string[] {
-  //  const enumKeys = Object.keys(this.forceclassnames);
-  //  return enumKeys;
-  //}
+  public setTime(time: number){
+    this.time = time;
+  }
+
+  public getTime(): number{
+    return this.time;
+  }
 
   public AddForceClassesByKey(forcename: ForceClassNames) {
     var forceclass = new classes[forcename]();
@@ -141,12 +145,12 @@ export class ParticleSystem {
       let particle = this.Particles[p];
       if (particle.age > particle.maxAge) {////try rebirth
         for (var e = 0; e < this.emitClasses.length; e++) {
-          this.emitClasses[e].emit(particle, p)
+          this.emitClasses[e].emit(particle, p, this)
         }
 
       } else {////simulate
         for (var f = 0; f < this.forceClasses.length; f++) {
-          this.forceClasses[f].calculate(particle, p);
+          this.forceClasses[f].calculate(particle, p, this);
         }
       }
 

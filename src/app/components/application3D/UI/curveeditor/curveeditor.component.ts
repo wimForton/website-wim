@@ -46,8 +46,8 @@ export class CurveeditorComponent implements AfterViewInit, AfterViewChecked, On
   }
 
   public onTimeChange(event: Event){
-    this.value = this.viewport.getValueAtTime();
     this.viewport.setTime(+((event.target as HTMLInputElement).value));
+    this.value = this.viewport.getValueAtTime();
   }
 
   public onValueChange(event: Event){

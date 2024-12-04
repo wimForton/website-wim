@@ -68,6 +68,8 @@ export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck
   viewportcontainer!: ElementRef;
   @Input() changedetector: number = 0;
   private lastchange = 0;
+  public time = 0;
+  public sl1 = { disabled: false, min: 0, max: 200, showTicks: true, step: 1, thumbLabel: true, label: "Time" };
 
   ngAfterViewInit(): void {
     var container: HTMLElement = this.viewportcontainer.nativeElement;
@@ -98,6 +100,13 @@ export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck
   ngOnChanges(){
     this.viewPort.reset();
     console.log("particle window visible");
+  }
+
+  onTimeChange(event: Event){
+    for (let index = 0; index < this.particleSystems.length; index++) {
+      this.particleSystems[index].setTime(+((event.target as HTMLInputElement).value));
+      
+    }
   }
   
   openDialog() {

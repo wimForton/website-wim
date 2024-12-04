@@ -16,6 +16,7 @@ export function Load(particlesystems: ParticleSystem[], particleScenes: Particle
   particlesystems.splice(0, particlesystems.length);
   particleScenes.splice(0, particleScenes.length);
   viewPort.clear();
+  viewPort.CreateViewObjects();
   //read json
 
 

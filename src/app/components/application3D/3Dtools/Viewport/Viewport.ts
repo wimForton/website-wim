@@ -39,6 +39,7 @@ export class Viewport {
       0.001,
       1000
     );
+    this.camera.position.y = 5;
     this.camera.position.z = 15;
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -63,10 +64,10 @@ export class Viewport {
     });
   }
 
-  private CreateViewObjects(){
+  public CreateViewObjects(){
     const helper = new THREE.GridHelper( 100, 100 );
     helper.position.z = -1;
-    helper.material.opacity = 0.25;
+    helper.material.opacity = 0.1;
     helper.material.transparent = true;
     //helper.rotateX(Math.PI / 2);
     this.scene.add( helper );

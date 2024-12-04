@@ -42,8 +42,12 @@ export class CurveViewport {
 
   //private curvecontrolboxes: THREE.Mesh[] = [];
   private curveobject: THREE.Line = new THREE.Line;
-  constructor(container: HTMLElement) {
-    this.CreateTestCurve();
+  constructor(container: HTMLElement, keyframelist?: KeyframeList) {
+    if(keyframelist != null || undefined){
+      this.keyframelist = keyframelist!;
+    }else{
+      this.CreateTestCurve();
+    }
     this.container = container;
     this.containerProps.x = this.container.getBoundingClientRect().left;
     this.containerProps.y = this.container.getBoundingClientRect().top;

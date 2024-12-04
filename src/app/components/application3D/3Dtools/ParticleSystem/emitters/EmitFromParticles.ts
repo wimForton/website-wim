@@ -65,6 +65,11 @@ export class EmitFromPoint implements IEmitClass{
     slider8.value = 1;
     this.sliders.push(slider8);
   }
+
+  getparameterstosave(): any {
+    let param = 0;//{ name: this.name, value1: this.value1, value2: this.value2 };
+    return param;
+  }
   // idee: krijgt 1 parent particle en emit zodra parameters binnen range vallen (min max age)
   // evt probleem: vertrekken dan allemaal tegelijk, dus offset berekenen
   emit(p: Particle, i: number): void {

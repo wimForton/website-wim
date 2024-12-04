@@ -21,9 +21,24 @@
   </header>
   <div class="midsection">
     <section>
-
-      <div class="left" id="container" #viewportcontainer>
-
+      <div>
+        <div style="padding-top: 5px;">
+          <mat-form-field class="example-margin example-width" style="width: 100px; padding: 0px" (input)="onTimeChange($event)">
+              <mat-label>{{sl1.label}}</mat-label>
+              <input matInput type="number" [(ngModel)]="time">
+            </mat-form-field>
+          <mat-slider class="example-margin mat-body-small timeslider"
+              [disabled]="sl1.disabled"
+              [max]="sl1.max"
+              [min]="sl1.min"
+              [step]="sl1.step"
+              [discrete]="sl1.thumbLabel">
+          <input matSliderThumb [(ngModel)]="time" #slider (input)="onTimeChange($event)">
+          </mat-slider>
+        </div>
+        <div class="left" id="container" #viewportcontainer>
+  
+        </div>
       </div>
 
       <div class="right" id="containerB">
@@ -90,5 +105,6 @@
   </div>
 
   <footer>
+
   </footer>
 </div>

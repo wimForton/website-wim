@@ -17,8 +17,6 @@ header {
 
 }
 
-
-
 mat-expansion-panel {
   margin-bottom: 1px;
   background-color: rgb(199, 193, 172);
@@ -30,13 +28,9 @@ mat-panel-title {
   color: white;
 }
 
-/*.example-margin {
-  color: white;
-  background-color: white;
-  border-radius: 6px;
-  padding-right: 6px;
-  margin-left: 6px;
-}*/
+.timeslider {
+  width: 90%;
+}
 .smallbutton {
   position: absolute; 
   right: 60px;

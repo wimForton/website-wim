@@ -36,7 +36,8 @@ export class ParticleScene {
 
       let particle = this.particleSystem.Particles[p];
       this.threeSprites[p]
-      this.threeSprites[p].material.color.setRGB(particle.color.x, particle.color.y, particle.color.z);
+      //this.threeSprites[p].material.color.setRGB(particle.color.x, particle.color.y, particle.color.z);
+      this.threeSprites[p].material.color.setHSL(particle.color.x,1,(0.7 + particle.color.z * 0.3));
       //this.threeSprites[p].material.color.setRGB(1, 1, 0);
       this.threeSprites[p].position.set(particle.position.x, particle.position.y, particle.position.z);
       this.threeSprites[p].scale.set(particle.scale.x, particle.scale.y, particle.scale.z);

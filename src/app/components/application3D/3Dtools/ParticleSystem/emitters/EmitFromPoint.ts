@@ -1,6 +1,8 @@
 import { Slider } from "../../../UiComponentData/Slider";
 import { MinMaxRandomize, MinMaxRandomizeArray } from "../../Utils/particleUtils";
 import { Particle } from "../Particle";
+import { ParticleSystem } from "../ParticleSystem";
+import { KeyframeList } from "../propertytypes/keyframelist";
 import { IEmitClass } from "./IEmitClass";
 
 
@@ -10,7 +12,17 @@ import { IEmitClass } from "./IEmitClass";
 export class EmitFromPoint implements IEmitClass{
   public name = "Emit From Point";
   public sliders: Slider[] = [];
+
+  public transforms: KeyframeList[] = [];
+  private emitposx: KeyframeList = new KeyframeList();
+  private emitposy: KeyframeList = new KeyframeList();
+  private emitposz: KeyframeList = new KeyframeList();
+
   constructor() {
+    this.CreateTestCurve(this.emitposx);
+    this.transforms.push(this.emitposx);
+    this.transforms.push(this.emitposy);
+    this.transforms.push(this.emitposz);
     let slider = new Slider();
     slider.label = "Radial Speed";
     slider.min = 0;
@@ -55,17 +67,26 @@ export class EmitFromPoint implements IEmitClass{
     this.sliders.push(slider6);
 
   }
+  getparameterstosave(): any {
+    let param = 0;//{ name: this.name, value1: this.value1, value2: this.value2 };
+    return param;
+  }
 
-  emit(p: Particle, i: number): void {
+  emit(p: Particle, i: number, particlesystem: ParticleSystem): void {
+
     p.position.z = 100;
     p.scale.set(0,0,0);
     if (MinMaxRandomize(0, 20) < this.sliders[1].value) {
+      let time = particlesystem.getTime();
+      let emitx = this.emitposx.getValueAtTime(time);
+      let emity = this.emitposy.getValueAtTime(time);
+      let emitz = this.emitposz.getValueAtTime(time);
       let size = MinMaxRandomize(this.sliders[5].value, this.sliders[6].value);
       let color: number[] = MinMaxRandomizeArray([0, 0, 0], [1, 1, 1]);
       p.color.set(color[0], color[1], color[2]);
       p.scale.set(size, size, size);
       p.startscale.set(size, size, size);
-      p.position.set(0, 0, 0);//(p.position.x, p.position.y, p.position.z)
+      p.position.set(emitx, emity, emitz);//(p.position.x, p.position.y, p.position.z)
       let min = -0.01 * this.sliders[0].value;
       let max = 0.01 * this.sliders[0].value;
       let randomvelocity: number[] = MinMaxRandomizeArray([min, min, min], [max, max, max])
@@ -74,6 +95,16 @@ export class EmitFromPoint implements IEmitClass{
     }
       p.maxAge = this.sliders[2].value;
    }
+   CreateTestCurve(keyframelist: KeyframeList){
+    keyframelist.AddKeyframe(0,0,-1,2,1,6);
+    keyframelist.AddKeyframe(20,10,-2,6,1,2);
+    keyframelist.AddKeyframe(30,5,-2,2,1,2);
+    keyframelist.AddKeyframe(40,10,-2,2,1,2);
+    keyframelist.AddKeyframe(50,10,-2,3,1,2);
+    keyframelist.AddKeyframe(60,10,-1,3,1,-3);
+    keyframelist.AddKeyframe(200,-10,-2,0,1,2);
+    //console.log("keyframes:", this.keyframelist.keyframes);
+    }
 }
 
 

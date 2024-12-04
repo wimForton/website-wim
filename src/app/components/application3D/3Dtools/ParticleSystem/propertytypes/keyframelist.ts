@@ -115,7 +115,8 @@ export class KeyframeList{
         for (let index = 0; index < this.keyframes.length - 1; index++) {
             const thiskeyframe = this.keyframes[index];
             const nextkeyframe = this.keyframes[index + 1];
-            if(t > thiskeyframe.position && t < nextkeyframe.position){
+            if(t >= thiskeyframe.position && t <= nextkeyframe.position){
+
                 let a: Vector3D = new Vector3D(thiskeyframe.position, thiskeyframe.value);
                 let b: Vector3D = new Vector3D(thiskeyframe.handlerightX, thiskeyframe.handlerightY);
                 let c: Vector3D = new Vector3D(nextkeyframe.handleleftX, nextkeyframe.handleleftY);
@@ -141,6 +142,9 @@ export class KeyframeList{
                 let nval = this.calculateVal.getValueAtTime(cpax, cpay, cpbx, cpby, timeNormalized);
                 ////////////////////////unnormalize
                 rval = nval * scaley + a.y;
+                if(t == thiskeyframe.position){rval == thiskeyframe.value;}
+                if(t == nextkeyframe.position){rval == nextkeyframe.value;}
+
             }
         }
         return rval;
