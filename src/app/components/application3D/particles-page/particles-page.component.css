@@ -9,8 +9,10 @@ body {
 
 /* Style the header */
 header {
-  background-color: rgb(70, 68, 57);
-  color: rgb(164, 189, 229);
+  background-color: rgb(14, 27, 43);
+  background-image: url(/textures/carina.png);
+  background-repeat: no-repeat;
+  color: rgb(255, 255, 255);
   padding: 30px;
   text-align: left;
   font-size: 35px;

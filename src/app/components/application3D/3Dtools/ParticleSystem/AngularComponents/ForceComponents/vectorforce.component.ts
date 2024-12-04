@@ -30,7 +30,7 @@ import { VectorForce } from '../../forces/VectorForce';
     MatTabsModule,
     CommonModule,
   ],
-  templateUrl: './bounceforce.component.html',
+  templateUrl: './vectorforce.component.html',
   styleUrl: './../propertystyle.css'
 })
 export class VectorForceComponent implements AfterViewInit {
