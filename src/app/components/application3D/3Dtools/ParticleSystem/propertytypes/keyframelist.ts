@@ -35,7 +35,7 @@ export class KeyframeList{
 
     constructor() {
 
-        //this.AddKeyframe(0.0, 0.0, -5, 0, 0.5, 0);
+        this.AddKeyframe(0.0, 0.0, -0.5, 0, 0.5, 0);
         //this.AddKeyframe(0.4, 0.21);
         //this.AddKeyframe(0.65, 0.1);
         //this.AddKeyframe(0.9, 0.8);
@@ -47,26 +47,45 @@ export class KeyframeList{
 
     }
     public AddKeyframe(pos: number = 0, val: number = 0, leftX: number = 0.1, leftY: number = 0, rightX: number = -0.1, rightY: number = 0){
-        let mkey: KeyFrame = new KeyFrame(pos, val, leftX, leftY, rightX, rightY);
-        this.keyframes.push(mkey);
-   
-        //sort by position
-        function compareFunction(a:KeyFrame,b:KeyFrame){
-            if(a.position > b.position)
-            return 1;
-            else
-            return -1;
+        let closekeyindex = this.FindKeyIndexInRange(pos,1);
+        if(closekeyindex == -1){
+            let mkey: KeyFrame = new KeyFrame(pos, val, leftX, leftY, rightX, rightY);
+            this.keyframes.push(mkey);
+       
+            //sort by position
+            function compareFunction(a:KeyFrame,b:KeyFrame){
+                if(a.position > b.position)
+                return 1;
+                else
+                return -1;
+            }
+            this.keyframes.sort(compareFunction);
+    
+            //remove duplicates///Problem?
+            const key = 'position';
+            this.keyframes = [...new Map( this.keyframes.map(item =>
+            [item[key], item])).values()];
+        }else{
+            this.keyframes[closekeyindex].value = val;
         }
-        this.keyframes.sort(compareFunction);
-
-        //remove duplicates///Problem?
-        const key = 'position';
-        this.keyframes = [...new Map( this.keyframes.map(item =>
-        [item[key], item])).values()];
 /*
         this.ClampHandles();
         this.CreateConnections();
         */
+    }
+
+    private FindKeyIndexInRange(position: number, range: number): number{
+        let resultindex = -1;
+        let closest = 10000000;
+        for (let index = 0; index < this.keyframes.length; index++) {
+            const pos = this.keyframes[index].position;
+            const dist = Math.abs(position - pos);
+            if(closest > dist && dist < range){
+                closest = dist;
+                resultindex = index;
+            }
+        }
+        return resultindex;
     }
 
     private ClampHandles(){

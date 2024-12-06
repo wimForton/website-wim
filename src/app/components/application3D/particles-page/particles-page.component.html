@@ -5,8 +5,11 @@
 </head>
 <div class="pagecontainer">
   <header>
+    <div class="title">
 
-    Particles
+      Particle FX
+      <p>desktop app</p>
+    </div>
     <button class="smallbuttonmenu" (click)="InitParticles()">new</button>
     <button class="smallbuttonmenu" [matMenuTriggerFor]="menu">presets</button>
     <mat-menu #menu="matMenu">
@@ -39,6 +42,17 @@
         </div>
         <div class="left" id="container" #viewportcontainer>
   
+        </div>
+        <div class="animcurve">
+          <div class="decorationborder">
+            <p>Animation Curves go here</p>
+            <div *ngFor="let particlesystem of particleSystems">
+              <div *ngFor="let emitClass of particlesystem.emitClasses">
+                <app-parameters [parameters]="emitClass.parameters"></app-parameters>
+              </div>
+            </div>
+          </div>
+          <!-- <app-curveeditor></app-curveeditor> -->
         </div>
       </div>
 
@@ -92,9 +106,10 @@
               <div *ngFor="let item of particlesystem.forceClasses">
                 <mat-expansion-panel [expanded]="panelOpenIndex">
                   <mat-expansion-panel-header>
-                    <mat-panel-title style="overflow:hidden; border-radius: 6px;">{{item.name}}  <div class="smallbutton" (click)="RemoveForce(item, particlesystem)">remove</div></mat-panel-title>
+                    <mat-panel-title style="overflow:hidden; border-radius: 6px;">{{item.name}}  </mat-panel-title>
                   </mat-expansion-panel-header>
                   <app-panelselector [component]="item.name" [forceinstance]="item"></app-panelselector>
+                  <div class="smallbutton" (click)="RemoveForce(item, particlesystem)">remove</div>
                 </mat-expansion-panel>
               </div>
             </mat-accordion>

@@ -7,6 +7,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import { CurveViewport } from './CurveViewport';
+import { KeyframeList } from '../../3Dtools/ParticleSystem/propertytypes/keyframelist';
 
 @Component({
   selector: 'app-curveeditor',
@@ -20,7 +21,7 @@ import { CurveViewport } from './CurveViewport';
     MatSliderModule
   ],
   templateUrl: './curveeditor.component.html',
-  styleUrl: './curveeditor.component.css'
+  styleUrl: './curveeditor.component.css',
 })
 export class CurveeditorComponent implements AfterViewInit, AfterViewChecked, OnChanges, AfterContentInit, DoCheck  {
 
@@ -35,6 +36,8 @@ export class CurveeditorComponent implements AfterViewInit, AfterViewChecked, On
 
   public sl1 = { disabled: false, min: 0, max: 200, showTicks: true, step: 1, thumbLabel: true, label: "Time" };
   public sl2 = { disabled: false, min: -20, max: 20, showTicks: true, step: 0.001, thumbLabel: true, label: "Value" };
+
+
 
   ngAfterViewInit(): void {
     //setTimeout(this.startGraphic, 500);
@@ -51,8 +54,14 @@ export class CurveeditorComponent implements AfterViewInit, AfterViewChecked, On
   }
 
   public onValueChange(event: Event){
+    this.value = +((event.target as HTMLInputElement).value);
+    this.viewport.SetValueAutoKey(this.value);
     //this.value = this.viewport.getValueAtTime();
     //this.viewport.setTime(+((event.target as HTMLInputElement).value));
+  }
+
+  public LoadCurve(keyframelist: KeyframeList){
+    this.viewport.LoadCurve(keyframelist);
   }
 
   ngDoCheck(){

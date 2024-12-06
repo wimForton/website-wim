@@ -20,6 +20,9 @@ import { Load, Save } from '../3Dtools/ParticleSystem/LoadSave/LoadSave';
 import { ForceClassNames } from '../3Dtools/ParticleSystem/forces/AddForceClasses';
 import { HelpDialog } from './helpdialog/helpdialog.component';
 import { IForceClass } from '../3Dtools/ParticleSystem/forces/IForceClass';
+import { ParametersComponent } from './parameters/parameters.component';
+import { CurveeditorComponent } from '../UI/curveeditor/curveeditor.component';
+import { CurveViewport } from '../UI/curveeditor/CurveViewport';
 declare var require: any;
 
 
@@ -45,6 +48,8 @@ declare var require: any;
     MatDialogModule,
     CommonModule,
     PanelSelectorComponent,
+    ParametersComponent,
+    //CurveeditorComponent
   ],
   templateUrl: './particles-page.component.html',
   styleUrl: './particles-page.component.css',
@@ -70,6 +75,11 @@ export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck
   private lastchange = 0;
   public time = 0;
   public sl1 = { disabled: false, min: 0, max: 200, showTicks: true, step: 1, thumbLabel: true, label: "Time" };
+
+
+  constructor() {
+    
+  }
 
   ngAfterViewInit(): void {
     var container: HTMLElement = this.viewportcontainer.nativeElement;

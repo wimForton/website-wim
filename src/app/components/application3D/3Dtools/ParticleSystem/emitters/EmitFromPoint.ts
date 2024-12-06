@@ -3,9 +3,8 @@ import { MinMaxRandomize, MinMaxRandomizeArray } from "../../Utils/particleUtils
 import { Particle } from "../Particle";
 import { ParticleSystem } from "../ParticleSystem";
 import { KeyframeList } from "../propertytypes/keyframelist";
+import { Parameter } from "../propertytypes/parameter";
 import { IEmitClass } from "./IEmitClass";
-
-
 
 
 
@@ -13,12 +12,31 @@ export class EmitFromPoint implements IEmitClass{
   public name = "Emit From Point";
   public sliders: Slider[] = [];
 
+  public parameters: Parameter[] = [];
+
   public transforms: KeyframeList[] = [];
   private emitposx: KeyframeList = new KeyframeList();
   private emitposy: KeyframeList = new KeyframeList();
   private emitposz: KeyframeList = new KeyframeList();
 
   constructor() {
+
+    /////test param object
+    let bool = new Parameter(true, "bool");
+    let num = new Parameter(20, "nummerke");
+    let keylist = new Parameter(new KeyframeList(), "lijst");
+
+    this.parameters.push(bool);
+    this.parameters.push(num);
+    this.parameters.push(keylist);
+    this.parameters.push(bool);
+    this.parameters.push(num);
+    this.parameters.push(keylist);
+
+    for (let index = 0; index < this.parameters.length; index++) {
+      console.log(this.parameters[index].type);
+    }
+
     this.CreateTestCurve(this.emitposx);
     this.transforms.push(this.emitposx);
     this.transforms.push(this.emitposy);

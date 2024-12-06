@@ -1,0 +1,10 @@
+<p>parameters:</p>
+<div *ngFor="let parameter of parameters">
+    <div [ngSwitch]="parameter.type">
+        <app-slider *ngSwitchCase="'keyframelist'" [parameter]="parameter"></app-slider>
+        <app-checkbox *ngSwitchCase="'boolean'" [parameter]="parameter"></app-checkbox>
+        <app-fixnumber *ngSwitchCase="'number'" [parameter]="parameter"></app-fixnumber>
+  
+    </div>
+  
+  </div>

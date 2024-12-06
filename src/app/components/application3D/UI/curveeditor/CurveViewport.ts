@@ -6,7 +6,7 @@ import { KeyframeList } from '../../3Dtools/ParticleSystem/propertytypes/keyfram
 import CubicBezier from './cubic-bezier-easing';
 import { CurveSegment } from './CurveSegment';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
-
+import { Inject, Injectable } from '@angular/core';
 
 export class CurveViewport {
   private keyframelist: KeyframeList = new KeyframeList();
@@ -176,6 +176,12 @@ export class CurveViewport {
     console.log("keyframes:", this.keyframelist.keyframes);
   }
 
+  public LoadCurve(keyframelist: KeyframeList){
+    this.keyframelist = keyframelist;
+    this.keyframeListToCurve();
+    this.UpdateCursor();
+  }
+
   public setTime(time: number){
     this.time = time;
     this.UpdateCursor();
@@ -188,6 +194,7 @@ export class CurveViewport {
   public SetValueAutoKey( value: any ) {
     this.keyframelist.AddKeyframe(this.time,value,-1,0,+1,0);
     this.keyframeListToCurve();
+    this.UpdateCursor();
   }
 
   keyframeListToCurve(){
