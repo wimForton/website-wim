@@ -8,6 +8,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import { CurveViewport } from './CurveViewport';
 import { KeyframeList } from '../../3Dtools/ParticleSystem/propertytypes/keyframelist';
+import { CurveViewportService } from './CurveViewportService';
 
 @Component({
   selector: 'app-curveeditor',
@@ -30,14 +31,16 @@ export class CurveeditorComponent implements AfterViewInit, AfterViewChecked, On
   @Input() changedetector: number = 0;
   private lastchange = 0;
   private container?: HTMLElement;
-  private viewport!: CurveViewport;
+  //private viewport!: CurveViewport;
   public time = 0;
   public value = 0;
 
   public sl1 = { disabled: false, min: 0, max: 200, showTicks: true, step: 1, thumbLabel: true, label: "Time" };
   public sl2 = { disabled: false, min: -20, max: 20, showTicks: true, step: 0.001, thumbLabel: true, label: "Value" };
 
-
+  constructor(private viewport: CurveViewportService) {
+    
+  }
 
   ngAfterViewInit(): void {
     //setTimeout(this.startGraphic, 500);
@@ -88,7 +91,7 @@ export class CurveeditorComponent implements AfterViewInit, AfterViewChecked, On
   }
   startGraphic(){
     this.container = this.curvecontainer.nativeElement;
-    this.viewport = new CurveViewport(this.container);
+    this.viewport.Create(this.container);
   }
 
 }
