@@ -25,34 +25,29 @@
   <div class="midsection">
     <section>
       <div>
-        <div style="padding-top: 5px; background-color: rgb(48, 38, 38);">
-          <mat-form-field class="example-margin example-width" style="width: 100px; padding: 0px; padding-right: 5px; margin-top: 8px;" (input)="onTimeChange($event)">
-              <mat-label>{{sl1.label}}</mat-label>
-              <input matInput type="number" [(ngModel)]="time">
-            </mat-form-field>
-          <mat-slider class="example-margin mat-body-small timeslider"
-              [disabled]="sl1.disabled"
-              [max]="sl1.max"
-              [min]="sl1.min"
-              [step]="sl1.step"
-              [showTickMarks]="sl1.showTicks"
-              [discrete]="sl1.thumbLabel">
-          <input matSliderThumb [(ngModel)]="time" #slider (input)="onTimeChange($event)">
-          </mat-slider>
-        </div>
+
         <div class="left" id="container" #viewportcontainer>
   
         </div>
         <div class="animcurve">
           <div class="decorationborder">
-            <p>Animation Curves go here</p>
-            <div *ngFor="let particlesystem of particleSystems">
-              <div *ngFor="let emitClass of particlesystem.emitClasses">
-                <app-parameters [parameters]="emitClass.parameters"></app-parameters>
-              </div>
+            <div style="padding-top: 5px; background-color: rgb(48, 38, 38);">
+              <mat-form-field class="example-margin example-width" style="width: 100px; padding: 0px; padding-right: 5px; margin-top: 8px;" (input)="onTimeChange($event)">
+                  <mat-label>{{sl1.label}}</mat-label>
+                  <input matInput type="number" [(ngModel)]="time">
+                </mat-form-field>
+              <mat-slider class="example-margin mat-body-small timeslider"
+                  [disabled]="sl1.disabled"
+                  [max]="sl1.max"
+                  [min]="sl1.min"
+                  [step]="sl1.step"
+                  [showTickMarks]="sl1.showTicks"
+                  [discrete]="sl1.thumbLabel">
+              <input matSliderThumb [(ngModel)]="time" #slider (input)="onTimeChange($event)">
+              </mat-slider>
             </div>
           </div>
-          <!-- <app-curveeditor></app-curveeditor> -->
+          <app-curveeditor></app-curveeditor>
         </div>
       </div>
 
@@ -71,25 +66,16 @@
               </p>
             </div>
             <mat-accordion mutli="false">
-              <div *ngFor="let item of particlesystem.emittersParameters">
+              <div *ngFor="let emitClass of particlesystem.emitClasses">
                 <mat-expansion-panel>
                   <mat-expansion-panel-header>
-                    <mat-panel-title>{{item.name}}</mat-panel-title>
+                    <mat-panel-title>{{emitClass.name}}</mat-panel-title>
                   </mat-expansion-panel-header>
-                  <div *ngFor="let slider of item.sliders">
-                    <mat-form-field appearance="outline" style="width: 100px; padding: 0px" (input)="slider.onInputChange($event)">
-                      <mat-label>{{slider.label}}</mat-label>
-                      <input matInput type="number" [(ngModel)]="slider.value">
-                    </mat-form-field>
-                    <mat-slider class="example-margin mat-body-small"
-                                [disabled]="slider.disabled"
-                                [max]="slider.max"
-                                [min]="slider.min"
-                                [step]="slider.step"
-                                [discrete]="slider.thumbLabel">
-                      <input matSliderThumb [(ngModel)]="slider.value" #slider (input)="slider.onInputChange($event)">
-                    </mat-slider>
-                  </div>
+                  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+                    <mat-tab label="parameters"><app-parameters [time] = "time" [parameters]="emitClass.parameters"></app-parameters></mat-tab>
+                    <mat-tab label="transforms"><app-parameters [time] = "time" [parameters]="emitClass.transforms"></app-parameters></mat-tab>
+                  </mat-tab-group>
+                  
                 </mat-expansion-panel>
               </div>
               <div class="controllers-title">

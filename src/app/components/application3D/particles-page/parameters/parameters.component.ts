@@ -44,7 +44,7 @@ import { FixnumberComponent } from "./parametertypes/fixnumber.component";
 export class ParametersComponent implements AfterViewInit {
   @Input() parameters?: Parameter[];
   public param!: Parameter[];
-
+  @Input() time = 0;
 
 
 

@@ -1,3 +1,4 @@
+import { EventEmitter } from "@angular/core";
 import { Slider } from "../../UiComponentData/Slider";
 import { EmitFromPoint } from "./emitters/EmitFromPoint";
 import { IEmitClass } from "./emitters/IEmitClass";

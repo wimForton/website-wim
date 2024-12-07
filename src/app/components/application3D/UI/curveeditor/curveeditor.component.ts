@@ -39,7 +39,11 @@ export class CurveeditorComponent implements AfterViewInit, AfterViewChecked, On
   public sl2 = { disabled: false, min: -20, max: 20, showTicks: true, step: 0.001, thumbLabel: true, label: "Value" };
 
   constructor(private viewport: CurveViewportService) {
-    
+    viewport.timechanged$.subscribe(item => this.onTimeChanged(item));
+  }
+
+  onTimeChanged(time: number){
+    this.value = this.viewport.getValueAtTime();
   }
 
   ngAfterViewInit(): void {
@@ -51,10 +55,10 @@ export class CurveeditorComponent implements AfterViewInit, AfterViewChecked, On
 
   }
 
-  public onTimeChange(event: Event){
-    this.viewport.setTime(+((event.target as HTMLInputElement).value));
-    this.value = this.viewport.getValueAtTime();
-  }
+  // public onTimeChange(event: Event){
+  //   this.viewport.setTime(+((event.target as HTMLInputElement).value));
+  //   this.value = this.viewport.getValueAtTime();
+  // }
 
   public onValueChange(event: Event){
     this.value = +((event.target as HTMLInputElement).value);
@@ -64,7 +68,7 @@ export class CurveeditorComponent implements AfterViewInit, AfterViewChecked, On
   }
 
   public LoadCurve(keyframelist: KeyframeList){
-    this.viewport.LoadCurve(keyframelist);
+    this.viewport.LoadKeyframeList(keyframelist);
   }
 
   ngDoCheck(){

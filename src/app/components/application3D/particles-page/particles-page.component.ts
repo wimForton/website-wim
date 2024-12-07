@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, model, inject, OnChanges, DoCheck, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, model, inject, OnChanges, DoCheck, Input, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MatSliderModule } from '@angular/material/slider';
@@ -23,6 +23,7 @@ import { IForceClass } from '../3Dtools/ParticleSystem/forces/IForceClass';
 import { ParametersComponent } from './parameters/parameters.component';
 import { CurveeditorComponent } from '../UI/curveeditor/curveeditor.component';
 import { CurveViewport } from '../UI/curveeditor/CurveViewport';
+import { CurveViewportService } from '../UI/curveeditor/CurveViewportService';
 declare var require: any;
 
 
@@ -49,7 +50,7 @@ declare var require: any;
     CommonModule,
     PanelSelectorComponent,
     ParametersComponent,
-    //CurveeditorComponent
+    CurveeditorComponent
   ],
   templateUrl: './particles-page.component.html',
   styleUrl: './particles-page.component.css',
@@ -68,6 +69,7 @@ export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck
   //private loadsave = LoadSave.instance;
   public particleSystems: Array<ParticleSystem> = new Array<ParticleSystem>();
 
+
   readonly dialog = inject(MatDialog);
   @ViewChild('viewportcontainer', { read: ElementRef, static:false })//@ViewChild('viewportcontainer', { read: ElementRef })
   viewportcontainer!: ElementRef;
@@ -77,8 +79,12 @@ export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck
   public sl1 = { disabled: false, min: 0, max: 200, showTicks: true, step: 1, thumbLabel: true, label: "Time" };
 
 
-  constructor() {
-    
+  constructor(private curveviewport: CurveViewportService) {
+    curveviewport.timechanged$.subscribe(item => this.onTimeChanged(item));
+  }
+
+  onTimeChanged(time: number){
+
   }
 
   ngAfterViewInit(): void {
@@ -113,8 +119,10 @@ export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck
   }
 
   onTimeChange(event: Event){
+    this.time = +((event.target as HTMLInputElement).value);
+    this.curveviewport.setTime(this.time);
     for (let index = 0; index < this.particleSystems.length; index++) {
-      this.particleSystems[index].setTime(+((event.target as HTMLInputElement).value));
+      this.particleSystems[index].setTime(this.time);
       
     }
   }

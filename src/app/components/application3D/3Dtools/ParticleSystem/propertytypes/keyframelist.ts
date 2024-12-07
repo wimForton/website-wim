@@ -32,10 +32,11 @@ export class KeyframeList{
     public keyframes: KeyFrame[] = [];
     public connections: Connection[] = [];
     private calculateVal: CubicBezier = new CubicBezier();
+    public name = "unnamed curve";
 
-    constructor() {
-
-        this.AddKeyframe(0.0, 0.0, -0.5, 0, 0.5, 0);
+    constructor(value: number = 0, name = "unnamed") {
+        this.name = name;
+        this.AddKeyframe(0.0, value, -0.5, 0, 0.5, 0);
         //this.AddKeyframe(0.4, 0.21);
         //this.AddKeyframe(0.65, 0.1);
         //this.AddKeyframe(0.9, 0.8);
@@ -131,42 +132,64 @@ export class KeyframeList{
     }
     public getValueAtTime(t: number): number{
         let rval = 0;
-        for (let index = 0; index < this.keyframes.length - 1; index++) {
-            const thiskeyframe = this.keyframes[index];
-            const nextkeyframe = this.keyframes[index + 1];
-            if(t >= thiskeyframe.position && t <= nextkeyframe.position){
-
-                let a: Vector3D = new Vector3D(thiskeyframe.position, thiskeyframe.value);
-                let b: Vector3D = new Vector3D(thiskeyframe.handlerightX, thiskeyframe.handlerightY);
-                let c: Vector3D = new Vector3D(nextkeyframe.handleleftX, nextkeyframe.handleleftY);
-                let d: Vector3D = new Vector3D(nextkeyframe.position, nextkeyframe.value);
-                let time = t;
-                /////////////////////normalize
-                let offsetx = a.x;
-                let offsety = a.y;
-                let scalex = d.x - a.x;
-                let scaley = d.y - a.y;
-                if(scalex == 0)scalex = 0.000000000001;
-                if(scaley == 0)scaley = 0.000000000001;
-                //(move to origin), normalize scale
-                let timeNormalized = (t - a.x) / scalex;
-                // let cpax = (b.x - a.x) / scalex;
-                // let cpay = (b.y - a.y) / scaley;
-                // let cpbx = (c.x - a.x) / scalex;
-                // let cpby = (c.y - a.y) / scaley;
-                let cpax = (b.x) / scalex;
-                let cpay = (b.y) / scaley;
-                let cpbx = (c.x+d.x - a.x) / scalex;
-                let cpby = (c.y+d.y - a.y) / scaley;
-                let nval = this.calculateVal.getValueAtTime(cpax, cpay, cpbx, cpby, timeNormalized);
-                ////////////////////////unnormalize
-                rval = nval * scaley + a.y;
-                if(t == thiskeyframe.position){rval == thiskeyframe.value;}
-                if(t == nextkeyframe.position){rval == nextkeyframe.value;}
-
+        if(this.keyframes.length == 1){
+            rval = this.keyframes[0].value;
+        }else{
+            for (let index = 0; index < this.keyframes.length - 1; index++) {
+                const thiskeyframe = this.keyframes[index];
+                const nextkeyframe = this.keyframes[index + 1];
+                if(t >= thiskeyframe.position && t <= nextkeyframe.position){
+    
+                    let a: Vector3D = new Vector3D(thiskeyframe.position, thiskeyframe.value);
+                    let b: Vector3D = new Vector3D(thiskeyframe.handlerightX, thiskeyframe.handlerightY);
+                    let c: Vector3D = new Vector3D(nextkeyframe.handleleftX, nextkeyframe.handleleftY);
+                    let d: Vector3D = new Vector3D(nextkeyframe.position, nextkeyframe.value);
+                    let time = t;
+                    /////////////////////normalize
+                    let offsetx = a.x;
+                    let offsety = a.y;
+                    let scalex = d.x - a.x;
+                    let scaley = d.y - a.y;
+                    if(scalex == 0)scalex = 0.000000000001;
+                    if(scaley == 0)scaley = 0.000000000001;
+                    //(move to origin), normalize scale
+                    let timeNormalized = (t - a.x) / scalex;
+                    // let cpax = (b.x - a.x) / scalex;
+                    // let cpay = (b.y - a.y) / scaley;
+                    // let cpbx = (c.x - a.x) / scalex;
+                    // let cpby = (c.y - a.y) / scaley;
+                    let cpax = (b.x) / scalex;
+                    let cpay = (b.y) / scaley;
+                    let cpbx = (c.x+d.x - a.x) / scalex;
+                    let cpby = (c.y+d.y - a.y) / scaley;
+                    let nval = this.calculateVal.getValueAtTime(cpax, cpay, cpbx, cpby, timeNormalized);
+                    ////////////////////////unnormalize
+                    rval = nval * scaley + a.y;
+                    if(t == thiskeyframe.position){rval == thiskeyframe.value;}
+                    if(t == nextkeyframe.position){rval == nextkeyframe.value;}
+                }
             }
+
         }
-        return rval;
+
+        return +rval.toFixed(6);
+    }
+    public getBoundingBox(): number[]{
+        let result: number[] = [];
+        let xmin = this.keyframes[0].position;
+        let xmax = this.keyframes[this.keyframes.length - 1].position;
+        let ymin = this.keyframes[0].value;
+        let ymax = this.keyframes[0].value;
+        for (let index = 0; index < this.keyframes.length; index++) {
+            const key = this.keyframes[index];
+            if(key.value < ymin)ymin = key.value;
+            if(key.handleleftY + key.value < ymin)ymin = key.handleleftY + key.value;
+            if(key.handlerightY + key.value < ymin)ymin = key.handlerightY + key.value;
+            if(key.value > ymax)ymax = key.value;
+            if(key.handleleftY + key.value > ymax)ymax = key.handleleftY + key.value;
+            if(key.handlerightY + key.value > ymax)ymax = key.handlerightY + key.value;
+        }
+        return [xmin, ymin,  xmax, ymax];
     }
 
 }

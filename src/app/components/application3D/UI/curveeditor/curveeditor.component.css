@@ -10,12 +10,18 @@
     margin-right: auto;
     width: 80%;
 }
+
+.curvesbackground{
+  padding: 10px;
+  background-color: rgb(199, 193, 172);
+}
 .curvescontainer{
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 10px;
     min-height: 200px;
     height: 300px;
-    width: 80%;
+    width: 100%;
 }
 
 .timeslider {

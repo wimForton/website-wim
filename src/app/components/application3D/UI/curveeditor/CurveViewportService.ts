@@ -6,7 +6,7 @@ import { KeyframeList } from '../../3Dtools/ParticleSystem/propertytypes/keyfram
 import CubicBezier from './cubic-bezier-easing';
 import { CurveSegment } from './CurveSegment';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
-import { Inject, Injectable } from '@angular/core';
+import { EventEmitter, Inject, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +30,7 @@ export class CurveViewportService {
   private curve: THREE.CubicBezierCurve3 = new THREE.CubicBezierCurve3;
   private bgbox!: THREE.Mesh;
   private text!: HTMLDivElement;
+  private orbitcontrols!: OrbitControls;
 
 
   private curvesegments: CurveSegment[] = [];
@@ -46,8 +47,14 @@ export class CurveViewportService {
 
   //private curvecontrolboxes: THREE.Mesh[] = [];
   private curveobject: THREE.Line = new THREE.Line;
+  public timechanged$: EventEmitter<number>;
 
-
+/**
+ *
+ */
+  constructor() {
+    this.timechanged$ = new EventEmitter();
+  }
 
   public Create(container: HTMLElement, keyframelist?: KeyframeList) {
 
@@ -84,20 +91,20 @@ export class CurveViewportService {
 
     /////////Orbit
     // Controls
-    const orbitcontrols: OrbitControls = new OrbitControls( this.camera, this.renderer.domElement );
-    orbitcontrols.enableRotate = false;
-    orbitcontrols.zoomToCursor = true;
-    //controls.damping = 0.2;
-    orbitcontrols.addEventListener( 'change', this.render );
+    this.orbitcontrols = new OrbitControls( this.camera, this.renderer.domElement );
+    this.orbitcontrols.enableRotate = false;
+    this.orbitcontrols.zoomToCursor = true;
+    this.orbitcontrols.addEventListener( 'change', this.render );
+
     
     ////////Transform
     this.transformControl = new TransformControls( this.camera, this.renderer.domElement );
     this.transformControl.showZ = false;
     //this.transformControl.setTranslationSnap(1);
-    this.transformControl.setSize(0.75);
+    this.transformControl.setSize(1);
     this.transformControl.addEventListener( 'change', this.render );
     this.transformControl.addEventListener( 'dragging-changed', function ( event ) {
-      orbitcontrols.enabled = ! event.value;
+      //orbitcontrols.enabled = ! event.value;
     } );
     this.transformControl.addEventListener( 'objectChange', function (this: any) {
       this.UpdateCurves();
@@ -143,10 +150,10 @@ export class CurveViewportService {
     //label.position.z = 1;
     this.curveCursor.add( label );
 
-    document.addEventListener( 'pointerdown', this.onPointerDown.bind(this) );
-    document.addEventListener( 'pointerup', this.onPointerUp.bind(this) );
-    document.addEventListener( 'pointermove', this.onPointerMove.bind(this) );
-    document.addEventListener( 'dblclick', this.onDblClick.bind(this) );
+    this.container.addEventListener( 'pointerdown', this.onPointerDown.bind(this) );
+    this.container.addEventListener( 'pointerup', this.onPointerUp.bind(this) );
+    this.container.addEventListener( 'pointermove', this.onPointerMove.bind(this) );
+    this.container.addEventListener( 'dblclick', this.onDblClick.bind(this) );
 
     window.addEventListener('resize', () => {
       this.ContainerBBox = this.container.getBoundingClientRect();
@@ -157,11 +164,24 @@ export class CurveViewportService {
       this.containerProps.height = this.ContainerBBox.height;
 
       const aspect = this.containerProps.width / this.containerProps.height;//window.devicePixelRatio;//window.innerWidth / window.innerHeight;
-      this.camera.left = - this.frustumSize * aspect / 2;
-      this.camera.right = this.frustumSize * aspect / 2;
+
+      let firstkeyX = this.keyframelist.keyframes[0].position;
+      let lastkeyX = this.keyframelist.keyframes[this.keyframelist.keyframes.length - 1].position;
+      let centerx = (lastkeyX - firstkeyX) * 0.5 + firstkeyX;
+  
+      this.camera.left = firstkeyX - 5;
+      this.camera.right = lastkeyX + 5;
+      this.camera.position.x = firstkeyX - 3;
+      this.camera.lookAt(new THREE.Vector3(this.camera.position.x, this.camera.position.y, 0));
       this.camera.top = this.frustumSize / 2;
       this.camera.bottom = - this.frustumSize / 2;
       this.camera.updateProjectionMatrix();
+      this.orbitcontrols.reset();
+
+      // this.camera.left = - this.frustumSize * aspect / 2;
+      // this.camera.right = this.frustumSize * aspect / 2;
+      // this.camera.top = this.frustumSize / 2;
+      // this.camera.bottom = - this.frustumSize / 2;
       this.labelRenderer.domElement.style.top = this.containerProps.y + 'px';
       this.labelRenderer.setSize(this.containerProps.width, this.containerProps.height);
       this.renderer.setSize(this.containerProps.width, this.containerProps.height);
@@ -174,25 +194,25 @@ export class CurveViewportService {
   }
 
   CreateTestCurve(){
-    this.keyframelist.AddKeyframe(0,0,-1,2,1,6);
-    this.keyframelist.AddKeyframe(20,10,-2,6,1,2);
-    this.keyframelist.AddKeyframe(30,5,-2,2,1,2);
-    this.keyframelist.AddKeyframe(40,10,-2,2,1,2);
-    this.keyframelist.AddKeyframe(50,10,-2,3,1,2);
-    this.keyframelist.AddKeyframe(60,10,-1,3,1,-3);
-    this.keyframelist.AddKeyframe(70,10,-2,0,1,2);
-    console.log("keyframes:", this.keyframelist.keyframes);
+    this.keyframelist.AddKeyframe(0,0,-1,0,1,0);
   }
 
-  public LoadCurve(keyframelist: KeyframeList){
+  public LoadKeyframeList(keyframelist: KeyframeList){
     this.keyframelist = keyframelist;
     this.keyframeListToCurve();
     this.UpdateCursor();
+    this.timechanged$.emit(this.time);
+    this.reset();
   }
 
   public setTime(time: number){
     this.time = time;
     this.UpdateCursor();
+    this.timechanged$.emit(time);
+  }
+
+  public getTime(): number{
+    return this.time;
   }
 
   public getValueAtTime(): number{
@@ -202,7 +222,9 @@ export class CurveViewportService {
   public SetValueAutoKey( value: any ) {
     this.keyframelist.AddKeyframe(this.time,value,-1,0,+1,0);
     this.keyframeListToCurve();
+    this.UpdateCurves();
     this.UpdateCursor();
+    this.timechanged$.emit(this.time);
   }
 
   keyframeListToCurve(){
@@ -240,6 +262,9 @@ export class CurveViewportService {
     }
     if(transformcontrolindex >= -1 && transformcontrolindex < this.splineHelperObjects.length){
       this.transformControl?.attach(this.splineHelperObjects[transformcontrolindex])
+    }
+    if(keyframes.length == 1){
+      ///todo
     }
   }
 
@@ -354,12 +379,29 @@ export class CurveViewportService {
     //this.containerProps.height = Math.max(window.innerHeight * 0.7, 200);
     this.containerProps.height = this.ContainerBBox.height;
 
-    const aspect = this.containerProps.width / this.containerProps.height;//window.devicePixelRatio;//window.innerWidth / window.innerHeight;
-    this.camera.left = - this.frustumSize * aspect / 2;
-    this.camera.right = this.frustumSize * aspect / 2;
-    this.camera.top = this.frustumSize / 2;
-    this.camera.bottom = - this.frustumSize / 2;
+    let bbox = this.keyframelist.getBoundingBox();
+    let firstkeyX = bbox[0];
+    let lastkeyX = bbox[2];
+    let minY = bbox[1];
+    let maxY = bbox[3];
+
+    let centerx = (lastkeyX - firstkeyX) * 0.5 + firstkeyX;
+
+    this.camera.left = firstkeyX - 5;
+    this.camera.right = lastkeyX + 5;
+    this.camera.position.x = firstkeyX;
+    this.camera.position.y = minY;
+    this.camera.lookAt(new THREE.Vector3(this.camera.position.x, this.camera.position.y, 0));
+    this.camera.top = maxY + 5;// this.frustumSize / 2;
+    this.camera.bottom = minY - 5;//- this.frustumSize / 2;
     this.camera.updateProjectionMatrix();
+    this.orbitcontrols.reset();
+    this.transformControl!.setSize((lastkeyX - firstkeyX) * 0.015);
+    // const aspect = this.containerProps.width / this.containerProps.height;//window.devicePixelRatio;//window.innerWidth / window.innerHeight;
+    // this.camera.left = - this.frustumSize * aspect / 2;
+    // this.camera.right = this.frustumSize * aspect / 2;
+    // this.camera.top = this.frustumSize / 2;
+    // this.camera.bottom = - this.frustumSize / 2;
     this.labelRenderer.setSize(this.containerProps.width, this.containerProps.height);
     this.labelRenderer.domElement.style.top = this.containerProps.y + 'px';
     this.renderer.setSize(this.containerProps.width, this.containerProps.height);

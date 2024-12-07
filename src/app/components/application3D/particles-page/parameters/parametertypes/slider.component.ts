@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, model, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, AfterViewChecked, model, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -12,6 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { Parameter } from '../../../3Dtools/ParticleSystem/propertytypes/parameter';
 import { KeyframeList } from '../../../3Dtools/ParticleSystem/propertytypes/keyframelist';
+import { CurveViewportService } from '../../../UI/curveeditor/CurveViewportService';
 
 
 
@@ -35,20 +36,38 @@ import { KeyframeList } from '../../../3Dtools/ParticleSystem/propertytypes/keyf
     styleUrl: './slider.component.css'
   })
 
-  export class SliderComponent implements AfterViewInit {
+  export class SliderComponent implements AfterViewInit, OnChanges {
     @Input() parameter?: Parameter;
     public param: Parameter = new Parameter(new KeyframeList());
     public value: number = 0;
   
-  
+    constructor(private viewport: CurveViewportService) {
+      viewport.timechanged$.subscribe(item => this.onTimeChanged(item));
+    }
   
     ngAfterViewInit(): void {
       this.param = this.parameter!;
     }
+
+    ngOnChanges(changes: SimpleChanges): void {
+      this.value = this.parameter?.getValueAtTime(this.viewport.getTime());
+    }
+
+    LoadKeyframelist(){
+      let keyframelist = this.param.getKeyframeList();
+      this.viewport.LoadKeyframeList(keyframelist);
+    }
+
+    onTimeChanged(time: number){
+      this.value = this.parameter?.getValueAtTime(this.viewport.getTime());
+    }
   
     public onInputChange(event: Event) {
+      let keyframelist = this.param.getKeyframeList();
+      this.viewport.LoadKeyframeList(keyframelist);
       this.value = +((event.target as HTMLInputElement).value);// + = string to number
       this.param!.setValue(this.value);
+      this.viewport.SetValueAutoKey(this.value);
     }
   
   

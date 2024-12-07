@@ -31,7 +31,7 @@ mat-panel-title {
 }
 
 .timeslider {
-  width: 90%;
+  width: 80%;
 }
 .smallbutton {
   border: 1px solid white;
@@ -103,8 +103,6 @@ header h2 {
 .decorationborder{
   margin-top: 2px;
   position: relative;
-  width: 98%;
-  left: 1%;
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;
@@ -115,7 +113,6 @@ header h2 {
   padding: 8px;
   width: 25%;
   max-width: 390px;
-  max-height: 800px;
   background-color: rgb(108, 104, 90);
   overflow-y: auto;
   /* height: 1000px;  only for demonstration, should be removed */

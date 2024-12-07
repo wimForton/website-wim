@@ -42,5 +42,8 @@ export class Parameter{
         if(this.type == "keyframelist") return this.keyframelist?.getValueAtTime(t);
         if(this.type == "number") return this.num;
     }
+    public getKeyframeList(): KeyframeList{
+        return this.keyframelist!;
+    }
 
   }
