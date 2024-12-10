@@ -2,6 +2,7 @@ import { Slider } from "../../../UiComponentData/Slider";
 import { noise } from "../../Utils/noise";
 import { Vector3D } from "../../Utils/Vector3D";
 import { Particle } from "../Particle";
+import { Parameter } from "../propertytypes/parameter";
 import { IForceClass } from "./IForceClass";
 
 
@@ -22,6 +23,9 @@ export class TurbulenceForce implements IForceClass {
   private noiseY?: noise;
   private noiseZ?: noise;
   private offsetMove = 0;
+  public parameters: Parameter[] = [];
+  public transforms: Parameter[] = [];
+
   constructor() {
     this.noiseX = new noise(20);
     this.noiseY = new noise(20);

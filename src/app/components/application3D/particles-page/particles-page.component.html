@@ -18,6 +18,7 @@
       <button mat-raised-button (click)="LoadParticles3()">preset 3</button>
       <button mat-raised-button (click)="LoadParticles4()">preset 4</button>
       <button mat-raised-button (click)="LoadParticles5()">preset 5</button>
+      <button mat-raised-button (click)="LoadParticles6()">testfile</button>
     </mat-menu>
     <button class="smallbuttonmenu" (click)="SaveParticles()">log preset</button>
     <button class="smallbuttonmenu" style="right: 20px; position: absolute;" (click)="openDialog()">?</button>
@@ -94,6 +95,10 @@
                   <mat-expansion-panel-header>
                     <mat-panel-title style="overflow:hidden; border-radius: 6px;">{{item.name}}  </mat-panel-title>
                   </mat-expansion-panel-header>
+                  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+                    <mat-tab label="parameters"><app-parameters [time] = "time" [parameters]="item.parameters"></app-parameters></mat-tab>
+                    <mat-tab label="transforms"><app-parameters [time] = "time" [parameters]="item.transforms"></app-parameters></mat-tab>
+                  </mat-tab-group>
                   <app-panelselector [component]="item.name" [forceinstance]="item"></app-panelselector>
                   <div class="smallbutton" (click)="RemoveForce(item, particlesystem)">remove</div>
                 </mat-expansion-panel>

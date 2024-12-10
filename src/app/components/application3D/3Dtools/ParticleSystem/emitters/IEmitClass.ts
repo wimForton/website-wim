@@ -9,5 +9,6 @@ export interface IEmitClass {
   parameters: Parameter[];
   transforms: Parameter[];
   emit(p: Particle, particleIndex: number, particlesystem: ParticleSystem): void;
-  getparameterstosave(): void;
+  getdata(): any;
+  setdata(data: any):void;
 }

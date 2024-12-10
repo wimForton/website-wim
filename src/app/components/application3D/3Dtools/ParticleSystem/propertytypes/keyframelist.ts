@@ -30,7 +30,6 @@ export class Connection{
 export class KeyframeList{
 
     public keyframes: KeyFrame[] = [];
-    public connections: Connection[] = [];
     private calculateVal: CubicBezier = new CubicBezier();
     public name = "unnamed curve";
 
@@ -43,10 +42,26 @@ export class KeyframeList{
         //this.RemoveKeyframe(0.65);
 
 
-        console.log("this.keyframes",this.keyframes);
+        //console.log("this.keyframes",this.keyframes);
 
 
     }
+
+    public getdata(): any {
+        let param = { name: this.name, keyframes: this.keyframes};
+        return param;
+    }
+
+    public setdata(name: string, keyframes: KeyFrame[]){
+        this.name = name;
+        for (let index = 0; index < keyframes.length; index++) {
+            const k = keyframes[index];
+            this.AddKeyframe(k.position, k.value, k.handleleftX, k.handleleftY, k.handlerightX, k.handlerightY);
+        }
+    }
+
+
+
     public AddKeyframe(pos: number = 0, val: number = 0, leftX: number = 0.1, leftY: number = 0, rightX: number = -0.1, rightY: number = 0){
         let closekeyindex = this.FindKeyIndexInRange(pos,1);
         if(closekeyindex == -1){
@@ -66,13 +81,32 @@ export class KeyframeList{
             const key = 'position';
             this.keyframes = [...new Map( this.keyframes.map(item =>
             [item[key], item])).values()];
+            this.AutoSetHandles(pos);
         }else{
             this.keyframes[closekeyindex].value = val;
         }
-/*
+
+/*      
         this.ClampHandles();
         this.CreateConnections();
         */
+    }
+
+    private AutoSetHandles(pos: number){
+
+        var index = this.keyframes.findIndex((obj) => obj.position === pos);
+        let thiskey = this.keyframes[index];
+        if(index > 0){
+            let prevkey = this.keyframes[index - 1];
+            thiskey.handleleftX = (thiskey.position - prevkey.position) * -0.4;
+            prevkey.handlerightX = (thiskey.position - prevkey.position) * 0.4;
+        }
+        if(index < this.keyframes.length - 1){
+            let nextkey = this.keyframes[index + 1];
+            thiskey.handlerightX = (nextkey.position - thiskey.position) * 0.4;
+            nextkey.handleleftX = (nextkey.position - thiskey.position) * -0.4;
+        }
+
     }
 
     private FindKeyIndexInRange(position: number, range: number): number{

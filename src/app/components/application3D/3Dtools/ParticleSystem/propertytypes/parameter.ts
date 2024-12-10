@@ -46,4 +46,38 @@ export class Parameter{
         return this.keyframelist!;
     }
 
+    public getdata(): any {
+        let parameterdata: any;
+        if(this.type == "boolean") parameterdata = this.bool;
+        if(this.type == "keyframelist") parameterdata = this.keyframelist?.getdata();
+        if(this.type == "number") parameterdata = this.num;
+        let param = {type: this.type, name: this.name, parameter: parameterdata, slidersettings: this.slidersettings};
+        return param;
+    }
+    public setdata(data: any){
+        //console.log("paramsetdata: ", data);
+        
+        if(data.type == "boolean"){
+            this.type = data.type;
+            this.name = data.name;
+            this.bool = data.parameter;
+        }
+        if(data.type == "keyframelist"){
+            this.type = data.type;
+            this.name = data.name;
+            this.setSliderSettings(data.disabled, data.min, data.max = 10, data.showTicks, data.step, data.thumbLabel);
+            this.keyframelist = new KeyframeList();
+            for (let index = 0; index < data.parameter.keyframes.length; index++) {
+                const keydata = data.parameter.keyframes[index];
+                this.keyframelist.AddKeyframe(keydata.position, keydata.value, keydata.handleleftX, keydata.handleleftY, keydata.handlerightX, keydata.handlerightY);
+            }
+        }
+        if(data.type == "number"){
+            this.type = data.type;
+            this.name = data.name;
+            this.num = data.parameter;
+        }
+        //console.log("paramsetdata: ", this.getdata());
+    }
+
   }

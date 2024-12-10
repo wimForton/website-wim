@@ -1,5 +1,7 @@
 import { Viewport } from "../../Viewport/Viewport";
+import { emitclasses, EmitClassNames } from "../emitters/AddEmitClasses";
 import { EmitFromPoint } from "../emitters/EmitFromPoint";
+import { IEmitClass } from "../emitters/IEmitClass";
 import { BounceForce } from "../forces/BounceForce";
 import { DragForce } from "../forces/DragForce";
 import { IForceClass } from "../forces/IForceClass";
@@ -25,6 +27,22 @@ export function Load(particlesystems: ParticleSystem[], particleScenes: Particle
     
     let particlesystemdata = json[j];
     let particleSystem = new ParticleSystem(particlesystemdata.maxParticles);
+    //let emitclass = new EmitFromPoint();
+    //particleSystem.addEmitClass(emitclass);
+
+    for (let e = 0; e < particlesystemdata.emitters.length; e++){
+      let emitterdata = particlesystemdata.emitters[e];
+      type EmitClasKey = keyof typeof EmitClassNames;
+      
+      let key: EmitClasKey = emitterdata.name; 
+      let name: EmitClassNames;
+
+      let emitclass = new emitclasses[EmitClassNames[key]]();
+
+      emitclass.setdata(emitterdata);
+      particleSystem.addEmitClass(emitclass);
+      
+    } 
     for (let f = 0; f < particlesystemdata.forceparam.length; f++) {
       let forcedata = particlesystemdata.forceparam[f];
 
@@ -85,7 +103,7 @@ export function Load(particlesystems: ParticleSystem[], particleScenes: Particle
 
 export function Save(particleparametergroup: ParticleParameterGroup) {
 
-  const jsontest: string = JSON.stringify(particleparametergroup.getparameterstosave());
+  const jsontest: string = JSON.stringify(particleparametergroup.getdata());
   console.log("Jsonstring particleparametergroup :", jsontest);
   //const parameters: SaveParameters = new SaveParameters();
   //for (let i = 0; i < particlesystems.length; i++) {

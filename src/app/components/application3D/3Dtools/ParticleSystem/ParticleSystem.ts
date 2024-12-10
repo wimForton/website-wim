@@ -37,11 +37,12 @@ export class ParticleParameterGroup {
     this.particlesystems = particlesystems;
   }
 
-  getparameterstosave(): any {
+  getdata(): any {
     let particleparams: any[] = [];
     for (let p = 0; p < this.particlesystems.length; p++) {
-      particleparams.push(this.particlesystems[p].getparameterstosave());
+      particleparams.push(this.particlesystems[p].getdata());
     }
+
     return particleparams;
   }
 }
@@ -64,29 +65,29 @@ export class ParticleSystem {
     this.maxParticles = maxParticles;
     this.initParticles();
     
-    function addForceToArrays(this: ParticleSystem, force: IForceClass) {///this whole function becomes the function in FunctionWithTrigger
-      const controlParameters = new ControlParameters()
-      this.addForceClass(force);
-      controlParameters.name = force.name;
-      //controlParameters.sliders = force.sliders;
-      controlParameters.id = this.forcesParameters.length;
-      this.forcesParameters.push(controlParameters);
-    }
+    // function addForceToArrays(this: ParticleSystem, force: IForceClass) {///this whole function becomes the function in FunctionWithTrigger
+    //   const controlParameters = new ControlParameters()
+    //   this.addForceClass(force);
+    //   controlParameters.name = force.name;
+    //   //controlParameters.sliders = force.sliders;
+    //   controlParameters.id = this.forcesParameters.length;
+    //   this.forcesParameters.push(controlParameters);
+    // }
 
-    this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new VectorForce()), "Vector Force"));
-    this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new DragForce()), "Drag Force"));
-    this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new TurbulenceForce()), "Turbulence Force"));
-    this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new BounceForce()), "Bounce Force"));
-    this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new ScaleInOutForce()), "Scale In Out"));
+    // this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new VectorForce()), "Vector Force"));
+    // this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new DragForce()), "Drag Force"));
+    // this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new TurbulenceForce()), "Turbulence Force"));
+    // this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new BounceForce()), "Bounce Force"));
+    // this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new ScaleInOutForce()), "Scale In Out"));
     
-    this.addEmitClass(new EmitFromPoint());// todo: add this after creation
-    for (var i = 0; i < this.GetEmitClasses().length; i++) {
-      const controlParameters = new ControlParameters();
-      controlParameters.name = this.GetEmitClasses()[i].name;
-      controlParameters.sliders = this.GetEmitClasses()[i].sliders;
-      controlParameters.id = i;
-      this.emittersParameters.push(controlParameters);
-    }
+// todo: add this after creation
+    // for (var i = 0; i < this.GetEmitClasses().length; i++) {
+    //   const controlParameters = new ControlParameters();
+    //   controlParameters.name = this.GetEmitClasses()[i].name;
+    //   controlParameters.sliders = this.GetEmitClasses()[i].sliders;
+    //   controlParameters.id = i;
+    //   this.emittersParameters.push(controlParameters);
+    // }
   }
 
   public setTime(time: number){
@@ -112,14 +113,19 @@ export class ParticleSystem {
     }
   }
 
-  getparameterstosave(): any {
+  getdata(): any {
     let forceparam: any[] = [];
     for (let f = 0; f < this.GetForceClasses().length; f++) {
       forceparam.push(this.GetForceClasses()[f].getparameterstosave());
     }
-    let param = { name: this.name, maxParticles: this.maxParticles, forceparam: forceparam };
+    let emitters: any[] = [];
+    for (let e = 0; e < this.emitClasses.length; e++) {
+      emitters.push(this.emitClasses[e].getdata());
+    }
+    let param = { name: this.name, maxParticles: this.maxParticles, forceparam: forceparam, emitters: emitters };
     return param;
   }
+
 
   public addForceClass(forceclass: IForceClass) {
     this.forceClasses.push(forceclass);

@@ -6,14 +6,20 @@ import { KeyframeList } from "../propertytypes/keyframelist";
 import { Parameter } from "../propertytypes/parameter";
 import { IEmitClass } from "./IEmitClass";
 
-
+export enum EmitFromPointParam {
+  BounceForce = "radial speed",
+  Amount = "Amount",
+  Lifespan = "Lifespan", 
+  TurbulenceForce = "Direction X",
+  VectorForce = "Direction Y",
+}
 
 export class EmitFromPoint implements IEmitClass{
   public name = "Emit From Point";
   public sliders: Slider[] = [];
 
   public parameters: Parameter[] = [];
-  private radialspeed = new Parameter(new KeyframeList(10, "radial speel"), "radial speed");
+  private radialspeed = new Parameter(new KeyframeList(10, "radial speed"), "radial speed");
   private Amount = new Parameter(new KeyframeList(0.5, "Amount"), "Amount");
   private Lifespan = new Parameter(new KeyframeList(80, "Lifespan"), "Lifespan");
   private DirectionX = new Parameter(new KeyframeList(0, "Direction X"), "Direction X");
@@ -61,57 +67,41 @@ export class EmitFromPoint implements IEmitClass{
       console.log(this.parameters[index].type);
     }
 
-    this.CreateTestCurve(this.emitposy.getKeyframeList());
+    //this.CreateTestCurve(this.emitposy.getKeyframeList());
     this.transforms.push(this.emitposx);
     this.transforms.push(this.emitposy);
     this.transforms.push(this.emitposz);
-    // let slider = new Slider();
-    // slider.label = "Radial Speed";
-    // slider.min = 0;
-    // slider.max = 100;
-    // slider.value = 10;
-    // this.sliders.push(slider);
-    // let slider1 = new Slider();
-    // slider1.label = "Amount";
-    // slider1.min = 0;
-    // slider1.max = 10;
-    // slider1.value = 0.5;
-    // this.sliders.push(slider1);
-    // let slider2 = new Slider();
-    // slider2.label = "Lifespan";
-    // slider2.min = 0;
-    // slider2.max = 200;
-    // slider2.value = 80;
-    // this.sliders.push(slider2);
-    // let slider3 = new Slider();
-    // slider3.label = "Direction X";
-    // slider3.min = -1;
-    // slider3.max = 1;
-    // slider3.value = 0;
-    // this.sliders.push(slider3);
-    // let slider4 = new Slider();
-    // slider4.label = "Direction Y";
-    // slider4.min = -1;
-    // slider4.max = 1;
-    // slider4.value = 0.25;
-    // this.sliders.push(slider4);
-    // let slider5 = new Slider();
-    // slider5.label = "Min Size";
-    // slider5.min = 0;
-    // slider5.max = 2;
-    // slider5.value = 0.2;
-    // this.sliders.push(slider5);
-    // let slider6 = new Slider();
-    // slider6.label = "Max Size";
-    // slider6.min = 0;
-    // slider6.max = 4;
-    // slider6.value = 2;
-    // this.sliders.push(slider6);
 
   }
-  getparameterstosave(): any {
-    let param = 0;//{ name: this.name, value1: this.value1, value2: this.value2 };
-    return param;
+  public getdata(): any {
+    let param: any[] = [];
+    for (let index = 0; index < this.parameters.length; index++) {
+      const p = this.parameters[index];
+      param.push(p.getdata());
+    }
+    let trans: any[] = [];
+    for (let index = 0; index < this.transforms.length; index++) {
+      const t = this.transforms[index];
+      trans.push(t.getdata());
+    }
+
+    let data = { name: this.name, parameters: param, transforms: trans};
+    return data;
+  }
+
+  public setdata(data: any){
+    //console.log("emitfrompointsetdata: ", data);
+    for (let index = 0; index < data.parameters.length; index++) {
+      const parameter = data.parameters[index];
+      console.log("emitfrompoint parameters: ", parameter);
+      this.parameters[index].setdata(parameter);
+    }
+    for (let index = 0; index < data.transforms.length; index++) {
+      const transform = data.transforms[index];
+      this.transforms[index].setdata(transform);
+    }
+    console.log("radialspeed: ", this.radialspeed.getKeyframeList().keyframes);
+    
   }
 
   emit(p: Particle, i: number, particlesystem: ParticleSystem): void {

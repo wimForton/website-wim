@@ -1,6 +1,7 @@
 import { Slider } from "../../../UiComponentData/Slider";
 import { Vector3D } from "../../Utils/Vector3D";
 import { Particle } from "../Particle";
+import { Parameter } from "../propertytypes/parameter";
 import { IForceClass } from "./IForceClass";
 
 
@@ -15,6 +16,8 @@ export class VectorForce implements IForceClass {
   public value3 = 0;
   public value4 = 0.1;
   public testbool = true;
+  public parameters: Parameter[] = [];
+  public transforms: Parameter[] = [];
 
 
   getparameterstosave(): any {

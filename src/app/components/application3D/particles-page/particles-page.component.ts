@@ -24,6 +24,7 @@ import { ParametersComponent } from './parameters/parameters.component';
 import { CurveeditorComponent } from '../UI/curveeditor/curveeditor.component';
 import { CurveViewport } from '../UI/curveeditor/CurveViewport';
 import { CurveViewportService } from '../UI/curveeditor/CurveViewportService';
+import { EmitFromPoint } from '../3Dtools/ParticleSystem/emitters/EmitFromPoint';
 declare var require: any;
 
 
@@ -90,6 +91,7 @@ export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck
   ngAfterViewInit(): void {
     var container: HTMLElement = this.viewportcontainer.nativeElement;
     const particleSystem = new ParticleSystem(200);
+    particleSystem.addEmitClass(new EmitFromPoint());
     this.particleSystems.push(particleSystem);
 
     for (let i = 0; i < this.particleSystems.length; i++) {
@@ -157,6 +159,11 @@ export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck
 
   public LoadParticles5() {
     let json5 = require('./json5.json');
+    Load(this.particleSystems, this.particleScenes, this.viewPort!, json5);
+  }
+
+  public LoadParticles6() {
+    let json5 = require('./test.json');
     Load(this.particleSystems, this.particleScenes, this.viewPort!, json5);
   }
 
