@@ -1,6 +1,8 @@
 import { Slider } from "../../../UiComponentData/Slider";
 import { noise } from "../../Utils/noise";
 import { Vector3D } from "../../Utils/Vector3D";
+import { IOperator } from "../operators/IOperator";
+import { Operator } from "../operators/Operator";
 import { Particle } from "../Particle";
 import { Parameter } from "../propertytypes/parameter";
 import { IForceClass } from "./IForceClass";
@@ -8,9 +10,9 @@ import { IForceClass } from "./IForceClass";
 
 
 
-export class TurbulenceForce implements IForceClass {
+export class TurbulenceForce extends Operator implements IOperator {
 
-  public name = "Turbulence Force";
+  public override name = "Turbulence Force";
   //public sliders: Slider[] = [];
 
   public value1 = 0.5;
@@ -27,14 +29,10 @@ export class TurbulenceForce implements IForceClass {
   public transforms: Parameter[] = [];
 
   constructor() {
+    super();
     this.noiseX = new noise(20);
     this.noiseY = new noise(20);
     this.noiseZ = new noise(20);
-  }
-
-  getparameterstosave(): any {
-    let param = { name: this.name, value1: this.value1, value2: this.value2, value3: this.value3, value4: this.value4, value5: this.value5, };
-    return param;
   }
 
   calculate(p: Particle, i: number): void {

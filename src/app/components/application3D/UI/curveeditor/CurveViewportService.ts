@@ -165,19 +165,34 @@ export class CurveViewportService {
 
       const aspect = this.containerProps.width / this.containerProps.height;//window.devicePixelRatio;//window.innerWidth / window.innerHeight;
 
-      let firstkeyX = this.keyframelist.keyframes[0].position;
-      let lastkeyX = this.keyframelist.keyframes[this.keyframelist.keyframes.length - 1].position;
+      let bbox = this.keyframelist.getBoundingBox();
+      let firstkeyX = bbox[0];
+      let lastkeyX = bbox[2];
+      let minY = bbox[1];
+      let maxY = bbox[3];
+  
       let centerx = (lastkeyX - firstkeyX) * 0.5 + firstkeyX;
   
       this.camera.left = firstkeyX - 5;
       this.camera.right = lastkeyX + 5;
-      this.camera.position.x = firstkeyX - 3;
+      this.camera.position.x = firstkeyX;
+      this.camera.position.y = minY;
       this.camera.lookAt(new THREE.Vector3(this.camera.position.x, this.camera.position.y, 0));
-      this.camera.top = this.frustumSize / 2;
-      this.camera.bottom = - this.frustumSize / 2;
+      this.camera.top = maxY + 5;// this.frustumSize / 2;
+      this.camera.bottom = minY - 5;//- this.frustumSize / 2;
       this.camera.updateProjectionMatrix();
       this.orbitcontrols.reset();
+      this.transformControl!.setSize((lastkeyX - firstkeyX) * 0.015);
 
+      // for (let index = 0; index < this.splineHelperObjects.length; index++) {
+      //   const obj = this.splineHelperObjects[index];
+      //   let sx = ((lastkeyX + 5) - (firstkeyX - 5)) * 0.2;
+      //   let sy = ((maxY + 5) - (minY - 5)) * 0.2;
+      //   //obj.scale.set(5, 5, 0);
+      //   obj.scale.x = sx;
+      //   obj.scale.y = sy;
+      //   console.log("obj.scale.y", sy);
+      // }
       // this.camera.left = - this.frustumSize * aspect / 2;
       // this.camera.right = this.frustumSize * aspect / 2;
       // this.camera.top = this.frustumSize / 2;
@@ -397,6 +412,17 @@ export class CurveViewportService {
     this.camera.updateProjectionMatrix();
     this.orbitcontrols.reset();
     this.transformControl!.setSize((lastkeyX - firstkeyX) * 0.015);
+
+    // for (let index = 0; index < this.splineHelperObjects.length; index++) {
+      
+    //   let obj = this.splineHelperObjects[index];
+    //   let sx = ((lastkeyX + 5) - (firstkeyX - 5)) * 0.2;
+    //   let sy = ((maxY + 5) - (minY - 5)) * 0.2;
+    //   //obj.scale.set(5, 5, 0);
+    //   obj.scale.x = sx;
+    //   obj.scale.y = sy;
+    //   console.log("obj.scale.y", sy);
+    // }
     // const aspect = this.containerProps.width / this.containerProps.height;//window.devicePixelRatio;//window.innerWidth / window.innerHeight;
     // this.camera.left = - this.frustumSize * aspect / 2;
     // this.camera.right = this.frustumSize * aspect / 2;
@@ -421,6 +447,7 @@ export class CurveViewportService {
       // this.time += 0.3;
       // if(this.time > 69.8)this.time = 0.1;
       this.UpdateCursor();
+
 
     }
   }

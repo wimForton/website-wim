@@ -1,6 +1,5 @@
 import { BounceForce } from "./BounceForce";
 import { DragForce } from "./DragForce";
-import { IForceClass } from "./IForceClass";
 import { ScaleInOutForce } from "./ScaleInOut";
 import { TurbulenceForce } from "./TurbulenceForce";
 import { VectorForce } from "./VectorForce";

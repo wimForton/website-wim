@@ -26,7 +26,7 @@ export class CurveSegment{
     constructor(scene: THREE.Scene, splineHelperObjects: THREE.Mesh[], v0: THREE.Vector3, v1: THREE.Vector3, v2: THREE.Vector3, v3: THREE.Vector3) {
         this.scene = scene;
         const geometry = new THREE.BoxGeometry();
-        geometry.scale(0.5,0.5,0.5);
+        geometry.scale(1,2,0.5);
         const colorhelper = new THREE.Color().setRGB( 1, 1, 0 );
         const material = new THREE.MeshBasicMaterial( { color: colorhelper } );
         const colorhelperright = new THREE.Color().setRGB( 0, 1, 1 );

@@ -4,7 +4,9 @@ import { Particle } from "../Particle";
 import { ParticleSystem } from "../ParticleSystem";
 import { KeyframeList } from "../propertytypes/keyframelist";
 import { Parameter } from "../propertytypes/parameter";
+import { ParameterGroup } from "../propertytypes/ParameterGroup";
 import { IEmitClass } from "./IEmitClass";
+import { Operator } from "./Operator";
 
 export enum EmitFromPointParam {
   BounceForce = "radial speed",
@@ -14,11 +16,10 @@ export enum EmitFromPointParam {
   VectorForce = "Direction Y",
 }
 
-export class EmitFromPoint implements IEmitClass{
-  public name = "Emit From Point";
-  public sliders: Slider[] = [];
+export class EmitFromPoint extends Operator implements IEmitClass{
+  public override name = "EmitFromPoint";
+  public override displayname = "Emit From Point";
 
-  public parameters: Parameter[] = [];
   private radialspeed = new Parameter(new KeyframeList(10, "radial speed"), "radial speed");
   private Amount = new Parameter(new KeyframeList(0.5, "Amount"), "Amount");
   private Lifespan = new Parameter(new KeyframeList(80, "Lifespan"), "Lifespan");
@@ -28,13 +29,14 @@ export class EmitFromPoint implements IEmitClass{
   private sizemin = new Parameter(new KeyframeList(0.2, "Min size"), "Min size");
   private sizemax = new Parameter(new KeyframeList(4, "Max size"), "Max size");
 
-
+  public parameters: Parameter[] = [];
   public transforms: Parameter[] = [];
   private emitposx = new Parameter(new KeyframeList(0, "Position X"), "Position X");
   private emitposy = new Parameter(new KeyframeList(0, "Position Y"), "Position Y");
   private emitposz = new Parameter(new KeyframeList(0, "Position Z"), "Position Z");
 
   constructor() {
+    super();
     this.radialspeed.setSliderSettings(false,0,100,true,0.01,true);
     this.Amount.setSliderSettings(false,0,100,true,0.01,true);
     this.Lifespan.setSliderSettings(false,0,100,true,0.01,true);
@@ -60,51 +62,22 @@ export class EmitFromPoint implements IEmitClass{
     this.parameters.push(this.DirectionZ);
     this.parameters.push(this.sizemin);
     this.parameters.push(this.sizemax);
+    let parametersgroup = new ParameterGroup("parametergroup");
+    parametersgroup.parameters = this.parameters;
+    this.parametergroups.push(parametersgroup);
+
+
     
-
-
-    for (let index = 0; index < this.parameters.length; index++) {
-      console.log(this.parameters[index].type);
-    }
-
-    //this.CreateTestCurve(this.emitposy.getKeyframeList());
     this.transforms.push(this.emitposx);
     this.transforms.push(this.emitposy);
     this.transforms.push(this.emitposz);
+    let transformsgroup = new ParameterGroup("transformgroup");
+    transformsgroup.parameters = this.transforms;
+    this.parametergroups.push(transformsgroup);
 
   }
-  public getdata(): any {
-    let param: any[] = [];
-    for (let index = 0; index < this.parameters.length; index++) {
-      const p = this.parameters[index];
-      param.push(p.getdata());
-    }
-    let trans: any[] = [];
-    for (let index = 0; index < this.transforms.length; index++) {
-      const t = this.transforms[index];
-      trans.push(t.getdata());
-    }
 
-    let data = { name: this.name, parameters: param, transforms: trans};
-    return data;
-  }
-
-  public setdata(data: any){
-    //console.log("emitfrompointsetdata: ", data);
-    for (let index = 0; index < data.parameters.length; index++) {
-      const parameter = data.parameters[index];
-      console.log("emitfrompoint parameters: ", parameter);
-      this.parameters[index].setdata(parameter);
-    }
-    for (let index = 0; index < data.transforms.length; index++) {
-      const transform = data.transforms[index];
-      this.transforms[index].setdata(transform);
-    }
-    console.log("radialspeed: ", this.radialspeed.getKeyframeList().keyframes);
-    
-  }
-
-  emit(p: Particle, i: number, particlesystem: ParticleSystem): void {
+  calculate(p: Particle, i: number, particlesystem: ParticleSystem): void {
 
     p.position.z = 100;
     p.scale.set(0,0,0);
@@ -128,16 +101,7 @@ export class EmitFromPoint implements IEmitClass{
     }
       p.maxAge = this.Lifespan.getValueAtTime(time);
    }
-   CreateTestCurve(keyframelist: KeyframeList){
-    keyframelist.AddKeyframe(0,0,-1,2,1,6);
-    keyframelist.AddKeyframe(20,10,-2,6,1,2);
-    keyframelist.AddKeyframe(30,0,-2,2,1,2);
-    keyframelist.AddKeyframe(40,10,-2,2,1,2);
-    keyframelist.AddKeyframe(50,0,-2,3,1,2);
-    keyframelist.AddKeyframe(60,10,-1,3,1,-3);
-    keyframelist.AddKeyframe(200,0,-2,0,1,2);
-    //console.log("keyframes:", this.keyframelist.keyframes);
-    }
+
 }
 
 

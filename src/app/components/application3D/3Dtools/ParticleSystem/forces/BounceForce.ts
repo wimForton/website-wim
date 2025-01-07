@@ -1,6 +1,8 @@
 import { Slider } from "../../../UiComponentData/Slider";
 import { MinMaxRandomize, MinMaxRandomizeArray } from "../../Utils/particleUtils";
 import { Vector3D } from "../../Utils/Vector3D";
+import { IOperator } from "../operators/IOperator";
+import { Operator } from "../operators/Operator";
 import { Particle } from "../Particle";
 import { ParticleSystem } from "../ParticleSystem";
 import { KeyframeList } from "../propertytypes/keyframelist";
@@ -10,14 +12,10 @@ import { IForceClass } from "./IForceClass";
 
 
 
-export class BounceForce implements IForceClass {
-  public name = "Bounce Force";
-  //public sliders: Slider[] = [];
+export class BounceForce extends Operator implements IOperator {
+  public override name = "Bounce Force";
 
-  public value1: number = -1;
-  public value2 = 0;
-  public value3 = 0;
-  public value4 = 0;
+
 
   public parameters: Parameter[] = [];
   public transforms: Parameter[] = [];
@@ -28,6 +26,7 @@ export class BounceForce implements IForceClass {
 
 
   constructor() {
+    super();
     this.floorlevel.setSliderSettings(false,-5,5,true,0.01,true);
     this.roughnessX.setSliderSettings(false,0,2,true,0.01,true);
     this.roughnessZ.setSliderSettings(false,0,2,true,0.01,true);
@@ -36,13 +35,6 @@ export class BounceForce implements IForceClass {
     this.parameters.push(this.roughnessX);
     this.parameters.push(this.roughnessZ);
     this.parameters.push(this.Damping);
-  }
-  
-
-
-  getparameterstosave(): any {
-    let param = { name: this.name, value1: this.value1, value2: this.value2, value3: this.value3, value4: this.value4, };
-    return param;
   }
 
   calculate(p: Particle, i: number, particlesystem: ParticleSystem): void {

@@ -1,7 +1,7 @@
 import { EventEmitter } from "@angular/core";
 import { Slider } from "../../UiComponentData/Slider";
-import { EmitFromPoint } from "./emitters/EmitFromPoint";
-import { IEmitClass } from "./emitters/IEmitClass";
+import { EmitFromPoint } from "./operators/EmitFromPoint";
+import { IEmitClass } from "./operators/IEmitClass";
 import { classes, ForceClassNames } from "./forces/AddForceClasses";
 import { BounceForce } from "./forces/BounceForce";
 import { DragForce } from "./forces/DragForce";
@@ -10,6 +10,7 @@ import { ScaleInOutForce } from "./forces/ScaleInOut";
 import { TurbulenceForce } from "./forces/TurbulenceForce";
 import { VectorForce } from "./forces/VectorForce";
 import { Particle } from "./Particle";
+import { IOperator } from "./operators/IOperator";
 
 
 export class ControlParameters {
@@ -50,8 +51,8 @@ export class ParticleParameterGroup {
 export class ParticleSystem {
   maxParticles: number = 0;
   Particles: Particle[] = [];
-  public forceClasses: Array<IForceClass> = new Array<IForceClass>();
-  public emitClasses: Array<IEmitClass> = new Array<IEmitClass>();
+  public forceClasses: Array<IOperator> = new Array<IOperator>();
+  public emitClasses: Array<IOperator> = new Array<IOperator>();
 
   public emittersParameters: Array<ControlParameters> = [];
   public forcesParameters: Array<ControlParameters> = [];
@@ -64,30 +65,6 @@ export class ParticleSystem {
   constructor(maxParticles: number) {
     this.maxParticles = maxParticles;
     this.initParticles();
-    
-    // function addForceToArrays(this: ParticleSystem, force: IForceClass) {///this whole function becomes the function in FunctionWithTrigger
-    //   const controlParameters = new ControlParameters()
-    //   this.addForceClass(force);
-    //   controlParameters.name = force.name;
-    //   //controlParameters.sliders = force.sliders;
-    //   controlParameters.id = this.forcesParameters.length;
-    //   this.forcesParameters.push(controlParameters);
-    // }
-
-    // this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new VectorForce()), "Vector Force"));
-    // this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new DragForce()), "Drag Force"));
-    // this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new TurbulenceForce()), "Turbulence Force"));
-    // this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new BounceForce()), "Bounce Force"));
-    // this.addForces.push(new FunctionWithTrigger(addForceToArrays.bind(this, new ScaleInOutForce()), "Scale In Out"));
-    
-// todo: add this after creation
-    // for (var i = 0; i < this.GetEmitClasses().length; i++) {
-    //   const controlParameters = new ControlParameters();
-    //   controlParameters.name = this.GetEmitClasses()[i].name;
-    //   controlParameters.sliders = this.GetEmitClasses()[i].sliders;
-    //   controlParameters.id = i;
-    //   this.emittersParameters.push(controlParameters);
-    // }
   }
 
   public setTime(time: number){
@@ -116,7 +93,7 @@ export class ParticleSystem {
   getdata(): any {
     let forceparam: any[] = [];
     for (let f = 0; f < this.GetForceClasses().length; f++) {
-      forceparam.push(this.GetForceClasses()[f].getparameterstosave());
+      forceparam.push(this.GetForceClasses()[f].getdata());
     }
     let emitters: any[] = [];
     for (let e = 0; e < this.emitClasses.length; e++) {
@@ -127,11 +104,11 @@ export class ParticleSystem {
   }
 
 
-  public addForceClass(forceclass: IForceClass) {
+  public addForceClass(forceclass: IOperator) {
     this.forceClasses.push(forceclass);
   }
 
-  public addEmitClass(emitClass: IEmitClass) {
+  public addEmitClass(emitClass: IOperator) {
     this.emitClasses.push(emitClass);
   }
 
@@ -139,11 +116,11 @@ export class ParticleSystem {
     return this.Particles;
   }
 
-  public GetEmitClasses(): IEmitClass[] {
+  public GetEmitClasses(): IOperator[] {
     return this.emitClasses;
   }
 
-  public GetForceClasses(): IForceClass[] {
+  public GetForceClasses(): IOperator[] {
     return this.forceClasses;
   }
 
@@ -152,7 +129,7 @@ export class ParticleSystem {
       let particle = this.Particles[p];
       if (particle.age > particle.maxAge) {////try rebirth
         for (var e = 0; e < this.emitClasses.length; e++) {
-          this.emitClasses[e].emit(particle, p, this)
+          this.emitClasses[e].calculate(particle, p, this)
         }
 
       } else {////simulate

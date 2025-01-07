@@ -6,23 +6,18 @@ export class Parameter{
     private bool: boolean = false;
     private keyframelist?: KeyframeList;
     private num: number = 0;
-    public slidersettings = { disabled: false, min: 0, max: 10, showTicks: false, step: 0.01, thumbLabel: true};
+    //public slidersettings = { disabled: false, min: 0, max: 10, showTicks: false, step: 0.01, thumbLabel: true};
   
     constructor(parameter: any, name = "unnamed") {
         this.name = name;
-        if(typeof parameter ===  "boolean"){this.type = "boolean"; this.bool = parameter}
+        if(typeof parameter ===  "boolean"){this.type = "boolean"; this.bool = parameter;}
         if(parameter instanceof  KeyframeList){this.type = "keyframelist"; this.keyframelist = parameter}
         if(typeof parameter === "number"){this.type = "number"; this.num = parameter}
         console.log("this.type:", this.type);
     }
 
     public setSliderSettings(disabled = false, min = 0, max = 10, showTicks=false, step= 0.01, thumbLabel= true){
-        this.slidersettings.disabled = disabled;
-        this.slidersettings.min = min;
-        this.slidersettings.max = max;
-        this.slidersettings.showTicks = showTicks;
-        this.slidersettings.step = step;
-        this.slidersettings.thumbLabel = thumbLabel;
+        this.keyframelist?.setSliderSettings(disabled, min, max, showTicks, step, thumbLabel);
     }
   
     public getValue(): any{
@@ -51,11 +46,11 @@ export class Parameter{
         if(this.type == "boolean") parameterdata = this.bool;
         if(this.type == "keyframelist") parameterdata = this.keyframelist?.getdata();
         if(this.type == "number") parameterdata = this.num;
-        let param = {type: this.type, name: this.name, parameter: parameterdata, slidersettings: this.slidersettings};
+        let param = {type: this.type, name: this.name, parameter: parameterdata};
         return param;
     }
     public setdata(data: any){
-        //console.log("paramsetdata: ", data);
+        console.log("paramsetdata: ", data);
         
         if(data.type == "boolean"){
             this.type = data.type;

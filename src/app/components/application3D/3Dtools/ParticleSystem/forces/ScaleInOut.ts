@@ -1,6 +1,8 @@
 import { Slider } from "../../../UiComponentData/Slider";
 import { lerpVector3D } from "../../Utils/particleUtils";
 import { Vector3D } from "../../Utils/Vector3D";
+import { IOperator } from "../operators/IOperator";
+import { Operator } from "../operators/Operator";
 import { Particle } from "../Particle";
 import { ParticleSystem } from "../ParticleSystem";
 import { Parameter } from "../propertytypes/parameter";
@@ -9,8 +11,9 @@ import { IForceClass } from "./IForceClass";
 
 
 
-export class ScaleInOutForce implements IForceClass {
-  public name = "Scale In Out Force";
+export class ScaleInOutForce extends Operator implements IOperator {
+
+  public override name = "Scale In Out Force";
   //public sliders: Slider[] = [];
   public value1 = 0;
   public value2 = 0;
@@ -20,10 +23,6 @@ export class ScaleInOutForce implements IForceClass {
   public transforms: Parameter[] = [];
 
 
-  getparameterstosave(): any {
-    let param = { name: this.name, value1: this.value1, value2: this.value2, value3: this.value3, value4: this.value4, };
-    return param;
-  }
 
   calculate(p: Particle, i: number, particlesystem: ParticleSystem): void {
     if (p.maxAge != 0 && this.value1 != 0 && this.value2 != 1) {
@@ -40,7 +39,5 @@ export class ScaleInOutForce implements IForceClass {
 
       p.scale = easeInOutScale;
     }
-    //   (startsc = 0.4)   tussen 0 en 0.4                             0.4
-    //  Math.max((ageNormalized - this.slider1.value), 0) / (1 - this.slider1.value))   = tussen 0 en 1
   }
 }

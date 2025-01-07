@@ -1,14 +1,16 @@
 import { Slider } from "../../../UiComponentData/Slider";
 import { Vector3D } from "../../Utils/Vector3D";
+import { IOperator } from "../operators/IOperator";
+import { Operator } from "../operators/Operator";
 import { Particle } from "../Particle";
 import { Parameter } from "../propertytypes/parameter";
-import { IForceClass } from "./IForceClass";
 
 
 
 
-export class VectorForce implements IForceClass {
-  public name = "Vector Force";
+export class VectorForce extends Operator implements IOperator {
+
+  public override name = "Vector Force";
   //public sliders: Slider[] = [];
 
   public value1 = 0;
@@ -18,12 +20,6 @@ export class VectorForce implements IForceClass {
   public testbool = true;
   public parameters: Parameter[] = [];
   public transforms: Parameter[] = [];
-
-
-  getparameterstosave(): any {
-    let param = { name: this.name, value1: this.value1, value2: this.value2, value3: this.value3, value4: this.value4, };
-    return param;
-  }
 
   calculate(p: Particle, i: number): void {
     let forceVector: Vector3D = new Vector3D(this.value1, this.value2, this.value3);

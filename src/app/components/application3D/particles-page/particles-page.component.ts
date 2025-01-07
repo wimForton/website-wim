@@ -15,7 +15,6 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { ControlParameters, ParticleSystem, FunctionWithTrigger, ParticleParameterGroup } from '../3Dtools/ParticleSystem/ParticleSystem';
 import { ParticleScene } from '../3Dtools/ParticleSystem/ParticleScene';
-import { PanelSelectorComponent } from '../3Dtools/ParticleSystem/AngularComponents/ForceComponents/panelselector.component';
 import { Load, Save } from '../3Dtools/ParticleSystem/LoadSave/LoadSave';
 import { ForceClassNames } from '../3Dtools/ParticleSystem/forces/AddForceClasses';
 import { HelpDialog } from './helpdialog/helpdialog.component';
@@ -24,7 +23,8 @@ import { ParametersComponent } from './parameters/parameters.component';
 import { CurveeditorComponent } from '../UI/curveeditor/curveeditor.component';
 import { CurveViewport } from '../UI/curveeditor/CurveViewport';
 import { CurveViewportService } from '../UI/curveeditor/CurveViewportService';
-import { EmitFromPoint } from '../3Dtools/ParticleSystem/emitters/EmitFromPoint';
+import { EmitFromPoint } from '../3Dtools/ParticleSystem/operators/EmitFromPoint';
+import { IOperator } from '../3Dtools/ParticleSystem/operators/IOperator';
 declare var require: any;
 
 
@@ -49,7 +49,6 @@ declare var require: any;
     MatTabsModule,
     MatDialogModule,
     CommonModule,
-    PanelSelectorComponent,
     ParametersComponent,
     CurveeditorComponent
   ],
@@ -116,7 +115,10 @@ export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck
   }
 
   ngOnChanges(){
-    this.viewPort.reset();
+    if(this.viewPort != undefined){
+      this.viewPort.reset();
+
+    }
     console.log("particle window visible");
   }
 
@@ -188,7 +190,7 @@ export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck
     return index;
   }
 
-  public RemoveForce(item: IForceClass, particlesystem: ParticleSystem) {
+  public RemoveForce(item: IOperator, particlesystem: ParticleSystem) {
     let index = particlesystem.forceClasses.indexOf(item);
     //particlesystem.forceClasses.splice(index, 1);
     particlesystem.GetForceClasses().splice(index, 1)

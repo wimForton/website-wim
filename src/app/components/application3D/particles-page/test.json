@@ -6,451 +6,355 @@
         "emitters": [
             {
                 "name": "EmitFromPoint",
-                "parameters": [
+                "parametergroups": [
                     {
-                        "type": "keyframelist",
-                        "name": "radial speed",
-                        "parameter": {
-                            "name": "unnamed",
-                            "keyframes": [
-                                {
-                                    "position": 0,
-                                    "value": 10,
-                                    "handleleftX": -0.5,
-                                    "handleleftY": 0,
-                                    "handlerightX": 0.5,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 20,
-                                    "value": 18.16,
-                                    "handleleftX": -1,
-                                    "handleleftY": 0,
-                                    "handlerightX": 1,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 50,
-                                    "value": 11.44,
-                                    "handleleftX": -1,
-                                    "handleleftY": 0,
-                                    "handlerightX": 1,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 82,
-                                    "value": 18.16,
-                                    "handleleftX": -1,
-                                    "handleleftY": 0,
-                                    "handlerightX": 1,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 200,
-                                    "value": 10,
-                                    "handleleftX": 0.1,
-                                    "handleleftY": 0,
-                                    "handlerightX": -0.1,
-                                    "handlerightY": 0
+                        "name": "parametergroup",
+                        "parametersdata": [
+                            {
+                                "type": "keyframelist",
+                                "name": "radial speed",
+                                "parameter": {
+                                    "name": "radial speed",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 10,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 80,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 200,
+                                            "value": 10,
+                                            "handleleftX": -80,
+                                            "handleleftY": 0,
+                                            "handlerightX": -0.1,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": 0,
+                                        "max": 100,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
                                 }
-                            ]
-                        },
-                        "slidersettings": {
-                            "disabled": false,
-                            "min": 0,
-                            "max": 10,
-                            "showTicks": false,
-                            "step": 0.01,
-                            "thumbLabel": true
-                        }
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "Amount",
+                                "parameter": {
+                                    "name": "Amount",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 0.5,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 80,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 200,
+                                            "value": 0.5,
+                                            "handleleftX": -80,
+                                            "handleleftY": 0,
+                                            "handlerightX": -0.1,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": 0,
+                                        "max": 100,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "Lifespan",
+                                "parameter": {
+                                    "name": "Lifespan",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 80,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 80,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 200,
+                                            "value": 80,
+                                            "handleleftX": -80,
+                                            "handleleftY": 0,
+                                            "handlerightX": -0.1,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": 0,
+                                        "max": 100,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "Direction X",
+                                "parameter": {
+                                    "name": "Direction X",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 0,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 80,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 200,
+                                            "value": 0,
+                                            "handleleftX": -80,
+                                            "handleleftY": 0,
+                                            "handlerightX": -0.1,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": -1,
+                                        "max": 1,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "Direction Y",
+                                "parameter": {
+                                    "name": "Direction Y",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 0,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 80,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 200,
+                                            "value": 0,
+                                            "handleleftX": -80,
+                                            "handleleftY": 0,
+                                            "handlerightX": -0.1,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": -1,
+                                        "max": 1,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "Direction Z",
+                                "parameter": {
+                                    "name": "Direction Z",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 0,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 80,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 200,
+                                            "value": 0,
+                                            "handleleftX": -80,
+                                            "handleleftY": 0,
+                                            "handlerightX": -0.1,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": -1,
+                                        "max": 1,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "Min size",
+                                "parameter": {
+                                    "name": "Min size",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 0.2,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 80,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 200,
+                                            "value": 0.2,
+                                            "handleleftX": -80,
+                                            "handleleftY": 0,
+                                            "handlerightX": -0.1,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": 0,
+                                        "max": 10,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "Max size",
+                                "parameter": {
+                                    "name": "Max size",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 4,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 80,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 200,
+                                            "value": 4,
+                                            "handleleftX": -80,
+                                            "handleleftY": 0,
+                                            "handlerightX": -0.1,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": 0,
+                                        "max": 10,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            }
+                        ]
                     },
                     {
-                        "type": "keyframelist",
-                        "name": "Amount",
-                        "parameter": {
-                            "name": "unnamed",
-                            "keyframes": [
-                                {
-                                    "position": 0,
-                                    "value": 0.5,
-                                    "handleleftX": -0.5,
-                                    "handleleftY": 0,
-                                    "handlerightX": 0.5,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 200,
-                                    "value": 0.5,
-                                    "handleleftX": 0.1,
-                                    "handleleftY": 0,
-                                    "handlerightX": -0.1,
-                                    "handlerightY": 0
+                        "name": "transformgroup",
+                        "parametersdata": [
+                            {
+                                "type": "keyframelist",
+                                "name": "Position X",
+                                "parameter": {
+                                    "name": "Position X",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 0,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 0.5,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": 0,
+                                        "max": 10,
+                                        "showTicks": false,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
                                 }
-                            ]
-                        },
-                        "slidersettings": {
-                            "disabled": false,
-                            "min": 0,
-                            "max": 10,
-                            "showTicks": false,
-                            "step": 0.01,
-                            "thumbLabel": true
-                        }
-                    },
-                    {
-                        "type": "keyframelist",
-                        "name": "Lifespan",
-                        "parameter": {
-                            "name": "unnamed",
-                            "keyframes": [
-                                {
-                                    "position": 0,
-                                    "value": 80,
-                                    "handleleftX": -0.5,
-                                    "handleleftY": 0,
-                                    "handlerightX": 0.5,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 200,
-                                    "value": 80,
-                                    "handleleftX": 0.1,
-                                    "handleleftY": 0,
-                                    "handlerightX": -0.1,
-                                    "handlerightY": 0
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "Position Y",
+                                "parameter": {
+                                    "name": "Position Y",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 0,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 0.5,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": 0,
+                                        "max": 10,
+                                        "showTicks": false,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
                                 }
-                            ]
-                        },
-                        "slidersettings": {
-                            "disabled": false,
-                            "min": 0,
-                            "max": 10,
-                            "showTicks": false,
-                            "step": 0.01,
-                            "thumbLabel": true
-                        }
-                    },
-                    {
-                        "type": "keyframelist",
-                        "name": "Direction X",
-                        "parameter": {
-                            "name": "unnamed",
-                            "keyframes": [
-                                {
-                                    "position": 0,
-                                    "value": 0,
-                                    "handleleftX": -0.5,
-                                    "handleleftY": 0,
-                                    "handlerightX": 0.5,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 200,
-                                    "value": 0,
-                                    "handleleftX": 0.1,
-                                    "handleleftY": 0,
-                                    "handlerightX": -0.1,
-                                    "handlerightY": 0
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "Position Z",
+                                "parameter": {
+                                    "name": "Position Z",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 0,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 0.5,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": 0,
+                                        "max": 10,
+                                        "showTicks": false,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
                                 }
-                            ]
-                        },
-                        "slidersettings": {
-                            "disabled": false,
-                            "min": 0,
-                            "max": 10,
-                            "showTicks": false,
-                            "step": 0.01,
-                            "thumbLabel": true
-                        }
-                    },
-                    {
-                        "type": "keyframelist",
-                        "name": "Direction Y",
-                        "parameter": {
-                            "name": "unnamed",
-                            "keyframes": [
-                                {
-                                    "position": 0,
-                                    "value": 0,
-                                    "handleleftX": -0.5,
-                                    "handleleftY": 0,
-                                    "handlerightX": 0.5,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 200,
-                                    "value": 0,
-                                    "handleleftX": 0.1,
-                                    "handleleftY": 0,
-                                    "handlerightX": -0.1,
-                                    "handlerightY": 0
-                                }
-                            ]
-                        },
-                        "slidersettings": {
-                            "disabled": false,
-                            "min": 0,
-                            "max": 10,
-                            "showTicks": false,
-                            "step": 0.01,
-                            "thumbLabel": true
-                        }
-                    },
-                    {
-                        "type": "keyframelist",
-                        "name": "Direction Z",
-                        "parameter": {
-                            "name": "unnamed",
-                            "keyframes": [
-                                {
-                                    "position": 0,
-                                    "value": 0,
-                                    "handleleftX": -0.5,
-                                    "handleleftY": 0,
-                                    "handlerightX": 0.5,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 200,
-                                    "value": 0,
-                                    "handleleftX": 0.1,
-                                    "handleleftY": 0,
-                                    "handlerightX": -0.1,
-                                    "handlerightY": 0
-                                }
-                            ]
-                        },
-                        "slidersettings": {
-                            "disabled": false,
-                            "min": 0,
-                            "max": 10,
-                            "showTicks": false,
-                            "step": 0.01,
-                            "thumbLabel": true
-                        }
-                    },
-                    {
-                        "type": "keyframelist",
-                        "name": "Min size",
-                        "parameter": {
-                            "name": "unnamed",
-                            "keyframes": [
-                                {
-                                    "position": 0,
-                                    "value": 0.2,
-                                    "handleleftX": -0.5,
-                                    "handleleftY": 0,
-                                    "handlerightX": 0.5,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 200,
-                                    "value": 0.2,
-                                    "handleleftX": 0.1,
-                                    "handleleftY": 0,
-                                    "handlerightX": -0.1,
-                                    "handlerightY": 0
-                                }
-                            ]
-                        },
-                        "slidersettings": {
-                            "disabled": false,
-                            "min": 0,
-                            "max": 10,
-                            "showTicks": false,
-                            "step": 0.01,
-                            "thumbLabel": true
-                        }
-                    },
-                    {
-                        "type": "keyframelist",
-                        "name": "Max size",
-                        "parameter": {
-                            "name": "unnamed",
-                            "keyframes": [
-                                {
-                                    "position": 0,
-                                    "value": 4,
-                                    "handleleftX": -0.5,
-                                    "handleleftY": 0,
-                                    "handlerightX": 0.5,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 200,
-                                    "value": 4,
-                                    "handleleftX": 0.1,
-                                    "handleleftY": 0,
-                                    "handlerightX": -0.1,
-                                    "handlerightY": 0
-                                }
-                            ]
-                        },
-                        "slidersettings": {
-                            "disabled": false,
-                            "min": 0,
-                            "max": 10,
-                            "showTicks": false,
-                            "step": 0.01,
-                            "thumbLabel": true
-                        }
-                    }
-                ],
-                "transforms": [
-                    {
-                        "type": "keyframelist",
-                        "name": "Position X",
-                        "parameter": {
-                            "name": "unnamed",
-                            "keyframes": [
-                                {
-                                    "position": 0,
-                                    "value": 10,
-                                    "handleleftX": -0.5,
-                                    "handleleftY": 0,
-                                    "handlerightX": 0.5,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 18,
-                                    "value": -19.934,
-                                    "handleleftX": -1,
-                                    "handleleftY": 0,
-                                    "handlerightX": 1,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 29.687782805429883,
-                                    "value": -3.3424697139831374,
-                                    "handleleftX": -1,
-                                    "handleleftY": 0,
-                                    "handlerightX": 1,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 45.953272722464874,
-                                    "value": -14.297533869460931,
-                                    "handleleftX": -11.45326997279166,
-                                    "handleleftY": 25.030273106418083,
-                                    "handlerightX": 1,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 69.19909502262442,
-                                    "value": 0.9000000000000015,
-                                    "handleleftX": -7.077482542320752,
-                                    "handleleftY": -16.3463008041914,
-                                    "handlerightX": 20.447944135426354,
-                                    "handlerightY": 19.240958238266963
-                                },
-                                {
-                                    "position": 127.66063348416287,
-                                    "value": 4.866104145752066,
-                                    "handleleftX": -1,
-                                    "handleleftY": 0,
-                                    "handlerightX": 10.237773464327518,
-                                    "handlerightY": -20.71084268773771
-                                },
-                                {
-                                    "position": 200,
-                                    "value": 20,
-                                    "handleleftX": -28.95641969467539,
-                                    "handleleftY": -29.891937899827624,
-                                    "handlerightX": 1,
-                                    "handlerightY": 0
-                                }
-                            ]
-                        },
-                        "slidersettings": {
-                            "disabled": false,
-                            "min": 0,
-                            "max": 10,
-                            "showTicks": false,
-                            "step": 0.01,
-                            "thumbLabel": true
-                        }
-                    },
-                    {
-                        "type": "keyframelist",
-                        "name": "Position Y",
-                        "parameter": {
-                            "name": "unnamed",
-                            "keyframes": [
-                                {
-                                    "position": 0,
-                                    "value": 0,
-                                    "handleleftX": -0.5,
-                                    "handleleftY": 0,
-                                    "handlerightX": 0.5,
-                                    "handlerightY": 0
-                                },
-                                {
-                                    "position": 68,
-                                    "value": 0,
-                                    "handleleftX": -1,
-                                    "handleleftY": 0,
-                                    "handlerightX": 7.081447963800898,
-                                    "handlerightY": 8.241685617777776
-                                },
-                                {
-                                    "position": 98,
-                                    "value": 0,
-                                    "handleleftX": -10.122171945701353,
-                                    "handleleftY": 13.917563448888888,
-                                    "handlerightX": 6.891402714932127,
-                                    "handlerightY": 10.651989902222224
-                                },
-                                {
-                                    "position": 128,
-                                    "value": 0,
-                                    "handleleftX": -13.923076923076906,
-                                    "handleleftY": 13.325525333333335,
-                                    "handlerightX": 20.954751131221713,
-                                    "handlerightY": 11.726399999999998
-                                },
-                                {
-                                    "position": 200,
-                                    "value": 0,
-                                    "handleleftX": -17.91402714932127,
-                                    "handleleftY": 5.130299999999998,
-                                    "handlerightX": 1,
-                                    "handlerightY": 0
-                                }
-                            ]
-                        },
-                        "slidersettings": {
-                            "disabled": false,
-                            "min": 0,
-                            "max": 10,
-                            "showTicks": false,
-                            "step": 0.01,
-                            "thumbLabel": true
-                        }
-                    },
-                    {
-                        "type": "keyframelist",
-                        "name": "Position Z",
-                        "parameter": {
-                            "name": "unnamed",
-                            "keyframes": [
-                                {
-                                    "position": 0,
-                                    "value": 0,
-                                    "handleleftX": -0.5,
-                                    "handleleftY": 0,
-                                    "handlerightX": 0.5,
-                                    "handlerightY": 0
-                                }
-                            ]
-                        },
-                        "slidersettings": {
-                            "disabled": false,
-                            "min": 0,
-                            "max": 10,
-                            "showTicks": false,
-                            "step": 0.01,
-                            "thumbLabel": true
-                        }
+                            }
+                        ]
                     }
                 ]
             }

@@ -12,7 +12,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { IForceClass } from '../../3Dtools/ParticleSystem/forces/IForceClass';
-import { IEmitClass } from '../../3Dtools/ParticleSystem/emitters/IEmitClass';
+import { IEmitClass } from '../../3Dtools/ParticleSystem/operators/IEmitClass';
 import { Parameter } from '../../3Dtools/ParticleSystem/propertytypes/parameter';
 import { SliderComponent } from './parametertypes/slider.component';
 import { CheckboxComponent } from "./parametertypes/checkbox.component";

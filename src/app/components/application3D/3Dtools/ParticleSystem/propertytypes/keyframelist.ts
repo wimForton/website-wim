@@ -32,23 +32,24 @@ export class KeyframeList{
     public keyframes: KeyFrame[] = [];
     private calculateVal: CubicBezier = new CubicBezier();
     public name = "unnamed curve";
+    public slidersettings = { disabled: false, min: 0, max: 10, showTicks: false, step: 0.01, thumbLabel: true};
 
     constructor(value: number = 0, name = "unnamed") {
         this.name = name;
         this.AddKeyframe(0.0, value, -0.5, 0, 0.5, 0);
-        //this.AddKeyframe(0.4, 0.21);
-        //this.AddKeyframe(0.65, 0.1);
-        //this.AddKeyframe(0.9, 0.8);
-        //this.RemoveKeyframe(0.65);
+    }
 
-
-        //console.log("this.keyframes",this.keyframes);
-
-
+    public setSliderSettings(disabled = false, min = 0, max = 10, showTicks=false, step= 0.01, thumbLabel= true){
+        this.slidersettings.disabled = disabled;
+        this.slidersettings.min = min;
+        this.slidersettings.max = max;
+        this.slidersettings.showTicks = showTicks;
+        this.slidersettings.step = step;
+        this.slidersettings.thumbLabel = thumbLabel;
     }
 
     public getdata(): any {
-        let param = { name: this.name, keyframes: this.keyframes};
+        let param = { name: this.name, keyframes: this.keyframes, slidersettings: this.slidersettings};
         return param;
     }
 
