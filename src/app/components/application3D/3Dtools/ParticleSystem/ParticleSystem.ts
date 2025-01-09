@@ -13,10 +13,18 @@ import { Particle } from "./Particle";
 import { IOperator } from "./operators/IOperator";
 
 
+
 export class ControlParameters {
   sliders: Array<Slider> = [];
   name: String = "";
   id: number = 0;
+}
+
+export interface ParticleSystemData{
+  name: string;
+  maxParticles: number;
+  forcesdata: any;
+  emittersdata: any;
 }
 
 export class FunctionWithTrigger {
@@ -54,10 +62,10 @@ export class ParticleSystem {
   public forceClasses: Array<IOperator> = new Array<IOperator>();
   public emitClasses: Array<IOperator> = new Array<IOperator>();
 
-  public emittersParameters: Array<ControlParameters> = [];
-  public forcesParameters: Array<ControlParameters> = [];
+  // public emittersParameters: Array<ControlParameters> = [];
+  // public forcesParameters: Array<ControlParameters> = [];
   public addForces: Array<FunctionWithTrigger> = [];
-  public name = "";
+  public name = "psystem";
   public forceclassnames!: ForceClassNames;
   private time = 0;
 
@@ -90,16 +98,16 @@ export class ParticleSystem {
     }
   }
 
-  getdata(): any {
-    let forceparam: any[] = [];
+  getdata(): ParticleSystemData {
+    let forces: any[] = [];
     for (let f = 0; f < this.GetForceClasses().length; f++) {
-      forceparam.push(this.GetForceClasses()[f].getdata());
+      forces.push(this.GetForceClasses()[f].getdata());
     }
     let emitters: any[] = [];
     for (let e = 0; e < this.emitClasses.length; e++) {
       emitters.push(this.emitClasses[e].getdata());
     }
-    let param = { name: this.name, maxParticles: this.maxParticles, forceparam: forceparam, emitters: emitters };
+    let param: ParticleSystemData = { name: this.name, maxParticles: this.maxParticles, forcesdata: forces, emittersdata: emitters };
     return param;
   }
 

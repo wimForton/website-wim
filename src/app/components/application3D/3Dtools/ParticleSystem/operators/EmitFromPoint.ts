@@ -6,6 +6,7 @@ import { KeyframeList } from "../propertytypes/keyframelist";
 import { Parameter } from "../propertytypes/parameter";
 import { ParameterGroup } from "../propertytypes/ParameterGroup";
 import { IEmitClass } from "./IEmitClass";
+import { IOperator } from "./IOperator";
 import { Operator } from "./Operator";
 
 export enum EmitFromPointParam {
@@ -16,7 +17,7 @@ export enum EmitFromPointParam {
   VectorForce = "Direction Y",
 }
 
-export class EmitFromPoint extends Operator implements IEmitClass{
+export class EmitFromPoint extends Operator implements IOperator{
   public override name = "EmitFromPoint";
   public override displayname = "Emit From Point";
 
@@ -46,33 +47,31 @@ export class EmitFromPoint extends Operator implements IEmitClass{
     this.sizemin.setSliderSettings(false,0,10,true,0.01,true);
     this.sizemax.setSliderSettings(false,0,10,true,0.01,true);
 
-    this.radialspeed.getKeyframeList().AddKeyframe(200,10);
-    this.Amount.getKeyframeList().AddKeyframe(200,0.5);
-    this.Lifespan.getKeyframeList().AddKeyframe(200,80);
-    this.DirectionX.getKeyframeList().AddKeyframe(200,0);
-    this.DirectionY.getKeyframeList().AddKeyframe(200,0);
-    this.DirectionZ.getKeyframeList().AddKeyframe(200,0);
-    this.sizemin.getKeyframeList().AddKeyframe(200,0.2);
-    this.sizemax.getKeyframeList().AddKeyframe(200,4);
-    this.parameters.push(this.radialspeed);
-    this.parameters.push(this.Amount);
-    this.parameters.push(this.Lifespan);
-    this.parameters.push(this.DirectionX);
-    this.parameters.push(this.DirectionY);
-    this.parameters.push(this.DirectionZ);
-    this.parameters.push(this.sizemin);
-    this.parameters.push(this.sizemax);
-    let parametersgroup = new ParameterGroup("parametergroup");
-    parametersgroup.parameters = this.parameters;
+    // this.radialspeed.getKeyframeList().AddKeyframe(200,10);
+    // this.Amount.getKeyframeList().AddKeyframe(200,0.5);
+    // this.Lifespan.getKeyframeList().AddKeyframe(200,80);
+    // this.DirectionX.getKeyframeList().AddKeyframe(200,0);
+    // this.DirectionY.getKeyframeList().AddKeyframe(200,0);
+    // this.DirectionZ.getKeyframeList().AddKeyframe(200,0);
+    // this.sizemin.getKeyframeList().AddKeyframe(200,0.2);
+    // this.sizemax.getKeyframeList().AddKeyframe(200,4);
+    let parametersgroup = new ParameterGroup("properties");
+    parametersgroup.parameters.push(this.radialspeed);
+    parametersgroup.parameters.push(this.Amount);
+    parametersgroup.parameters.push(this.Lifespan);
+    parametersgroup.parameters.push(this.DirectionX);
+    parametersgroup.parameters.push(this.DirectionY);
+    parametersgroup.parameters.push(this.DirectionZ);
+    parametersgroup.parameters.push(this.sizemin);
+    parametersgroup.parameters.push(this.sizemax);
     this.parametergroups.push(parametersgroup);
 
+    let transformsgroup = new ParameterGroup("transforms");
 
     
-    this.transforms.push(this.emitposx);
-    this.transforms.push(this.emitposy);
-    this.transforms.push(this.emitposz);
-    let transformsgroup = new ParameterGroup("transformgroup");
-    transformsgroup.parameters = this.transforms;
+    transformsgroup.parameters.push(this.emitposx);
+    transformsgroup.parameters.push(this.emitposy);
+    transformsgroup.parameters.push(this.emitposz);
     this.parametergroups.push(transformsgroup);
 
   }

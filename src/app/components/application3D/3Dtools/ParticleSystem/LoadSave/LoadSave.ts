@@ -9,7 +9,7 @@ import { ScaleInOutForce } from "../forces/ScaleInOut";
 import { TurbulenceForce } from "../forces/TurbulenceForce";
 import { VectorForce } from "../forces/VectorForce";
 import { ParticleScene } from "../ParticleScene";
-import { ParticleParameterGroup, ParticleSystem } from "../ParticleSystem";
+import { ParticleParameterGroup, ParticleSystem, ParticleSystemData } from "../ParticleSystem";
 declare var require: any;
 
 
@@ -25,13 +25,15 @@ export function Load(particlesystems: ParticleSystem[], particleScenes: Particle
   for (let j = 0; j < json.length; j++) {
     console.log("json maxParticles:", json[j].maxParticles);
     
-    let particlesystemdata = json[j];
+    let particlesystemdata = json[j] as ParticleSystemData;
+
+
     let particleSystem = new ParticleSystem(particlesystemdata.maxParticles);
     //let emitclass = new EmitFromPoint();
     //particleSystem.addEmitClass(emitclass);
 
-    for (let e = 0; e < particlesystemdata.emitters.length; e++){
-      let emitterdata = particlesystemdata.emitters[e];
+    for (let e = 0; e < particlesystemdata.emittersdata.length; e++){
+      let emitterdata = particlesystemdata.emittersdata[e];
       type EmitClasKey = keyof typeof EmitClassNames;
       
       let key: EmitClasKey = emitterdata.name; 
@@ -43,8 +45,8 @@ export function Load(particlesystems: ParticleSystem[], particleScenes: Particle
       particleSystem.addEmitClass(emitclass);
       
     } 
-    for (let f = 0; f < particlesystemdata.forceparam.length; f++) {
-      let forcedata = particlesystemdata.forceparam[f];
+    for (let f = 0; f < particlesystemdata.forcesdata.length; f++) {
+      let forcedata = particlesystemdata.forcesdata[f];
 
       
     }

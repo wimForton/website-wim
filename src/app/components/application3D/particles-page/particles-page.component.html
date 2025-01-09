@@ -73,8 +73,11 @@
                     <mat-panel-title>{{emitClass.displayname}}</mat-panel-title>
                   </mat-expansion-panel-header>
                   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-                    <mat-tab label="parameters"><app-parameters [time] = "time" [parameters]="emitClass.parameters"></app-parameters></mat-tab>
-                    <mat-tab label="transforms"><app-parameters [time] = "time" [parameters]="emitClass.transforms"></app-parameters></mat-tab>
+                    <div *ngFor="let parametergroup of emitClass.parametergroups">
+                      <mat-tab label="{{parametergroup.name}}"><app-parameters [time] = "time" [parameters]="parametergroup.parameters"></app-parameters></mat-tab>
+                    </div>
+                    <!-- <mat-tab label="parameters"><app-parameters [time] = "time" [parameters]="emitClass.parameters"></app-parameters></mat-tab>
+                    <mat-tab label="transforms"><app-parameters [time] = "time" [parameters]="emitClass.transforms"></app-parameters></mat-tab> -->
                   </mat-tab-group>
                   
                 </mat-expansion-panel>
@@ -90,16 +93,19 @@
                   </mat-menu>
                 </p>
               </div>
-              <div *ngFor="let item of particlesystem.forceClasses">
+              <div *ngFor="let forceclass of particlesystem.forceClasses">
                 <mat-expansion-panel [expanded]="panelOpenIndex">
                   <mat-expansion-panel-header>
-                    <mat-panel-title style="overflow:hidden; border-radius: 6px;">{{item.name}}  </mat-panel-title>
+                    <mat-panel-title style="overflow:hidden; border-radius: 6px;">{{forceclass.name}}  </mat-panel-title>
                   </mat-expansion-panel-header>
                   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-                    <mat-tab label="parameters"><app-parameters [time] = "time" [parameters]="item.parameters"></app-parameters></mat-tab>
-                    <mat-tab label="transforms"><app-parameters [time] = "time" [parameters]="item.transforms"></app-parameters></mat-tab>
+                    <div *ngFor="let parametergroup of forceclass.parametergroups">
+                      <mat-tab label="{{parametergroup.name}}"><app-parameters [time] = "time" [parameters]="parametergroup.parameters"></app-parameters></mat-tab>
+                    </div>
+                    <!-- <mat-tab label="parameters"><app-parameters [time] = "time" [parameters]="forceclass.parameters"></app-parameters></mat-tab>
+                    <mat-tab label="transforms"><app-parameters [time] = "time" [parameters]="forceclass.transforms"></app-parameters></mat-tab> -->
                   </mat-tab-group>
-                  <div class="smallbutton" (click)="RemoveForce(item, particlesystem)">remove</div>
+                  <div class="smallbutton" (click)="RemoveForce(forceclass, particlesystem)">remove</div>
                 </mat-expansion-panel>
               </div>
             </mat-accordion>

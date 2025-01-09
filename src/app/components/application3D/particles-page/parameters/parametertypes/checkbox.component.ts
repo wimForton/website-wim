@@ -28,13 +28,14 @@ import { Parameter } from '../../../3Dtools/ParticleSystem/propertytypes/paramet
     }
   
     public onInputChange(bool: boolean) {
+      this.parameter?.setValue(bool);
         console.log(bool);
     }
     // public onInputChange(event: Event) {
-    //     if((event.target as HTMLInputElement).value == "true"){this.value = true}else{this.value = false}
-    //     //this.value = +((event.target as HTMLInputElement).value);// + = string to number
-    //     this.param!.setValue(this.value);
-    //   }
+    //   if((event.target as HTMLInputElement).value == "true"){this.value = true}else{this.value = false}
+    //   //this.value = +((event.target as HTMLInputElement).value);// + = string to number
+    //   this.param!.setValue(this.value);
+    // }
   
   
   }

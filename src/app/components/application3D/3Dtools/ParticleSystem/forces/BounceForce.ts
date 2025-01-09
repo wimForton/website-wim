@@ -7,6 +7,7 @@ import { Particle } from "../Particle";
 import { ParticleSystem } from "../ParticleSystem";
 import { KeyframeList } from "../propertytypes/keyframelist";
 import { Parameter } from "../propertytypes/parameter";
+import { ParameterGroup } from "../propertytypes/ParameterGroup";
 import { IForceClass } from "./IForceClass";
 
 
@@ -31,10 +32,18 @@ export class BounceForce extends Operator implements IOperator {
     this.roughnessX.setSliderSettings(false,0,2,true,0.01,true);
     this.roughnessZ.setSliderSettings(false,0,2,true,0.01,true);
     this.Damping.setSliderSettings(false,0,1,true,0.01,true);
-    this.parameters.push(this.floorlevel);
-    this.parameters.push(this.roughnessX);
-    this.parameters.push(this.roughnessZ);
-    this.parameters.push(this.Damping);
+    // this.parameters.push(this.floorlevel);
+    // this.parameters.push(this.roughnessX);
+    // this.parameters.push(this.roughnessZ);
+    // this.parameters.push(this.Damping);
+
+    let propertygroup = new ParameterGroup("properties");
+    propertygroup.parameters.push(this.floorlevel);
+    propertygroup.parameters.push(this.roughnessX);
+    propertygroup.parameters.push(this.roughnessZ);
+    propertygroup.parameters.push(this.Damping);
+
+    this.parametergroups.push(propertygroup);
   }
 
   calculate(p: Particle, i: number, particlesystem: ParticleSystem): void {

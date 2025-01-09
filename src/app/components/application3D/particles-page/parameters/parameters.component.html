@@ -1,4 +1,4 @@
-<p>parameters:</p>
+<br>
 <div *ngFor="let parameter of parameters">
     <div [ngSwitch]="parameter.type">
         <app-slider *ngSwitchCase="'keyframelist'" [parameter]="parameter"></app-slider>

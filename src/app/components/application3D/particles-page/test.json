@@ -1,14 +1,125 @@
 [
     {
-        "name": "",
+        "name": "psystem",
         "maxParticles": 200,
-        "forceparam": [],
-        "emitters": [
+        "forcesdata": [
+            {
+                "name": "Bounce Force",
+                "parametergroups": [
+                    {
+                        "name": "properties",
+                        "parametersdata": [
+                            {
+                                "type": "keyframelist",
+                                "name": "Floor level",
+                                "parameter": {
+                                    "name": "Floor level",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": -1,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 0.5,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": -5,
+                                        "max": 5,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "Roughness X",
+                                "parameter": {
+                                    "name": "Roughness X",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 0,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 0.5,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": 0,
+                                        "max": 2,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "Roughness Z",
+                                "parameter": {
+                                    "name": "Roughness Z",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 0,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 0.5,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": 0,
+                                        "max": 2,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "Damping",
+                                "parameter": {
+                                    "name": "Damping",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 0,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 0.5,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": 0,
+                                        "max": 1,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "emittersdata": [
             {
                 "name": "EmitFromPoint",
                 "parametergroups": [
                     {
-                        "name": "parametergroup",
+                        "name": "properties",
                         "parametersdata": [
                             {
                                 "type": "keyframelist",
@@ -21,15 +132,7 @@
                                             "value": 10,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
-                                            "handlerightX": 80,
-                                            "handlerightY": 0
-                                        },
-                                        {
-                                            "position": 200,
-                                            "value": 10,
-                                            "handleleftX": -80,
-                                            "handleleftY": 0,
-                                            "handlerightX": -0.1,
+                                            "handlerightX": 0.5,
                                             "handlerightY": 0
                                         }
                                     ],
@@ -54,15 +157,7 @@
                                             "value": 0.5,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
-                                            "handlerightX": 80,
-                                            "handlerightY": 0
-                                        },
-                                        {
-                                            "position": 200,
-                                            "value": 0.5,
-                                            "handleleftX": -80,
-                                            "handleleftY": 0,
-                                            "handlerightX": -0.1,
+                                            "handlerightX": 0.5,
                                             "handlerightY": 0
                                         }
                                     ],
@@ -87,15 +182,7 @@
                                             "value": 80,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
-                                            "handlerightX": 80,
-                                            "handlerightY": 0
-                                        },
-                                        {
-                                            "position": 200,
-                                            "value": 80,
-                                            "handleleftX": -80,
-                                            "handleleftY": 0,
-                                            "handlerightX": -0.1,
+                                            "handlerightX": 0.5,
                                             "handlerightY": 0
                                         }
                                     ],
@@ -120,15 +207,7 @@
                                             "value": 0,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
-                                            "handlerightX": 80,
-                                            "handlerightY": 0
-                                        },
-                                        {
-                                            "position": 200,
-                                            "value": 0,
-                                            "handleleftX": -80,
-                                            "handleleftY": 0,
-                                            "handlerightX": -0.1,
+                                            "handlerightX": 0.5,
                                             "handlerightY": 0
                                         }
                                     ],
@@ -153,15 +232,7 @@
                                             "value": 0,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
-                                            "handlerightX": 80,
-                                            "handlerightY": 0
-                                        },
-                                        {
-                                            "position": 200,
-                                            "value": 0,
-                                            "handleleftX": -80,
-                                            "handleleftY": 0,
-                                            "handlerightX": -0.1,
+                                            "handlerightX": 0.5,
                                             "handlerightY": 0
                                         }
                                     ],
@@ -186,15 +257,7 @@
                                             "value": 0,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
-                                            "handlerightX": 80,
-                                            "handlerightY": 0
-                                        },
-                                        {
-                                            "position": 200,
-                                            "value": 0,
-                                            "handleleftX": -80,
-                                            "handleleftY": 0,
-                                            "handlerightX": -0.1,
+                                            "handlerightX": 0.5,
                                             "handlerightY": 0
                                         }
                                     ],
@@ -219,15 +282,7 @@
                                             "value": 0.2,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
-                                            "handlerightX": 80,
-                                            "handlerightY": 0
-                                        },
-                                        {
-                                            "position": 200,
-                                            "value": 0.2,
-                                            "handleleftX": -80,
-                                            "handleleftY": 0,
-                                            "handlerightX": -0.1,
+                                            "handlerightX": 0.5,
                                             "handlerightY": 0
                                         }
                                     ],
@@ -252,15 +307,7 @@
                                             "value": 4,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
-                                            "handlerightX": 80,
-                                            "handlerightY": 0
-                                        },
-                                        {
-                                            "position": 200,
-                                            "value": 4,
-                                            "handleleftX": -80,
-                                            "handleleftY": 0,
-                                            "handlerightX": -0.1,
+                                            "handlerightX": 0.5,
                                             "handlerightY": 0
                                         }
                                     ],
@@ -277,7 +324,7 @@
                         ]
                     },
                     {
-                        "name": "transformgroup",
+                        "name": "transforms",
                         "parametersdata": [
                             {
                                 "type": "keyframelist",
