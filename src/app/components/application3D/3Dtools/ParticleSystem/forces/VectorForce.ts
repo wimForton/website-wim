@@ -13,7 +13,7 @@ import { ParameterGroup } from "../propertytypes/ParameterGroup";
 
 export class VectorForce extends Operator implements IOperator {
 
-  public override name = "Vector Force";
+  public override name = "VectorForce";
   //public sliders: Slider[] = [];
 
   public value1 = new Parameter(new KeyframeList(0.0, "strength x"), "strength x");

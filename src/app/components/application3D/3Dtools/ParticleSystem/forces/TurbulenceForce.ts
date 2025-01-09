@@ -15,7 +15,7 @@ import { IForceClass } from "./IForceClass";
 
 export class TurbulenceForce extends Operator implements IOperator {
 
-  public override name = "Turbulence Force";
+  public override name = "TurbulenceForce";
   //public sliders: Slider[] = [];
 
   public value1 = new Parameter(new KeyframeList(0.5, "strength x"), "strength x");

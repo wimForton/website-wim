@@ -13,7 +13,7 @@ import { IForceClass } from "./IForceClass";
 
 export class DragForce extends Operator implements IOperator {
 
-  public override name = "Drag Force";
+  public override name = "DragForce";
 
   public strength = new Parameter(new KeyframeList(0.1, "Strength"), "Strength");
   public strengthscale = new Parameter(new KeyframeList(0.1, "Strength scale"), "Strength scale");

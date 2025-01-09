@@ -15,7 +15,7 @@ import { IForceClass } from "./IForceClass";
 
 export class ScaleInOutForce extends Operator implements IOperator {
 
-  public override name = "Scale In Out Force";
+  public override name = "ScaleInOutForce";
   //public sliders: Slider[] = [];
   public value1 = new Parameter(new KeyframeList(0.1, "scalein end"), "scalein end");
   public value2 = new Parameter(new KeyframeList(0.1, "scaleout start"), "scaleout start");

@@ -1,15 +1,10 @@
 import { Viewport } from "../../Viewport/Viewport";
 import { emitclasses, EmitClassNames } from "../operators/AddEmitClasses";
-import { EmitFromPoint } from "../operators/EmitFromPoint";
-import { IEmitClass } from "../operators/IEmitClass";
-import { BounceForce } from "../forces/BounceForce";
-import { DragForce } from "../forces/DragForce";
-import { IForceClass } from "../forces/IForceClass";
-import { ScaleInOutForce } from "../forces/ScaleInOut";
-import { TurbulenceForce } from "../forces/TurbulenceForce";
-import { VectorForce } from "../forces/VectorForce";
 import { ParticleScene } from "../ParticleScene";
-import { ParticleParameterGroup, ParticleSystem, ParticleSystemData } from "../ParticleSystem";
+import { ParticleParameterGroup, ParticleSystem } from "../ParticleSystem";
+import { IParticleSystemData } from "../IParticlesystemData";
+import { forceclasses, ForceClassNames } from "../forces/AddForceClasses";
+import { IOperatorData } from "../operators/IOperatorData";
 declare var require: any;
 
 
@@ -25,18 +20,18 @@ export function Load(particlesystems: ParticleSystem[], particleScenes: Particle
   for (let j = 0; j < json.length; j++) {
     console.log("json maxParticles:", json[j].maxParticles);
     
-    let particlesystemdata = json[j] as ParticleSystemData;
-
+    let particlesystemdata = json[j] as IParticleSystemData;
+    particlesystemdata.emittersdata[0].name
 
     let particleSystem = new ParticleSystem(particlesystemdata.maxParticles);
     //let emitclass = new EmitFromPoint();
     //particleSystem.addEmitClass(emitclass);
 
     for (let e = 0; e < particlesystemdata.emittersdata.length; e++){
-      let emitterdata = particlesystemdata.emittersdata[e];
+      let emitterdata: IOperatorData = particlesystemdata.emittersdata[e];
       type EmitClasKey = keyof typeof EmitClassNames;
       
-      let key: EmitClasKey = emitterdata.name; 
+      let key: EmitClasKey = emitterdata.name as any;
       let name: EmitClassNames;
 
       let emitclass = new emitclasses[EmitClassNames[key]]();
@@ -46,8 +41,16 @@ export function Load(particlesystems: ParticleSystem[], particleScenes: Particle
       
     } 
     for (let f = 0; f < particlesystemdata.forcesdata.length; f++) {
-      let forcedata = particlesystemdata.forcesdata[f];
+      let forcedata: IOperatorData = particlesystemdata.forcesdata[f];
+      type ForceClasKey = keyof typeof ForceClassNames;
+      
+      let key: ForceClasKey = forcedata.name as any;
+      let name: ForceClassNames;
 
+      let forceclass = new forceclasses[ForceClassNames[key]]();
+
+      forceclass.setdata(forcedata);
+      particleSystem.addForceClass(forceclass);
       
     }
     particlesystems.push(particleSystem);

@@ -14,7 +14,7 @@ import { IForceClass } from "./IForceClass";
 
 
 export class BounceForce extends Operator implements IOperator {
-  public override name = "Bounce Force";
+  public override name = "BounceForce";
 
 
 

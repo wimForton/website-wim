@@ -1,5 +1,15 @@
 import CubicBezier from "../../../UI/curveeditor/cubic-bezier-easing";
 import { Vector3D } from "../../Utils/Vector3D";
+import { IKeyframelistData } from "./IKeyframelistData";
+
+export interface ISliderSettings{
+    disabled: boolean;
+    min: number;
+    max: number;
+    showTicks: boolean;
+    step: number;
+    thumbLabel: boolean;
+}
 
 export class KeyFrame{
     public position: number = 0;
@@ -32,7 +42,7 @@ export class KeyframeList{
     public keyframes: KeyFrame[] = [];
     private calculateVal: CubicBezier = new CubicBezier();
     public name = "unnamed curve";
-    public slidersettings = { disabled: false, min: 0, max: 10, showTicks: false, step: 0.01, thumbLabel: true};
+    public slidersettings: ISliderSettings = { disabled: false, min: 0, max: 10, showTicks: false, step: 0.01, thumbLabel: true};
 
     constructor(value: number = 0, name = "unnamed") {
         this.name = name;
@@ -48,8 +58,8 @@ export class KeyframeList{
         this.slidersettings.thumbLabel = thumbLabel;
     }
 
-    public getdata(): any {
-        let param = { name: this.name, keyframes: this.keyframes, slidersettings: this.slidersettings};
+    public getdata(): IKeyframelistData {
+        let param: IKeyframelistData = { name: this.name, keyframes: this.keyframes, slidersettings: this.slidersettings};
         return param;
     }
 

@@ -4,20 +4,21 @@
         "maxParticles": 200,
         "forcesdata": [
             {
-                "name": "Bounce Force",
-                "parametergroups": [
+                "name": "VectorForce",
+                "displayname": "Emit From Point",
+                "parametergroupsdata": [
                     {
                         "name": "properties",
                         "parametersdata": [
                             {
                                 "type": "keyframelist",
-                                "name": "Floor level",
+                                "name": "strength x",
                                 "parameter": {
-                                    "name": "Floor level",
+                                    "name": "strength x",
                                     "keyframes": [
                                         {
                                             "position": 0,
-                                            "value": -1,
+                                            "value": 0,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
                                             "handlerightX": 0.5,
@@ -26,8 +27,8 @@
                                     ],
                                     "slidersettings": {
                                         "disabled": false,
-                                        "min": -5,
-                                        "max": 5,
+                                        "min": -1,
+                                        "max": 1,
                                         "showTicks": true,
                                         "step": 0.01,
                                         "thumbLabel": true
@@ -36,13 +37,71 @@
                             },
                             {
                                 "type": "keyframelist",
-                                "name": "Roughness X",
+                                "name": "strength y",
                                 "parameter": {
-                                    "name": "Roughness X",
+                                    "name": "strength y",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": -0.1,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 80,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 200,
+                                            "value": 0.09,
+                                            "handleleftX": -80,
+                                            "handleleftY": 0,
+                                            "handlerightX": 1,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": -1,
+                                        "max": 1,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "strength z",
+                                "parameter": {
+                                    "name": "strength z",
                                     "keyframes": [
                                         {
                                             "position": 0,
                                             "value": 0,
+                                            "handleleftX": -0.5,
+                                            "handleleftY": 0,
+                                            "handlerightX": 0.5,
+                                            "handlerightY": 0
+                                        }
+                                    ],
+                                    "slidersettings": {
+                                        "disabled": false,
+                                        "min": -1,
+                                        "max": 1,
+                                        "showTicks": true,
+                                        "step": 0.01,
+                                        "thumbLabel": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "keyframelist",
+                                "name": "strength scale",
+                                "parameter": {
+                                    "name": "strength scale",
+                                    "keyframes": [
+                                        {
+                                            "position": 0,
+                                            "value": 0.1,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
                                             "handlerightX": 0.5,
@@ -52,7 +111,7 @@
                                     "slidersettings": {
                                         "disabled": false,
                                         "min": 0,
-                                        "max": 2,
+                                        "max": 1,
                                         "showTicks": true,
                                         "step": 0.01,
                                         "thumbLabel": true
@@ -60,24 +119,72 @@
                                 }
                             },
                             {
+                                "type": "boolean",
+                                "name": "testcheckbox",
+                                "parameter": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "DragForce",
+                "displayname": "Emit From Point",
+                "parametergroupsdata": [
+                    {
+                        "name": "properties",
+                        "parametersdata": [
+                            {
                                 "type": "keyframelist",
-                                "name": "Roughness Z",
+                                "name": "Strength",
                                 "parameter": {
-                                    "name": "Roughness Z",
+                                    "name": "Strength",
                                     "keyframes": [
                                         {
                                             "position": 0,
                                             "value": 0,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
-                                            "handlerightX": 0.5,
+                                            "handlerightX": 10,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 25,
+                                            "value": 0,
+                                            "handleleftX": -10,
+                                            "handleleftY": 0,
+                                            "handlerightX": 4.800000000000001,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 37,
+                                            "value": 1,
+                                            "handleleftX": -4.800000000000001,
+                                            "handleleftY": 0,
+                                            "handlerightX": 7.2,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 55,
+                                            "value": 0,
+                                            "handleleftX": -7.2,
+                                            "handleleftY": 0,
+                                            "handlerightX": 58,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 200,
+                                            "value": 0,
+                                            "handleleftX": -58,
+                                            "handleleftY": 0,
+                                            "handlerightX": 1,
                                             "handlerightY": 0
                                         }
                                     ],
                                     "slidersettings": {
                                         "disabled": false,
                                         "min": 0,
-                                        "max": 2,
+                                        "max": 1,
                                         "showTicks": true,
                                         "step": 0.01,
                                         "thumbLabel": true
@@ -86,13 +193,13 @@
                             },
                             {
                                 "type": "keyframelist",
-                                "name": "Damping",
+                                "name": "Strength scale",
                                 "parameter": {
-                                    "name": "Damping",
+                                    "name": "Strength scale",
                                     "keyframes": [
                                         {
                                             "position": 0,
-                                            "value": 0,
+                                            "value": 0.1,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
                                             "handlerightX": 0.5,
@@ -117,7 +224,8 @@
         "emittersdata": [
             {
                 "name": "EmitFromPoint",
-                "parametergroups": [
+                "displayname": "Emit From Point",
+                "parametergroupsdata": [
                     {
                         "name": "properties",
                         "parametersdata": [
@@ -334,10 +442,18 @@
                                     "keyframes": [
                                         {
                                             "position": 0,
-                                            "value": 0,
+                                            "value": -20,
                                             "handleleftX": -0.5,
                                             "handleleftY": 0,
-                                            "handlerightX": 0.5,
+                                            "handlerightX": 80,
+                                            "handlerightY": 0
+                                        },
+                                        {
+                                            "position": 200,
+                                            "value": 15.129,
+                                            "handleleftX": -80,
+                                            "handleleftY": 0,
+                                            "handlerightX": 1,
                                             "handlerightY": 0
                                         }
                                     ],

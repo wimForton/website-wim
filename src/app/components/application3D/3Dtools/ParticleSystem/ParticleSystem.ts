@@ -2,7 +2,7 @@ import { EventEmitter } from "@angular/core";
 import { Slider } from "../../UiComponentData/Slider";
 import { EmitFromPoint } from "./operators/EmitFromPoint";
 import { IEmitClass } from "./operators/IEmitClass";
-import { classes, ForceClassNames } from "./forces/AddForceClasses";
+import { forceclasses, ForceClassNames } from "./forces/AddForceClasses";
 import { BounceForce } from "./forces/BounceForce";
 import { DragForce } from "./forces/DragForce";
 import { IForceClass } from "./forces/IForceClass";
@@ -11,6 +11,8 @@ import { TurbulenceForce } from "./forces/TurbulenceForce";
 import { VectorForce } from "./forces/VectorForce";
 import { Particle } from "./Particle";
 import { IOperator } from "./operators/IOperator";
+import { IParticleSystemData } from "./IParticlesystemData";
+import { IOperatorData } from "./operators/IOperatorData";
 
 
 
@@ -20,12 +22,6 @@ export class ControlParameters {
   id: number = 0;
 }
 
-export interface ParticleSystemData{
-  name: string;
-  maxParticles: number;
-  forcesdata: any;
-  emittersdata: any;
-}
 
 export class FunctionWithTrigger {
   private fn: Function;
@@ -84,7 +80,7 @@ export class ParticleSystem {
   }
 
   public AddForceClassesByKey(forcename: ForceClassNames) {
-    var forceclass = new classes[forcename]();
+    var forceclass = new forceclasses[forcename]();
     this.forceClasses.push(forceclass);
   }
 
@@ -98,16 +94,16 @@ export class ParticleSystem {
     }
   }
 
-  getdata(): ParticleSystemData {
-    let forces: any[] = [];
+  getdata(): IParticleSystemData {
+    let forces: IOperatorData[] = [];
     for (let f = 0; f < this.GetForceClasses().length; f++) {
       forces.push(this.GetForceClasses()[f].getdata());
     }
-    let emitters: any[] = [];
+    let emitters: IOperatorData[] = [];
     for (let e = 0; e < this.emitClasses.length; e++) {
       emitters.push(this.emitClasses[e].getdata());
     }
-    let param: ParticleSystemData = { name: this.name, maxParticles: this.maxParticles, forcesdata: forces, emittersdata: emitters };
+    let param: IParticleSystemData = { name: this.name, maxParticles: this.maxParticles, forcesdata: forces, emittersdata: emitters };
     return param;
   }
 

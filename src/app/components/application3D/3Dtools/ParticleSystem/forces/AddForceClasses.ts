@@ -4,7 +4,7 @@ import { ScaleInOutForce } from "./ScaleInOut";
 import { TurbulenceForce } from "./TurbulenceForce";
 import { VectorForce } from "./VectorForce";
 
-export const classes = {
+export const forceclasses = {
   BounceForce,
   DragForce,
   ScaleInOutForce,

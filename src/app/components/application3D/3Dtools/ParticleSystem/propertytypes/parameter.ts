@@ -1,3 +1,5 @@
+import { IKeyframelistData } from "./IKeyframelistData";
+import { IParameterData } from "./IParameterData";
 import { KeyframeList } from "./keyframelist";
 
 export class Parameter{
@@ -42,35 +44,36 @@ export class Parameter{
     }
 
     public getdata(): any {
-        let parameterdata: any;
+        let parameterdata: boolean | IKeyframelistData | number;
         if(this.type == "boolean") parameterdata = this.bool;
-        if(this.type == "keyframelist") parameterdata = this.keyframelist?.getdata();
+        if(this.type == "keyframelist") parameterdata = this.keyframelist?.getdata()!;
         if(this.type == "number") parameterdata = this.num;
-        let param = {type: this.type, name: this.name, parameter: parameterdata};
+        let param = {type: this.type, name: this.name, parameter: parameterdata!};
         return param;
     }
-    public setdata(data: any){
+    public setdata(data: IParameterData){
         console.log("paramsetdata: ", data);
         
         if(data.type == "boolean"){
             this.type = data.type;
             this.name = data.name;
-            this.bool = data.parameter;
+            this.bool = data.parameter as boolean;
         }
         if(data.type == "keyframelist"){
             this.type = data.type;
             this.name = data.name;
-            this.setSliderSettings(data.disabled, data.min, data.max = 10, data.showTicks, data.step, data.thumbLabel);
+            let keyframelistdata = data.parameter as KeyframeList;
             this.keyframelist = new KeyframeList();
-            for (let index = 0; index < data.parameter.keyframes.length; index++) {
-                const keydata = data.parameter.keyframes[index];
+            this.keyframelist.slidersettings = keyframelistdata.slidersettings;
+            for (let index = 0; index < keyframelistdata.keyframes.length; index++) {
+                const keydata = keyframelistdata.keyframes[index];
                 this.keyframelist.AddKeyframe(keydata.position, keydata.value, keydata.handleleftX, keydata.handleleftY, keydata.handlerightX, keydata.handlerightY);
             }
         }
         if(data.type == "number"){
             this.type = data.type;
             this.name = data.name;
-            this.num = data.parameter;
+            this.num = data.parameter as number;
         }
         //console.log("paramsetdata: ", this.getdata());
     }
