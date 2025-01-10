@@ -11,8 +11,9 @@ import { TurbulenceForce } from "./forces/TurbulenceForce";
 import { VectorForce } from "./forces/VectorForce";
 import { Particle } from "./Particle";
 import { IOperator } from "./operators/IOperator";
-import { IParticleSystemData } from "./IParticlesystemData";
+import { IParticleSystemData } from "./IParticleSystemData";
 import { IOperatorData } from "./operators/IOperatorData";
+import { CurveViewportService } from "../../UI/curveeditor/CurveViewportService";
 
 
 
@@ -60,15 +61,18 @@ export class ParticleSystem {
 
   // public emittersParameters: Array<ControlParameters> = [];
   // public forcesParameters: Array<ControlParameters> = [];
-  public addForces: Array<FunctionWithTrigger> = [];
+  //public addForces: Array<FunctionWithTrigger> = [];
   public name = "psystem";
   public forceclassnames!: ForceClassNames;
   private time = 0;
+  private play = false;
+  private loop = true;
 
 
   constructor(maxParticles: number) {
     this.maxParticles = maxParticles;
     this.initParticles();
+
   }
 
   public setTime(time: number){
@@ -77,6 +81,14 @@ export class ParticleSystem {
 
   public getTime(): number{
     return this.time;
+  }
+
+  public Play(){
+    this.play = true;
+  }
+
+  public Stop(){
+    this.play = false;
   }
 
   public AddForceClassesByKey(forcename: ForceClassNames) {
@@ -129,6 +141,13 @@ export class ParticleSystem {
   }
 
   public SimulateFrame() {
+
+    if(this.play){
+      this.time++;
+      if(this.time > 200){
+        this.time = 0;
+      }
+    }
     for (var p = 0; p < this.Particles.length; p++) {
       let particle = this.Particles[p];
       if (particle.age > particle.maxAge) {////try rebirth

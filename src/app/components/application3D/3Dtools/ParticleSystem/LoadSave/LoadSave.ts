@@ -2,7 +2,7 @@ import { Viewport } from "../../Viewport/Viewport";
 import { emitclasses, EmitClassNames } from "../operators/AddEmitClasses";
 import { ParticleScene } from "../ParticleScene";
 import { ParticleParameterGroup, ParticleSystem } from "../ParticleSystem";
-import { IParticleSystemData } from "../IParticlesystemData";
+import { IParticleSystemData } from "../IParticleSystemData";
 import { forceclasses, ForceClassNames } from "../forces/AddForceClasses";
 import { IOperatorData } from "../operators/IOperatorData";
 declare var require: any;

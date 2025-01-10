@@ -33,19 +33,33 @@
         <div class="animcurve">
           <div class="decorationborder">
             <div style="padding-top: 5px; background-color: rgb(48, 38, 38);">
-              <mat-form-field class="example-margin example-width" style="width: 100px; padding: 0px; padding-right: 5px; margin-top: 8px;" (input)="onTimeChange($event)">
-                  <mat-label>{{sl1.label}}</mat-label>
-                  <input matInput type="number" [(ngModel)]="time">
-                </mat-form-field>
-              <mat-slider class="example-margin mat-body-small timeslider"
-                  [disabled]="sl1.disabled"
-                  [max]="sl1.max"
-                  [min]="sl1.min"
-                  [step]="sl1.step"
-                  [showTickMarks]="sl1.showTicks"
-                  [discrete]="sl1.thumbLabel">
-              <input matSliderThumb [(ngModel)]="time" #slider (input)="onTimeChange($event)">
-              </mat-slider>
+              <table>
+                <tr>
+                  <td>
+                    <div class="smallbutton" (click)="onPlay()">play</div>
+                  </td>
+                  <td>
+                    <div class="smallbutton" (click)="onStop()">stop</div>
+                  </td>
+                  <td>
+                    <div>
+                      <mat-form-field class="example-margin example-width" style="width: 100px; padding: 0px; padding-right: 5px; margin-top: 8px;" (input)="onTimeChange($event)">
+                          <mat-label>{{sl1.label}}</mat-label>
+                          <input matInput type="number" [(ngModel)]="time">
+                        </mat-form-field>
+                      <mat-slider class="example-margin mat-body-small timeslider"
+                          [disabled]="sl1.disabled"
+                          [max]="sl1.max"
+                          [min]="sl1.min"
+                          [step]="sl1.step"
+                          [showTickMarks]="sl1.showTicks"
+                          [discrete]="sl1.thumbLabel">
+                      <input matSliderThumb [(ngModel)]="time" #slider (input)="onTimeChange($event)">
+                      </mat-slider>
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </div>
           </div>
           <app-curveeditor></app-curveeditor>

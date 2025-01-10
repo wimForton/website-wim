@@ -43,6 +43,7 @@ mat-panel-title {
   margin-top: 0px;
   font-size: 0.8em;
   cursor: pointer;
+  max-width: 100px;
 }
 
 .smallbuttonmenu {

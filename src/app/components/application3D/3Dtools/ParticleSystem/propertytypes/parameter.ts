@@ -8,14 +8,12 @@ export class Parameter{
     private bool: boolean = false;
     private keyframelist?: KeyframeList;
     private num: number = 0;
-    //public slidersettings = { disabled: false, min: 0, max: 10, showTicks: false, step: 0.01, thumbLabel: true};
-  
+
     constructor(parameter: any, name = "unnamed") {
         this.name = name;
         if(typeof parameter ===  "boolean"){this.type = "boolean"; this.bool = parameter;}
         if(parameter instanceof  KeyframeList){this.type = "keyframelist"; this.keyframelist = parameter}
         if(typeof parameter === "number"){this.type = "number"; this.num = parameter}
-        console.log("this.type:", this.type);
     }
 
     public setSliderSettings(disabled = false, min = 0, max = 10, showTicks=false, step= 0.01, thumbLabel= true){
@@ -52,8 +50,6 @@ export class Parameter{
         return param;
     }
     public setdata(data: IParameterData){
-        console.log("paramsetdata: ", data);
-        
         if(data.type == "boolean"){
             this.type = data.type;
             this.name = data.name;
@@ -75,7 +71,6 @@ export class Parameter{
             this.name = data.name;
             this.num = data.parameter as number;
         }
-        //console.log("paramsetdata: ", this.getdata());
     }
 
   }

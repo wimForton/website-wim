@@ -86,6 +86,16 @@ export class ParticlesPageComponent implements AfterViewInit, OnChanges, DoCheck
   onTimeChanged(time: number){
 
   }
+  onPlay(){
+    for (let index = 0; index < this.particleSystems.length; index++) {
+      this.particleSystems[index].Play();
+    }
+  }
+  onStop(){
+    for (let index = 0; index < this.particleSystems.length; index++) {
+      this.particleSystems[index].Stop();
+    }
+  }
 
   ngAfterViewInit(): void {
     var container: HTMLElement = this.viewportcontainer.nativeElement;
