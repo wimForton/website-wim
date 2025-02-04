@@ -25,12 +25,15 @@ export class CurveViewportService {
   private onDownPosition = new THREE.Vector2();
   private raycaster: THREE.Raycaster = new THREE.Raycaster();
   private pointer = new THREE.Vector2();
-  private transformControl?: TransformControls;
+  //private transformControl?: TransformControls;
   private splineHelperObjects: THREE.Mesh[] = [];
   private curve: THREE.CubicBezierCurve3 = new THREE.CubicBezierCurve3;
   private bgbox!: THREE.Mesh;
+  private helper = new THREE.GridHelper( 1000, 1000 );
   private text!: HTMLDivElement;
   private orbitcontrols!: OrbitControls;
+  private dragobject: THREE.Mesh = null!;
+  private lastpointer: THREE.Vector2 = new THREE.Vector2(0,0);
 
 
   private curvesegments: CurveSegment[] = [];
@@ -80,12 +83,12 @@ export class CurveViewportService {
 
     //////////////////////////////////GRID
     this.container.appendChild(this.renderer.domElement);
-    const helper = new THREE.GridHelper( 1000, 1000 );
-    helper.position.z = -1;
-    helper.material.opacity = 0.25;
-    helper.material.transparent = true;
-    helper.rotateX(Math.PI / 2);
-    this.scene.add( helper );
+    this.helper = new THREE.GridHelper( 1000, 1000 );
+    this.helper.position.z = -1;
+    this.helper.material.opacity = 0.25;
+    this.helper.material.transparent = true;
+    this.helper.rotateX(Math.PI / 2);
+    this.scene.add( this.helper );
 
     /////////Orbit
     // Controls
@@ -95,20 +98,20 @@ export class CurveViewportService {
     this.orbitcontrols.addEventListener( 'change', this.render );
 
     
-    ////////Transform
-    this.transformControl = new TransformControls( this.camera, this.renderer.domElement );
-    this.transformControl.showZ = false;
-    //this.transformControl.setTranslationSnap(1);
-    this.transformControl.setSize(1);
-    this.transformControl.addEventListener( 'change', this.render );
-    this.transformControl.addEventListener( 'dragging-changed', function ( event ) {
-      //orbitcontrols.enabled = ! event.value;
-    } );
-    this.transformControl.addEventListener( 'objectChange', function (this: any) {
-      this.UpdateCurves();
-    }.bind(this) );
-    if(this.splineHelperObjects.length > 0){this.transformControl.attach(this.splineHelperObjects[0])}
-    this.scene.add( this.transformControl.getHelper() );
+    // ////////Transform
+    // this.transformControl = new TransformControls( this.camera, this.renderer.domElement );
+    // this.transformControl.showZ = false;
+    // //this.transformControl.setTranslationSnap(1);
+    // this.transformControl.setSize(1);
+    // this.transformControl.addEventListener( 'change', this.render );
+    // this.transformControl.addEventListener( 'dragging-changed', function ( event ) {
+    //   //orbitcontrols.enabled = ! event.value;
+    // } );
+    // this.transformControl.addEventListener( 'objectChange', function (this: any) {
+    //   this.UpdateCurves();
+    // }.bind(this) );
+    // if(this.splineHelperObjects.length > 0){this.transformControl.attach(this.splineHelperObjects[0])}
+    // this.scene.add( this.transformControl.getHelper() );
 
     this.keyframeListToCurve();
 
@@ -168,6 +171,12 @@ export class CurveViewportService {
       let lastkeyX = bbox[2];
       let minY = bbox[1];
       let maxY = bbox[3];
+
+      let div = lastkeyX - firstkeyX;
+      if(div < 40){this.helper.scale.set(1,1,1)}
+      if(div > 40){this.helper.scale.set(10,10,10)}
+      if(div > 400){this.helper.scale.set(100,100,100)}
+      if(div > 4000){this.helper.scale.set(1000,1000,1000)}
   
       let centerx = (lastkeyX - firstkeyX) * 0.5 + firstkeyX;
 
@@ -183,7 +192,7 @@ export class CurveViewportService {
       this.camera.bottom = minY - 1;//- this.frustumSize / 2;
       this.camera.updateProjectionMatrix();
       this.orbitcontrols.reset();
-      this.transformControl!.setSize((lastkeyX - firstkeyX) * 0.015);
+      //this.transformControl!.setSize((lastkeyX - firstkeyX) * 0.015);
 
       this.labelRenderer.domElement.style.top = this.containerProps.y + 'px';
       this.labelRenderer.setSize(this.containerProps.width, this.containerProps.height);
@@ -230,12 +239,12 @@ export class CurveViewportService {
   }
 
   keyframeListToCurve(){
-    let ctrlobject: THREE.Mesh = this.transformControl!.object as THREE.Mesh;
-    let transformcontrolindex = -1;
-    if(ctrlobject != undefined || null){
-      transformcontrolindex = this.splineHelperObjects.indexOf(ctrlobject);
-    }
-    this.transformControl?.detach();
+    // let ctrlobject: THREE.Mesh = this.transformControl!.object as THREE.Mesh;
+    // let transformcontrolindex = -1;
+    // if(ctrlobject != undefined || null){
+    //   transformcontrolindex = this.splineHelperObjects.indexOf(ctrlobject);
+    // }
+    // this.transformControl?.detach();
     this.keyframelist.Sort();
     for (let index = 0; index < this.curvesegments.length; index++) {
       const segment = this.curvesegments[index];
@@ -253,7 +262,7 @@ export class CurveViewportService {
     let minY = bbox[1];
     let maxY = bbox[3];
     let sx = ((lastkeyX + 5) - (firstkeyX - 5)) * 0.01;
-    let sy = ((maxY + 5) - (minY - 5)) * 0.04;
+    let sy = ((maxY + 5) - (minY - 5)) * 0.03;
 
     for (let index = 0; index < keyframes.length; index++) {
       
@@ -272,9 +281,9 @@ export class CurveViewportService {
       }
       
     }
-    if(transformcontrolindex >= -1 && transformcontrolindex < this.splineHelperObjects.length){
-      this.transformControl?.attach(this.splineHelperObjects[transformcontrolindex])
-    }
+    // if(transformcontrolindex >= -1 && transformcontrolindex < this.splineHelperObjects.length){
+    //   this.transformControl?.attach(this.splineHelperObjects[transformcontrolindex])
+    // }
     if(keyframes.length == 1){
       ///todo
     }
@@ -289,19 +298,21 @@ export class CurveViewportService {
       
       if(keyframes.length > 1 && index < keyframes.length - 1){
         let currentseg = this.curvesegments[index];
-        if(this.transformControl!.object === currentseg.mesh1 ||
-          this.transformControl!.object === currentseg.mesh2 ||
-          this.transformControl!.object === currentseg.mesh3 ||
-          this.transformControl!.object === currentseg.mesh4
-        ){
-          this.curvesegments[index].UpdateCurve();
-        }
-        if(this.transformControl!.object === this.curvesegments[index].mesh4 && 
+        // if(this.transformControl!.object === currentseg.mesh1 ||
+        //   this.transformControl!.object === currentseg.mesh2 ||
+        //   this.transformControl!.object === currentseg.mesh3 ||
+        //   this.transformControl!.object === currentseg.mesh4
+        // ){
+        //   this.curvesegments[index].UpdateCurve();
+        // }
+        if(//this.transformControl!.object === this.curvesegments[index].mesh4 && 
           this.curvesegments.length > index + 1
         ){///if the last controller is moved and there is a segment after this
             let v4 = currentseg.mesh4.position;
             this.curvesegments[index + 1].mesh1.position.set(v4.x, v4.y, v4.z);///connect handle 4 to handle 1 of next seg
             this.curvesegments[index + 1].UpdateCurve();
+        }else{
+          this.curvesegments[0].UpdateCurve();
         }
         let thiskey = keyframes[index];
         let nextkey = keyframes[index + 1];
@@ -328,42 +339,22 @@ export class CurveViewportService {
     this.text.textContent = Number(value).toFixed(2);
   }
 
+  onDblClick( event: any ) {
+    // let container = this.container!;
+    // let x = ( (event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width ) * 2 - 1;
+    // let y = - ( (event.clientY - container.getBoundingClientRect().top) / this.containerProps.height ) * 2 + 1;
+    // let pos: THREE.Vector3 = new THREE.Vector3;
+    // this.camera.getWorldPosition(pos);
+    // let zoom = this.camera.zoom;
+    // let mouseScenePosX = x * this.camera.right / zoom + pos.x;
+    // let mouseScenePosY = y * this.camera.top / zoom + pos.y;
+    // this.keyframelist.AddKeyframe(mouseScenePosX,mouseScenePosY,-1,0,+1,0);
+    // this.keyframeListToCurve();
+  }
 
   onPointerDown( event: any ) {
-    let container = this.container!;
-    let x = ( (event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width ) * 2 - 1;
-    let y = - ( (event.clientY - container.getBoundingClientRect().top) / this.containerProps.height ) * 2 + 1;
-    this.onDownPosition.x = event.clientX;
-    this.onDownPosition.y = event.clientY;
-  }
-
-  onDblClick( event: any ) {
-    let container = this.container!;
-    let x = ( (event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width ) * 2 - 1;
-    let y = - ( (event.clientY - container.getBoundingClientRect().top) / this.containerProps.height ) * 2 + 1;
-    let pos: THREE.Vector3 = new THREE.Vector3;
-    this.camera.getWorldPosition(pos);
-    let zoom = this.camera.zoom;
-    let mouseScenePosX = x * this.camera.right / zoom + pos.x;
-    let mouseScenePosY = y * this.camera.top / zoom + pos.y;
-    this.keyframelist.AddKeyframe(mouseScenePosX,mouseScenePosY,-1,0,+1,0);
-    this.keyframeListToCurve();
-  }
-
-  onPointerUp( event: any ) {
-
-    this.onUpPosition.x = event.clientX;
-    this.onUpPosition.y = event.clientY;
-    if ( this.onDownPosition.distanceTo( this.onUpPosition ) === 0 ) {
-
-      this.transformControl!.detach();
-      this.render();
-
-    }
-    this.keyframeListToCurve();
-  }
-
-  onPointerMove( event: any ) {
+    this.lastpointer.x = event.clientX;
+    this.lastpointer.y = event.clientY;
     let container = this.container!;
     let ContainerBBox:DOMRect = container.getBoundingClientRect();
     this.pointer.x = ( (event.clientX - ContainerBBox.left) / ContainerBBox.width ) * 2 - 1;
@@ -372,12 +363,82 @@ export class CurveViewportService {
     this.raycaster.setFromCamera( this.pointer, this.camera );
     const intersects = this.raycaster.intersectObjects( this.splineHelperObjects, false );
     if ( intersects.length > 0 ) {
-      const object = intersects[ 0 ].object;
-      
-      if ( object !== this.transformControl!.object && !this.transformControl?.dragging) {// && !this.transformControl?.dragging
-        this.transformControl!.attach( object );
-      }
+      const object = intersects[ 0 ].object as THREE.Mesh;//<THREE.BufferGeometry, THREE.Material | THREE.Material[]>
+      (object.material as THREE.MeshBasicMaterial).color.set( new THREE.Color().setRGB( 0, 0, 1 ) );
+      this.dragobject = object;
+      // if ( object !== this.transformControl!.object && !this.transformControl?.dragging) {// && !this.transformControl?.dragging
+      //   this.transformControl!.attach( object );
+      // }
     }
+
+    // let container = this.container!;
+    // let x = ( (event.clientX - container.getBoundingClientRect().left) / container.getBoundingClientRect().width ) * 2 - 1;
+    // let y = - ( (event.clientY - container.getBoundingClientRect().top) / this.containerProps.height ) * 2 + 1;
+    // this.onDownPosition.x = event.clientX;
+    // this.onDownPosition.y = event.clientY;
+  }
+
+
+
+  onPointerUp( event: any ) {
+    let container = this.container!;
+    let ContainerBBox:DOMRect = container.getBoundingClientRect();
+    this.pointer.x = ( (event.clientX - ContainerBBox.left) / ContainerBBox.width ) * 2 - 1;
+    this.pointer.y = - ( (event.clientY - container.getBoundingClientRect().top) / this.containerProps.height ) * 2 + 1;
+    console.log("up :", this.pointer.x,"and", this.pointer.y);
+
+    this.onUpPosition.x = event.clientX;
+    this.onUpPosition.y = event.clientY;
+    this.dragobject = null!;
+    if ( this.onDownPosition.distanceTo( this.onUpPosition ) === 0 ) {
+
+      //this.transformControl!.detach();
+      this.render();
+
+    }
+    this.keyframeListToCurve();
+  }
+
+  onPointerMove( event: any ) {
+
+    let container = this.container!;
+    let ContainerBBox:DOMRect = container.getBoundingClientRect();
+    this.pointer.x = ( (event.clientX - ContainerBBox.left) / ContainerBBox.width ) * 2 - 1;
+    this.pointer.y = - ( (event.clientY - container.getBoundingClientRect().top) / this.containerProps.height ) * 2 + 1;
+    let pos: THREE.Vector3 = new THREE.Vector3;
+    this.camera.getWorldPosition(pos);
+    let zoom = this.camera.zoom;
+
+
+    this.raycaster.setFromCamera( this.pointer, this.camera );
+    const intersects = this.raycaster.intersectObjects( this.splineHelperObjects, false );
+    if ( intersects.length > 0 && this.dragobject == null) {
+      const object = intersects[ 0 ].object as THREE.Mesh;//<THREE.BufferGeometry, THREE.Material | THREE.Material[]>
+      (object.material as THREE.MeshBasicMaterial).color.set( new THREE.Color().setRGB( 1, 0, 0 ) );
+    }
+
+    let parentposX = 0;
+    let parentposY = 0;
+    if(this.dragobject != null){
+      if(this.dragobject.parent != this.scene){
+        parentposX = this.dragobject.parent!.position.x;
+        parentposY = this.dragobject.parent!.position.y;
+      }
+      let bbox = this.keyframelist.getBoundingBox();
+      let firstkeyX = bbox[0];
+      let lastkeyX = bbox[2];
+      let minY = bbox[1];
+      let maxY = bbox[3];
+      let boxsizeX = lastkeyX - firstkeyX + 10;
+      let boxsizeY = maxY - minY + 2;
+      this.dragobject.position.x += (event.clientX -this.lastpointer.x) * boxsizeX / container.getBoundingClientRect().width;//set(mouseScenePosX - parentposX, mouseScenePosY - parentposY, 0);
+      this.dragobject.position.y -= (event.clientY -this.lastpointer.y) * boxsizeY / container.getBoundingClientRect().height;
+    }
+    this.lastpointer.x = event.clientX;
+    this.lastpointer.y = event.clientY;
+    this.UpdateCurves();
+    this.render();
+
   }
 
   public reset(){
@@ -395,6 +456,11 @@ export class CurveViewportService {
     let minY = bbox[1];
     let maxY = bbox[3];
 
+    let div = lastkeyX - firstkeyX;
+    if(div < 40){this.helper.scale.set(1,1,1)}
+    if(div > 40){this.helper.scale.set(10,10,10)}
+    if(div > 400){this.helper.scale.set(100,100,100)}
+    if(div > 4000){this.helper.scale.set(1000,1000,1000)}
     let centerx = (lastkeyX - firstkeyX) * 0.5 + firstkeyX;
 
     this.camera.left = firstkeyX - 5;
@@ -406,7 +472,7 @@ export class CurveViewportService {
     this.camera.bottom = minY - 1;//- this.frustumSize / 2;
     this.camera.updateProjectionMatrix();
     this.orbitcontrols.reset();
-    this.transformControl!.setSize((lastkeyX - firstkeyX) * 0.015);
+    //this.transformControl!.setSize((lastkeyX - firstkeyX) * 0.015);
 
     this.labelRenderer.setSize(this.containerProps.width, this.containerProps.height);
     this.labelRenderer.domElement.style.top = this.containerProps.y + 'px';
