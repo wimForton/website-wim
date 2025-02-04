@@ -1,34 +1,844 @@
 [
   {
-    "name": "",
+    "name": "psystem",
     "maxParticles": 200,
-    "forceparam": [
+    "forcesdata": [
       {
-        "name": "Vector Force",
-        "value1": 0,
-        "value2": -0.1,
-        "value3": 0,
-        "value4": 0.15
+        "name": "VectorForce",
+        "displayname": "Emit From Point",
+        "parametergroupsdata": [
+          {
+            "name": "properties",
+            "parametersdata": [
+              {
+                "type": "keyframelist",
+                "name": "strength x",
+                "parameter": {
+                  "name": "strength x",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": -1,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "strength y",
+                "parameter": {
+                  "name": "strength y",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 16,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 40,
+                      "value": 0,
+                      "handleleftX": -16,
+                      "handleleftY": 0,
+                      "handlerightX": 1.2000000000000002,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 43,
+                      "value": -0.35,
+                      "handleleftX": -1.2000000000000002,
+                      "handleleftY": 0,
+                      "handlerightX": 62.800000000000004,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 200,
+                      "value": 0.2,
+                      "handleleftX": -62.800000000000004,
+                      "handleleftY": 0,
+                      "handlerightX": 1,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": -1,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "strength z",
+                "parameter": {
+                  "name": "strength z",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": -1,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "strength scale",
+                "parameter": {
+                  "name": "strength scale",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0.1,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "boolean",
+                "name": "testcheckbox",
+                "parameter": true
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Turbulence Force",
-        "value1": 0.5,
-        "value2": 0.5,
-        "value3": 0.5,
-        "value4": 0.1,
-        "value5": 1
+        "name": "BounceForce",
+        "displayname": "Emit From Point",
+        "parametergroupsdata": [
+          {
+            "name": "properties",
+            "parametersdata": [
+              {
+                "type": "keyframelist",
+                "name": "Floor level",
+                "parameter": {
+                  "name": "Floor level",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": -2,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 16,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 40,
+                      "value": -2,
+                      "handleleftX": -16,
+                      "handleleftY": 0,
+                      "handlerightX": 1.2000000000000002,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 43,
+                      "value": -1.43,
+                      "handleleftX": -1.2000000000000002,
+                      "handleleftY": 0,
+                      "handlerightX": 62.800000000000004,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 200,
+                      "value": -1,
+                      "handleleftX": -62.800000000000004,
+                      "handleleftY": 0,
+                      "handlerightX": 1,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": -5,
+                    "max": 5,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Roughness X",
+                "parameter": {
+                  "name": "Roughness X",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 16,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 40,
+                      "value": 0.12,
+                      "handleleftX": -16,
+                      "handleleftY": 0,
+                      "handlerightX": 1.2000000000000002,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 43,
+                      "value": 0.31,
+                      "handleleftX": -1.2000000000000002,
+                      "handleleftY": 0,
+                      "handlerightX": 62.800000000000004,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 200,
+                      "value": 0.36,
+                      "handleleftX": -62.800000000000004,
+                      "handleleftY": 0,
+                      "handlerightX": 1,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 2,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Roughness Z",
+                "parameter": {
+                  "name": "Roughness Z",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 16,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 40,
+                      "value": 0.15,
+                      "handleleftX": -16,
+                      "handleleftY": 0,
+                      "handlerightX": 1.2000000000000002,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 43,
+                      "value": 0.24,
+                      "handleleftX": -1.2000000000000002,
+                      "handleleftY": 0,
+                      "handlerightX": 62.800000000000004,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 200,
+                      "value": 0.36,
+                      "handleleftX": -62.800000000000004,
+                      "handleleftY": 0,
+                      "handlerightX": 1,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 2,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Damping",
+                "parameter": {
+                  "name": "Damping",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Bounce Force",
-        "value1": -2,
-        "value2": 0,
-        "value3": 0,
-        "value4": 0.54
+        "name": "DragForce",
+        "displayname": "Emit From Point",
+        "parametergroupsdata": [
+          {
+            "name": "properties",
+            "parametersdata": [
+              {
+                "type": "keyframelist",
+                "name": "Strength",
+                "parameter": {
+                  "name": "Strength",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0.1,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Strength scale",
+                "parameter": {
+                  "name": "Strength scale",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0.47,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Drag Force",
-        "value1": 0.08,
-        "value2": 0.2
+        "name": "TurbulenceForce",
+        "displayname": "Emit From Point",
+        "parametergroupsdata": [
+          {
+            "name": "properties",
+            "parametersdata": [
+              {
+                "type": "keyframelist",
+                "name": "strength x",
+                "parameter": {
+                  "name": "strength x",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0.5,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "strength y",
+                "parameter": {
+                  "name": "strength y",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0.5,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "strength z",
+                "parameter": {
+                  "name": "strength z",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0.5,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "strength scale",
+                "parameter": {
+                  "name": "strength scale",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 66,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 165,
+                      "value": 0,
+                      "handleleftX": -66,
+                      "handleleftY": 0,
+                      "handlerightX": 1.2000000000000002,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 168,
+                      "value": 0.66,
+                      "handleleftX": -1.2000000000000002,
+                      "handleleftY": 0,
+                      "handlerightX": 7.2,
+                      "handlerightY": 0
+                    },
+                    {
+                      "position": 186,
+                      "value": 0.11,
+                      "handleleftX": -7.2,
+                      "handleleftY": 0,
+                      "handlerightX": 1,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "density",
+                "parameter": {
+                  "name": "density",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0.2,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "emittersdata": [
+      {
+        "name": "EmitFromPoint",
+        "displayname": "Emit From Point",
+        "parametergroupsdata": [
+          {
+            "name": "properties",
+            "parametersdata": [
+              {
+                "type": "keyframelist",
+                "name": "radial speed",
+                "parameter": {
+                  "name": "unnamed",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 45.4,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 100,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Amount",
+                "parameter": {
+                  "name": "unnamed",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0.5,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 100,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Lifespan",
+                "parameter": {
+                  "name": "unnamed",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 80,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 100,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Direction X",
+                "parameter": {
+                  "name": "unnamed",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": -1,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Direction Y",
+                "parameter": {
+                  "name": "unnamed",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": -1,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Direction Z",
+                "parameter": {
+                  "name": "unnamed",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": -1,
+                    "max": 1,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Min size",
+                "parameter": {
+                  "name": "unnamed",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0.2,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 10,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Max size",
+                "parameter": {
+                  "name": "unnamed",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 4,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 10,
+                    "showTicks": true,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "transforms",
+            "parametersdata": [
+              {
+                "type": "keyframelist",
+                "name": "Position X",
+                "parameter": {
+                  "name": "unnamed",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 10,
+                    "showTicks": false,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Position Y",
+                "parameter": {
+                  "name": "unnamed",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 7.15,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 10,
+                    "showTicks": false,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              },
+              {
+                "type": "keyframelist",
+                "name": "Position Z",
+                "parameter": {
+                  "name": "unnamed",
+                  "keyframes": [
+                    {
+                      "position": 0,
+                      "value": 0,
+                      "handleleftX": -0.5,
+                      "handleleftY": 0,
+                      "handlerightX": 0.5,
+                      "handlerightY": 0
+                    }
+                  ],
+                  "slidersettings": {
+                    "disabled": false,
+                    "min": 0,
+                    "max": 10,
+                    "showTicks": false,
+                    "step": 0.01,
+                    "thumbLabel": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
       }
     ]
   }

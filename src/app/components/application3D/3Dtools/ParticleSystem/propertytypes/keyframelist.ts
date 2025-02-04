@@ -179,7 +179,7 @@ export class KeyframeList{
         let rval = 0;
         if(this.keyframes.length == 1){
             rval = this.keyframes[0].value;
-        }else{
+        }else if(this.keyframes[this.keyframes.length - 1].position >= t){
             for (let index = 0; index < this.keyframes.length - 1; index++) {
                 const thiskeyframe = this.keyframes[index];
                 const nextkeyframe = this.keyframes[index + 1];
@@ -215,6 +215,9 @@ export class KeyframeList{
                 }
             }
 
+        }
+        else{
+            rval = this.keyframes[this.keyframes.length - 1].value;
         }
 
         return +rval.toFixed(6);

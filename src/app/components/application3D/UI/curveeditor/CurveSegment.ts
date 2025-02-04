@@ -23,10 +23,12 @@ export class CurveSegment{
     /**
      *
      */
-    constructor(scene: THREE.Scene, splineHelperObjects: THREE.Mesh[], v0: THREE.Vector3, v1: THREE.Vector3, v2: THREE.Vector3, v3: THREE.Vector3) {
+    constructor(scene: THREE.Scene, splineHelperObjects: THREE.Mesh[], v0: THREE.Vector3, v1: THREE.Vector3, v2: THREE.Vector3, v3: THREE.Vector3, controlscale: number[] = [1,1,1]) {
         this.scene = scene;
         const geometry = new THREE.BoxGeometry();
-        geometry.scale(1,2,0.5);
+        console.log("curveconstr");
+        //geometry.scale(1,2,0.5);
+        geometry.scale(controlscale[0],controlscale[1],0.5);
         const colorhelper = new THREE.Color().setRGB( 1, 1, 0 );
         const material = new THREE.MeshBasicMaterial( { color: colorhelper } );
         const colorhelperright = new THREE.Color().setRGB( 0, 1, 1 );
@@ -85,6 +87,22 @@ export class CurveSegment{
         this.mesh4.add(this.handlerightline);
         
     }
+
+    ScaleControlGeometry(scalex: number, scaley: number){
+        //this.mesh1.geometry.setAttribute( 'scale', new THREE.Float32BufferAttribute( [scalex, scaley, 1], 3 ) );
+        this.mesh1.geometry.dispose();
+        this.mesh2.geometry.dispose();
+        this.mesh3.geometry.dispose();
+        this.mesh4.geometry.dispose();
+
+        let geometry = new THREE.BoxGeometry();
+        geometry.scale(scalex, scaley, 1);
+        this.mesh2.geometry = geometry;
+        this.mesh2.geometry = geometry;
+        this.mesh3.geometry = geometry;
+        this.mesh4.geometry = geometry;
+    }
+
     UpdateCurve(){
         this.curve.v0 = this.mesh1.position;
         ///curve is in world position
@@ -96,7 +114,6 @@ export class CurveSegment{
         this.curve.v3 = this.mesh4.position;
         const points = this.curve.getPoints( 50 ); 
         const curvegeometry = new THREE.BufferGeometry().setFromPoints( points ); 
-        console.log("UpdateCurve");
         this.curveobject.geometry = curvegeometry;
 
         let pl1 = new THREE.Vector3(0,0,0);
